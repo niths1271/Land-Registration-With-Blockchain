@@ -3,7 +3,6 @@ import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import ButtonBase from '@mui/material/ButtonBase';
 import Landimage from "assets/images/Landimage.jpg";
 
 
@@ -28,9 +27,7 @@ export default function ComplexGrid() {
     >
       <Grid container spacing={2}>
         <Grid item>
-          <ButtonBase sx={{ width: 128, height: 128 }}>
             <Img alt="complex" src={Landimage}  />
-          </ButtonBase>
         </Grid>
         <Grid item xs='auto' sm container>
           <Grid item xs container direction="column" spacing={2}>
@@ -50,7 +47,7 @@ export default function ComplexGrid() {
             </Grid>
             <Grid item>
               <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                Remove
+                Verified/Unverified
               </Typography>
             </Grid>
           </Grid>

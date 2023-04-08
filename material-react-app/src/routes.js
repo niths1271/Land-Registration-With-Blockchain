@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 /** 
   All of the routes for the Material Dashboard 2 React are added here,
   You can add a new route, customize the routes and delete the routes here.
@@ -38,7 +23,7 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
-import Billing from "layouts/billing";
+import Transaction from "layouts/billing";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import LandsOwned from "layouts/View lands Owned";
@@ -81,11 +66,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Billing",
-    key: "billing",
+    name: "Transactions",
+    key: "transactions",
     icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
-    component: <Billing />,
+    route: "/Transaction",
+    component: <Transaction />,
   },
   {
     type: "collapse",
