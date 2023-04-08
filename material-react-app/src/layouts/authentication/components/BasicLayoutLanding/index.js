@@ -35,14 +35,6 @@ function BasicLayout({ image, children }) {
   const { pathname } = useLocation();
   return (
     <PageLayout>
-      <DefaultNavbar
-        action={{
-          type: "external",
-          route: "https://creative-tim.com/product/material-dashboard-react-node",
-          label: "free download",
-          color: "dark",
-        }}
-      />
       <MDBox
         sx={{ height: "auto", minHeight: "100vh" }}
         display="flex"
@@ -86,11 +78,10 @@ function BasicLayout({ image, children }) {
                     width="80%"
                   >
                     <Typography variant="h3" style={{ color: "white" }}>
-                      Log in to Material Dashboard NodeJS Live Preview
+                      Land Registration
                     </Typography>
                     <Typography variant="body2" style={{ color: "white" }} margin="0.5rem 0">
-                      Log in to see how you can go from frontend to fullstack in an instant with an
-                      API-based NodeJS backend
+                      Portal for all the activities regarding your land.
                     </Typography>
                     <MDBox
                       display="flex"
