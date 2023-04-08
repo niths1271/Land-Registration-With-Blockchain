@@ -29,7 +29,6 @@ import Profile from "layouts/profile";
 import LandsOwned from "layouts/View lands Owned";
 
 import UserProfile from "layouts/user-profile";
-import UserManagement from "layouts/user-management";
 
 import Login from "auth/login";
 import Register from "auth/register";
@@ -95,14 +94,6 @@ const routes = [
     icon: <Icon fontSize="small">person</Icon>,
     route: "/user-profile",
     component: <UserProfile />,
-  },
-  {
-    type: "examples",
-    name: "User Management",
-    key: "user-management",
-    icon: <Icon fontSize="small">list</Icon>,
-    route: "/user-management",
-    component: <UserManagement />,
   },
   {
     type: "auth",
