@@ -1,40 +1,11 @@
-// import * as React from 'react';
-// import Card from '@mui/material/Card';
-// import CardContent from '@mui/material/CardContent';
-// import CardMedia from '@mui/material/CardMedia';
-// import Typography from '@mui/material/Typography';
-// import { CardActionArea } from '@mui/material';
-
-// export default function LandCard() {
-//   return (
-//     // <Card>
-//     //   <CardActionArea>
-//     //     <CardMedia
-//     //       component="img"
-//     //       height="140"
-//     //       image="C:\Blockchain\Land-Registration-Bloakchain\material-react-app\src\assets\images\Landimage.jpg"
-//     //       alt="Land images"
-//     //     />
-//     //     <CardContent>
-//     //       <Typography gutterBottom variant="h5" component="div">
-//     //         Dimensions
-//     //       </Typography>
-//     //       <Typography variant="body2" color="text.secondary">
-//     //         PID: 232
-//     //         Survey No: 34
-//     //         Price:1179239163981
-//     //       </Typography>
-//     //     </CardContent>
-//     //   </CardActionArea>
-//     // </Card>
-// );
-// }
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
+import Landimage from "assets/images/Landimage.jpg";
+
 
 const Img = styled('img')({
   margin: 'auto',
@@ -58,10 +29,10 @@ export default function ComplexGrid() {
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase sx={{ width: 128, height: 128 }}>
-            <Img alt="complex" src="./Landimage.jpg"  />
+            <Img alt="complex" src={Landimage}  />
           </ButtonBase>
         </Grid>
-        <Grid item xs={12} sm container>
+        <Grid item xs='auto' sm container>
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="subtitle1" component="div">
