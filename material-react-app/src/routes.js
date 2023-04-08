@@ -41,6 +41,7 @@ import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
+import LandsOwned from "layouts/View lands Owned";
 
 import UserProfile from "layouts/user-profile";
 import UserManagement from "layouts/user-management";
@@ -69,6 +70,14 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/tables",
     component: <Tables />,
+  },
+  {
+    type: "collapse",
+    name: "Lands Owned",
+    key: "Lands Owned",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/landsowned",
+    component: <LandsOwned />,
   },
   {
     type: "collapse",
