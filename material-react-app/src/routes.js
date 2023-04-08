@@ -41,8 +41,6 @@ import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
 
 import UserProfile from "layouts/user-profile";
 import UserManagement from "layouts/user-management";
@@ -97,14 +95,6 @@ const routes = [
     component: <Profile />,
   },
   {
-    type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    icon: <Icon fontSize="small">login</Icon>,
-    route: "/authentication/sign-in",
-    component: <SignIn />,
-  },
-  {
     type: "examples",
     name: "User Profile",
     key: "user-profile",
@@ -119,14 +109,6 @@ const routes = [
     icon: <Icon fontSize="small">list</Icon>,
     route: "/user-management",
     component: <UserManagement />,
-  },
-  {
-    type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/sign-up",
-    component: <SignUp />,
   },
   {
     type: "auth",
