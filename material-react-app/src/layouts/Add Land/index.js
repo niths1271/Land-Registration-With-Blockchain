@@ -25,7 +25,9 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 const AddLand = () => {
   const [notification, setNotification] = useState(false);
 
-  const [fileImg, setFileImg] = useState(null);
+  const [doc1, setDoc1] = useState(null);
+  const [doc2, setDoc2] = useState(null);
+
   const [year,setYear] = useState(null);
   const [land, setLand] = useState({
     area: "",
@@ -49,10 +51,10 @@ const AddLand = () => {
   });
 
   const sendFileToIPFS = async (e) => {
-    if (fileImg) {
+    if (doc1) {
       try {
         const formData = new FormData();
-        formData.append("file", fileImg);
+        formData.append("file", doc1);
         const resFile = await axios({
           method: "post",
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
@@ -64,15 +66,39 @@ const AddLand = () => {
             'Authorization': `Bearer ${process.env.REACT_APP_PINATA_API_ACCESS_TOKEN}`
           },
         });
-        const ImgHash = `${resFile.data.IpfsHash}`;
-        console.log(ImgHash);
-        setLand({ ...land, filehash: ImgHash });
+        const doc1Hash = `${resFile.data.IpfsHash}`;
+        console.log(doc1Hash);
+        setLand({ ...land, filehash: doc1Hash });
         //Take a look at your Pinata Pinned section, you will see a new file added to you list.   
       } catch (error) {
         console.log("Error sending File to IPFS: ")
         console.log(error)
       }
     }
+    // if (doc2) {
+    //   try {
+    //     const formData = new FormData();
+    //     formData.append("file", doc2);
+    //     const resFile = await axios({
+    //       method: "post",
+    //       url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+    //       data: formData,
+    //       headers: {
+    //         'pinata_api_key': `${process.env.REACT_APP_PINATA_API_KEY}`,
+    //         'pinata_secret_api_key': `${process.env.REACT_APP_PINATA_API_SECRET}`,
+    //         "Content-Type": "multipart/form-data",
+    //         'Authorization': `Bearer ${process.env.REACT_APP_PINATA_API_ACCESS_TOKEN}`
+    //       },
+    //     });
+    //     const doc2Hash = `${resFile.data.IpfsHash}`;
+    //     console.log(doc2Hash);
+    //     setLand({ ...land, filehash: doc2Hash });
+    //     //Take a look at your Pinata Pinned section, you will see a new file added to you list.   
+    //   } catch (error) {
+    //     console.log("Error sending File to IPFS: ")
+    //     console.log(error)
+    //   }
+    // }
   }
 
   useEffect(() => {
@@ -144,7 +170,19 @@ const AddLand = () => {
       return;
     }
 
-    // sendFileToIPFS();
+    sendFileToIPFS();
+
+    setLand({
+      area: "",
+      city: "",
+      taluk: "",
+      state: "",
+      pid: "",
+      hissa: "",
+      survey: "",
+    });
+
+    setYear(null);
 
     setErrors({
       areaError: false,
@@ -412,10 +450,10 @@ const AddLand = () => {
               mt={1}
             >
               <MDTypography variant="body2" color="text" mr={5} fontWeight="regular" width="100%">
-                Upload Aadhar
+                Upload Sale Deed
               </MDTypography>
               <MDBox mb={1} width="70%">
-                <input accept="image/*" multiple type="file" onChange={(e) => setFileImg(e.target.files[0])} required />
+                <input accept="image/*" multiple type="file" onChange={(e) => setDoc1(e.target.files[0])} required />
               </MDBox>
             </MDBox>
             <MDBox
@@ -427,10 +465,10 @@ const AddLand = () => {
               mt={1}
             >
               <MDTypography variant="body2" color="text" mr={5} fontWeight="regular" width="100%">
-                Upload Aadhar
+                Upload Khata Certificate
               </MDTypography>
               <MDBox mb={1} width="70%">
-                <input accept="image/*" multiple type="file" onChange={(e) => setFileImg(e.target.files[0])} required />
+                <input accept="image/*" multiple type="file" onChange={(e) => setDoc2(e.target.files[0])} required />
               </MDBox>
             </MDBox>
           </MDBox>
