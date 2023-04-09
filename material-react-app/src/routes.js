@@ -33,6 +33,7 @@ import Login from "auth/login";
 import Register from "auth/register";
 import ForgotPassword from "auth/forgot-password";
 import ResetPassword from "auth/reset-password";
+import AddLand from "layouts/Add Land";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -60,8 +61,16 @@ const routes = [
     name: "Lands For Sale",
     key: "Lands For Sale",
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/landsforsale",
+    route: "/Lands-ForSale",
     component: <LandsForSale />,
+  },
+  {
+    type: "collapse",
+    name: "Add Land",
+    key: "Add Land",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/Add-Land",
+    component: <AddLand />,
   },
   {
     type: "collapse",
