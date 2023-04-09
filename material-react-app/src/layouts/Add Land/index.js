@@ -28,7 +28,7 @@ const AddLand = () => {
   const [doc1, setDoc1] = useState(null);
   const [doc2, setDoc2] = useState(null);
 
-  const [year,setYear] = useState(null);
+  const [year, setYear] = useState(null);
   const [land, setLand] = useState({
     area: "",
     city: "",
@@ -75,6 +75,19 @@ const AddLand = () => {
         console.log(error)
       }
     }
+    setLand({
+      area: "",
+      city: "",
+      taluk: "",
+      state: "",
+      pid: "",
+      hissa: "",
+      survey: ""
+    });
+
+    setYear(null);
+    setDoc1("");
+    setDoc2("");
     // if (doc2) {
     //   try {
     //     const formData = new FormData();
@@ -172,24 +185,12 @@ const AddLand = () => {
 
     sendFileToIPFS();
 
-    setLand({
-      area: "",
-      city: "",
-      taluk: "",
-      state: "",
-      pid: "",
-      hissa: "",
-      survey: "",
-    });
-
-    setYear(null);
-
     setErrors({
       areaError: false,
       cityError: false,
       talukError: false,
       stateError: false,
-      pidError:false,
+      pidError: false,
       hissaError: false,
       surveyError: false,
     });
@@ -208,7 +209,7 @@ const AddLand = () => {
         {notification && (
           <MDAlert color="info" mt="20px">
             <MDTypography variant="body2" color="white">
-              Your profile has been updated
+              Land details have been addded
             </MDTypography>
           </MDAlert>
         )}
@@ -267,7 +268,7 @@ const AddLand = () => {
                   onChange={changeHandler}
                   error={errors.cityError}
                 />
-                 {errors.cityError && (
+                {errors.cityError && (
                   <MDTypography variant="caption" color="error" fontWeight="light">
                     The city can not be null
                   </MDTypography>
@@ -428,7 +429,7 @@ const AddLand = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   value={year}
-                  onChange={(newYear)=>{setYear(dayjs(newYear))}}
+                  onChange={(newYear) => { setYear(dayjs(newYear)) }}
                   required
                 />
                 {/* {errors.yearError && (
