@@ -16,6 +16,8 @@ Coded by www.creative-tim.com
 // @mui material components
 import Grid from "@mui/material/Grid";
 import OutForSale from "assets/images/OutForSale.jpg";
+import Owned from "assets/images/Owned.jpg";
+import Pending from "assets/images/Pending.jpg";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import Card from "@mui/material/Card";
@@ -57,7 +59,7 @@ function Dashboard() {
                     <CardMedia
                       component="img"
                       height="140"
-                      image=""
+                      image={Owned}
                       alt="Owned"
                     />
                     <CardContent>
@@ -89,7 +91,7 @@ function Dashboard() {
                     <CardMedia
                       component="img"
                       height="140"
-                      image=""
+                      image={Pending}
                       alt="Pending"
                     />
                     <CardContent>
