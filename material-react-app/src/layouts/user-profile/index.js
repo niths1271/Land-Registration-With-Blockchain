@@ -124,56 +124,52 @@ const UserProfile = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+
+    var nameErr = false;
+    var emailErr = false;
+    var ageErr = false;
+    var phoneErr = false;
+    var panErr = false;
+    var aadharErr = false;
+
+    if (user.name.trim().length === 0) {
+      nameErr = true;
+    }
+
+    if (user.age.trim().length === 0) {
+      ageErr = true;
+    }
+
+    if (user.aadhar.trim().length === 0) {
+      aadharErr = true;
+    }
+
+    if (user.pan.trim().length === 0) {
+      panErr = true;
+    }
+
+    if (user.phone.trim().length === 0) {
+      phoneErr = true;
+    }
+
+    if (user.email.trim().length === 0 || !user.email.trim().match(mailFormat)) {
+      emailErr = true;
+    }
+
+    if (nameErr || emailErr || ageErr || phoneErr || panErr || aadharErr) {
+      setErrors({
+        nameError: nameErr,
+        emailError: emailErr,
+        ageError: ageErr,
+        phoneError: phoneErr,
+        panError: panErr,
+        aadharError: aadharErr
+      });
+      return;
+    }
     sendFileToIPFS();
-
-    // validation
-    // const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-
-    // var nameErr = false;
-    // var emailErr = false;
-    // var ageErr = false;
-    // var phoneErr = false;
-    // var panErr = false;
-    // var aadharErr = false;
-
-    // if (user.name.trim().length === 0) {
-    //   nameErr = true;
-    // }
-
-    // if (user.age.trim().length === 0) {
-    //   ageErr = true;
-    // }
-
-    // if (user.aadhar.trim().length === 0) {
-    //   aadharErr = true;
-    // }
-
-    // if (user.pan.trim().length === 0) {
-    //   panErr = true;
-    // }
-
-    // if (user.phone.trim().length === 0) {
-    //   phoneErr = true;
-    // }
-
-    // if (user.email.trim().length === 0 || !user.email.trim().match(mailFormat)) {
-    //   emailErr = true;
-    // }
-
-    // if (nameErr || emailErr || ageErr || phoneErr || panErr || aadharErr) {
-    //   setErrors({
-    //     nameError: nameErr,
-    //     emailError: emailErr,
-    //     ageError: ageErr,
-    //     phoneError: phoneErr,
-    //     panError: panErr,
-    //     aadharError: aadharErr
-    //   });
-    //   return;
-    // }
-
-
     // let userData = {
     //   data: {
     //     type: "profile",
@@ -467,7 +463,7 @@ const UserProfile = () => {
               mr={7}>
               <MDBox mt={4} display="flex" mr={3}>
                 <MDButton variant="gradient" color="info" type="submit">
-                  Verify
+                  Request for Verification
                 </MDButton>
               </MDBox>
               <MDBox mt={4} display="flex">

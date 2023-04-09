@@ -26,7 +26,6 @@ import Tables from "layouts/tables";
 import Transaction from "layouts/billing";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
-import LandsOwned from "layouts/View lands Owned";
 
 import UserProfile from "layouts/user-profile";
 
@@ -37,6 +36,7 @@ import ResetPassword from "auth/reset-password";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
+import LandsForSale from "layouts/View lands Owned";
 
 const routes = [
   {
@@ -57,11 +57,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Lands Owned",
-    key: "Lands Owned",
+    name: "Lands For Sale",
+    key: "Lands For Sale",
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/landsowned",
-    component: <LandsOwned />,
+    route: "/landsforsale",
+    component: <LandsForSale />,
   },
   {
     type: "collapse",

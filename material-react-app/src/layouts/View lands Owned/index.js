@@ -16,7 +16,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function LandsOwned() {
+export default function LandsForSale() {
   return (
      <DashboardLayout>
       <DashboardNavbar />
