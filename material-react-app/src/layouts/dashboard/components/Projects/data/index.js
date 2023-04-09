@@ -60,151 +60,182 @@ export default function data() {
       </Tooltip>
     ));
 
-  const Company = ({ image, name }) => (
-    <MDBox display="flex" alignItems="center" lineHeight={1}>
-      <MDAvatar src={image} name={name} size="sm" />
-      <MDTypography variant="button" fontWeight="medium" ml={1} lineHeight={1}>
-        {name}
-      </MDTypography>
-    </MDBox>
-  );
+  // const Company = ({ image, name }) => (
+  //   <MDBox display="flex" alignItems="center" lineHeight={1}>
+  //     <MDAvatar src={image} name={name} size="sm" />
+  //     <MDTypography variant="button" fontWeight="medium" ml={1} lineHeight={1}>
+  //       {name}
+  //     </MDTypography>
+  //   </MDBox>
+  // );
 
   return {
     columns: [
-      { Header: "companies", accessor: "companies", width: "45%", align: "left" },
-      { Header: "members", accessor: "members", width: "10%", align: "left" },
-      { Header: "budget", accessor: "budget", align: "center" },
-      { Header: "completion", accessor: "completion", align: "center" },
+      { Header: "Sl_No", accessor: "Sl_No", width: "5%", align: "left" },
+      { Header: "Area", accessor: "Area", width: "15%", align: "left" },
+      { Header: "City", accessor: "City", width: "15%", align: "left" },
+      { Header: "State", accessor: "State", width: "15%", align: "left" },
+      { Header: "Estimated_Price", accessor: "Estimated_Price", width: "15%", align: "left" },
+      { Header: "Property_ID", accessor: "Property_ID", align: "left" },
+      { Header: "Survey_No", accessor: "Survey_No", align: "left" },
+      { Header: "Hissa_No", accessor: "Hissa_No", align: "left" },
     ],
 
     rows: [
-      {
-        companies: <Company image={logoXD} name="Material UI XD Version" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team2, "Romina Hadid"],
-              [team3, "Alexander Smith"],
-              [team4, "Jessica Doe"],
-            ])}
-          </MDBox>
-        ),
-        budget: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $14,000
-          </MDTypography>
-        ),
-        completion: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={60} color="info" variant="gradient" label={false} />
-          </MDBox>
-        ),
+      { Sl_No :"1",
+        Area: "Jai Nagar" ,
+        City: "Kalaburagi",
+        State: "Karnataka",
+        Estimated_Price: "10,00,000",
+        Property_ID: "114512",
+        Survey_No: "47",
+        Hissa_No: "10",
       },
-      {
-        companies: <Company image={logoAtlassian} name="Add Progress Track" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([
-              [team2, "Romina Hadid"],
-              [team4, "Jessica Doe"],
-            ])}
-          </MDBox>
-        ),
-        budget: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $3,000
-          </MDTypography>
-        ),
-        completion: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={10} color="info" variant="gradient" label={false} />
-          </MDBox>
-        ),
+      { Sl_No :"2",
+        Area: "JP Nagar" ,
+        City: "Banaglore",
+        State: "Karnataka",
+        Estimated_Price: "90,00,000",
+        Property_ID: "125546",
+        Survey_No: "87",
+        Hissa_No: "15",
       },
-      {
-        companies: <Company image={logoSlack} name="Fix Platform Errors" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team3, "Alexander Smith"],
-            ])}
-          </MDBox>
-        ),
-        budget: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            Not set
-          </MDTypography>
-        ),
-        completion: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={100} color="success" variant="gradient" label={false} />
-          </MDBox>
-        ),
+      { Sl_No :"3",
+        Area: "Sai Nagar" ,
+        City: "Mumbai",
+        State: "Maharastra",
+        Estimated_Price: "55,00,000",
+        Property_ID: "325265",
+        Survey_No: "77",
+        Hissa_No: "20",
       },
-      {
-        companies: <Company image={logoSpotify} name="Launch our Mobile App" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([
-              [team4, "Jessica Doe"],
-              [team3, "Alexander Smith"],
-              [team2, "Romina Hadid"],
-              [team1, "Ryan Tompson"],
-            ])}
-          </MDBox>
-        ),
-        budget: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $20,500
-          </MDTypography>
-        ),
-        completion: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={100} color="success" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
-      {
-        companies: <Company image={logoJira} name="Add the New Pricing Page" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([[team4, "Jessica Doe"]])}
-          </MDBox>
-        ),
-        budget: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $500
-          </MDTypography>
-        ),
-        completion: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={25} color="info" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
-      {
-        companies: <Company image={logoInvesion} name="Redesign New Online Shop" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team4, "Jessica Doe"],
-            ])}
-          </MDBox>
-        ),
-        budget: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $2,000
-          </MDTypography>
-        ),
-        completion: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={40} color="info" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
+      // {
+      //   companies: <Company image={logoXD} name="Material UI XD Version" />,
+      //   members: (
+      //     <MDBox display="flex" py={1}>
+      //       {avatars([
+      //         [team1, "Ryan Tompson"],
+      //         [team2, "Romina Hadid"],
+      //         [team3, "Alexander Smith"],
+      //         [team4, "Jessica Doe"],
+      //       ])}
+      //     </MDBox>
+      //   ),
+      //   budget: (
+      //     <MDTypography variant="caption" color="text" fontWeight="medium">
+      //       $14,000
+      //     </MDTypography>
+      //   ),
+      //   completion: (
+      //     <MDBox width="8rem" textAlign="left">
+      //       <MDProgress value={60} color="info" variant="gradient" label={false} />
+      //     </MDBox>
+      //   ),
+      // },
+      // {
+      //   companies: <Company image={logoAtlassian} name="Add Progress Track" />,
+      //   members: (
+      //     <MDBox display="flex" py={1}>
+      //       {avatars([
+      //         [team2, "Romina Hadid"],
+      //         [team4, "Jessica Doe"],
+      //       ])}
+      //     </MDBox>
+      //   ),
+      //   budget: (
+      //     <MDTypography variant="caption" color="text" fontWeight="medium">
+      //       $3,000
+      //     </MDTypography>
+      //   ),
+      //   completion: (
+      //     <MDBox width="8rem" textAlign="left">
+      //       <MDProgress value={10} color="info" variant="gradient" label={false} />
+      //     </MDBox>
+      //   ),
+      // }
+      // {
+      //   companies: <Company image={logoSlack} name="Fix Platform Errors" />,
+      //   members: (
+      //     <MDBox display="flex" py={1}>
+      //       {avatars([
+      //         [team1, "Ryan Tompson"],
+      //         [team3, "Alexander Smith"],
+      //       ])}
+      //     </MDBox>
+      //   ),
+      //   budget: (
+      //     <MDTypography variant="caption" color="text" fontWeight="medium">
+      //       Not set
+      //     </MDTypography>
+      //   ),
+      //   completion: (
+      //     <MDBox width="8rem" textAlign="left">
+      //       <MDProgress value={100} color="success" variant="gradient" label={false} />
+      //     </MDBox>
+      //   ),
+      // },
+      // {
+      //   companies: <Company image={logoSpotify} name="Launch our Mobile App" />,
+      //   members: (
+      //     <MDBox display="flex" py={1}>
+      //       {avatars([
+      //         [team4, "Jessica Doe"],
+      //         [team3, "Alexander Smith"],
+      //         [team2, "Romina Hadid"],
+      //         [team1, "Ryan Tompson"],
+      //       ])}
+      //     </MDBox>
+      //   ),
+      //   budget: (
+      //     <MDTypography variant="caption" color="text" fontWeight="medium">
+      //       $20,500
+      //     </MDTypography>
+      //   ),
+      //   completion: (
+      //     <MDBox width="8rem" textAlign="left">
+      //       <MDProgress value={100} color="success" variant="gradient" label={false} />
+      //     </MDBox>
+      //   ),
+      // },
+      // {
+      //   companies: <Company image={logoJira} name="Add the New Pricing Page" />,
+      //   members: (
+      //     <MDBox display="flex" py={1}>
+      //       {avatars([[team4, "Jessica Doe"]])}
+      //     </MDBox>
+      //   ),
+      //   budget: (
+      //     <MDTypography variant="caption" color="text" fontWeight="medium">
+      //       $500
+      //     </MDTypography>
+      //   ),
+      //   completion: (
+      //     <MDBox width="8rem" textAlign="left">
+      //       <MDProgress value={25} color="info" variant="gradient" label={false} />
+      //     </MDBox>
+      //   ),
+      // },
+      // {
+      //   companies: <Company image={logoInvesion} name="Redesign New Online Shop" />,
+      //   members: (
+      //     <MDBox display="flex" py={1}>
+      //       {avatars([
+      //         [team1, "Ryan Tompson"],
+      //         [team4, "Jessica Doe"],
+      //       ])}
+      //     </MDBox>
+      //   ),
+      //   budget: (
+      //     <MDTypography variant="caption" color="text" fontWeight="medium">
+      //       $2,000
+      //     </MDTypography>
+      //   ),
+      //   completion: (
+      //     <MDBox width="8rem" textAlign="left">
+      //       <MDProgress value={40} color="info" variant="gradient" label={false} />
+      //     </MDBox>
+      //   ),
+      // },
     ],
   };
 }
