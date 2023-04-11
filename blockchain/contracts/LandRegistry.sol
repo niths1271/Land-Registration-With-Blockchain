@@ -17,7 +17,6 @@ contract LandRegistry {
 
 // Struct declaration for land
     struct Land {
-        uint id;
         uint256 area;
         string city;
         string taluk;
@@ -52,7 +51,6 @@ contract LandRegistry {
 // Mappings
     mapping(address => User) public users;
     mapping(uint256 => Land) public lands;
-    mapping(address => bool) public registrationMapping;
 
 
 // Variables
@@ -64,12 +62,7 @@ contract LandRegistry {
     event UserRegistered(address payable account, string name);
     event LandAdded(uint256 id, string name, address payable owner);
     event LandBought(uint256 id, address payable buyer, uint256 price);
-
-// Check whether user is registered to our network
-    function isRegistered(address _userAddress)public view returns (bool){
-        if(registrationMapping[_userAddress])
-            return true;
-    }
+    
 
 // Verify User by Admin
     function verifyUser(address _userAddress,bool status) public view{
@@ -102,8 +95,6 @@ contract LandRegistry {
 
 
 
-
-
 // To get land count
     function getLandCount() public view returns (uint) {
         return landCount;
@@ -116,22 +107,18 @@ contract LandRegistry {
         return lands[i].price;
     }
 
-    function registerUser(string memory _name,uint256 _age,string memory _email,string memory _aadharIpfsHash,string memory _aadhar_num,string memory _pan_num,string memory _phone_num) public {
-        require(!registrationMapping[msg.sender]);
+    function registerUser(string memory _name) public {
+        // require(!users[msg.sender].registered, "User already registered");
+
         User memory newUser = User({
             name: _name,
             account: msg.sender,
-            age: _age,
-            email: _email,
-            aadharIpfsHash: _aadharIpfsHash,
-            aadhar_num: _aadhar_num,
-            pan_num: _pan_num,
-            phone_num: _phone_num,
-            verified:false
+            registered: true
         });
+
         users[msg.sender] = newUser;
 
-        emit UserRegistered(_name,_age,_email,_aadharIpfsHash,_aadhar_num,_pan_num,_phone_num);
+        emit UserRegistered(msg.sender, _name);
     }
 
     function addLand(string memory _name, uint256 _price) public {
