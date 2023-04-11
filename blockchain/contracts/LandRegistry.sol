@@ -76,19 +76,19 @@ contract LandRegistry {
     }
 
 // Verify User by Admin
-    function verifyUser(address _userAddress,bool status) public view{
+    function verifyUser(address _userAddress,bool _status) public{
         require(msg.sender == address(admin.account));
-        users[_userAddress].verified=status;
+        users[_userAddress].verified=_status;
 
-        emit UserVerified(_userAddress, status);
+        emit UserVerified(_userAddress, _status);
     }
 
 // Verify Land by Admin
-    function verifyLand(uint id,bool status) public view{
+    function verifyLand(uint _id,bool _status) public{
         require(msg.sender == address(admin.account));
-        lands[id].verified=status;
+        lands[_id].verified=_status;
 
-        emit LandVerified(id, status);
+        emit LandVerified(_id,_status);
     }
 
 // Get User verification status
