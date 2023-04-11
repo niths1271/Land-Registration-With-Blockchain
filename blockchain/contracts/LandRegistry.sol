@@ -1,40 +1,113 @@
 pragma solidity ^0.5.0;
 
 contract LandRegistry {
+
+// Struct declaration for User
     struct User {
         string name;
         address payable account;
-        bool registered;
+        uint256 age;
+        string email;
+        string aadharIpfsHash;
+        string aadhar_num;
+        string pan_num;
+        string phone_num;
+        bool verified;
     }
 
+// Struct declaration for land
     struct Land {
-        uint256 id;
-        string name;
+        uint256 area;
+        string city;
+        string taluk;
+        string state;
+        uint256 pid;
+        uint256 hissa_no;
+        uint256 survey_no;
         address payable owner;
-        bool forSale;
         uint256 price;
+        bool forSale;
+        bool verified;
     }
 
+// Struct declaration for Admin
+    struct Admin {
+        uint id;
+        address account;
+        string name;
+        uint age;
+        string phone_num;
+    }
+
+// Declare an admin object
+    Admin admin;
+
+// Constructor to initialize the account of admin to the address of person who deployed the contract
+     constructor() public{
+        admin.account = msg.sender ;
+    }
+
+
+// Mappings
     mapping(address => User) public users;
     mapping(uint256 => Land) public lands;
 
-    uint256 public landCount;
 
+// Variables
+    uint256 public landCount;
+    uint256 public userCount;
+
+
+// Events
     event UserRegistered(address payable account, string name);
     event LandAdded(uint256 id, string name, address payable owner);
     event LandBought(uint256 id, address payable buyer, uint256 price);
 
+// Verify User by Admin
+    function verifyUser(address _userAddress,bool status) public view{
+        require(msg.sender == address(admin.account));
+        users[_userAddress].verified=status;
+    }
 
+// Verify Land by Admin
+    function verifyLand(uint id,bool status) public view{
+        require(msg.sender == address(admin.account));
+        lands[id].verified=status;
+    }
+
+// Get User verification status
+    function getUserVerificationStatus(address _userAddress) public view returns (bool){
+        return users[_userAddress].verified;
+    }
+
+// Get land verification status
+    function getLandVerificationStatus(address _userAddress) public view returns (bool){
+        return users[_userAddress].verified;
+    }
+
+
+
+
+
+
+
+
+
+
+// To get land count
     function getLandCount() public view returns (uint) {
         return landCount;
     }
 
+
+
+// 
     function getLandDetails(uint i) public view returns (uint) {
         return lands[i].price;
     }
 
     function registerUser(string memory _name) public {
-        require(!users[msg.sender].registered, "User already registered");
+        // require(!users[msg.sender].registered, "User already registered");
 
         User memory newUser = User({
             name: _name,
