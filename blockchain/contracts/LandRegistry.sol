@@ -70,17 +70,17 @@ contract LandRegistry {
 
 
 // Check whether user is registered to our network
-    function isRegistered(address _userAddress)public view returns (bool){
-        if(registrationMapping[_userAddress])
+    function isRegistered(address userAddress)public view returns (bool){
+        if(registrationMapping[userAddress])
             return true;
     }
 
 // Verify User by Admin
-    function verifyUser(address _userAddress,bool _status) public{
+    function verifyUser(address userAddress,bool _status) public{
         require(msg.sender == address(admin.account));
-        users[_userAddress].verified=_status;
+        users[userAddress].verified=_status;
 
-        emit UserVerified(_userAddress, _status);
+        emit UserVerified(userAddress, _status);
     }
 
 // Verify Land by Admin
