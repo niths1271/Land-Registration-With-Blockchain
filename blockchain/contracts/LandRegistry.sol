@@ -88,6 +88,7 @@ contract LandRegistry {
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -95,6 +96,8 @@ contract LandRegistry {
 
 
 
+=======
+>>>>>>> 3460c3dbe268ee09de1f076bedc4c1f3f2497a3d
 // To get land count
     function getLandCount() public view returns (uint) {
         return landCount;
@@ -116,6 +119,10 @@ contract LandRegistry {
             registered: true
         });
 
+<<<<<<< HEAD
+=======
+        registrationMapping[msg.sender]=true;
+>>>>>>> 3460c3dbe268ee09de1f076bedc4c1f3f2497a3d
         users[msg.sender] = newUser;
 
         emit UserRegistered(msg.sender, _name);
