@@ -15,9 +15,16 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-
+import OutForSale from "assets/images/OutForSale.jpg";
+import Owned from "assets/images/Owned.jpg";
+import Pending from "assets/images/Pending.jpg";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { CardActionArea } from "@mui/material";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -33,6 +40,7 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 
 // Dashboard components
 import Projects from "layouts/dashboard/components/Projects";
+import AddLand from "layouts/Add Land";
 //import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
 function Dashboard() {
@@ -46,39 +54,100 @@ function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
-                <ReportsBarChart
-                  color="info"
-                  title="website views"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
-                  chart={reportsBarChartData}
-                />
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={Owned}
+                      alt="Owned"
+                    />
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        align="center"
+                      >
+                        Lands Owned
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        align="center"
+                      >
+                        Total Number Of Lands Owned By You Currently !
+                        
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
               </MDBox>
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
-                <ReportsLineChart
-                  color="success"
-                  title="daily sales"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) increase in today sales.
-                    </>
-                  }
-                  date="updated 4 min ago"
-                  chart={sales}
-                />
+              <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={Pending}
+                      alt="Pending"
+                    />
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        align="center"
+                      >
+                        Pending Verification
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        align="center"
+                      >
+                        Lands Under Verification Currently By Admin!
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
               </MDBox>
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
-                <ReportsLineChart
-                  color="dark"
-                  title="completed tasks"
-                  description="Last Campaign Performance"
-                  date="just updated"
-                  chart={tasks}
-                />
+               
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      width="50%"
+                      src={OutForSale}
+                      alt="OutForSale"
+                      align="center"
+                    />
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        align="center"
+                      >
+                        Lands For Sale
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        align="center"
+                      >
+                        Total Number Of Lands Out For Sale Currently !
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+             
               </MDBox>
             </Grid>
           </Grid>
@@ -94,7 +163,7 @@ function Dashboard() {
           </Grid>
         </MDBox>
       </MDBox>
-      <Footer />
+      {/* <Footer /> */}
     </DashboardLayout>
   );
 }
