@@ -64,6 +64,10 @@ contract LandRegistry {
     event UserRegistered(address payable account, string name);
     event LandAdded(uint256 id, string name, address payable owner);
     event LandBought(uint256 id, address payable buyer, uint256 price);
+    event UserVerified(address userAddress, bool status);
+    event LandVerified(uint id, bool status);
+    event UserRegistered(string name,uint age,string email,string aadharIpfsHash,string aadhar_num,string pan_num, string phone_num);
+
 
 // Check whether user is registered to our network
     function isRegistered(address _userAddress)public view returns (bool){
@@ -75,12 +79,16 @@ contract LandRegistry {
     function verifyUser(address _userAddress,bool status) public view{
         require(msg.sender == address(admin.account));
         users[_userAddress].verified=status;
+
+        emit UserVerified(_userAddress, status);
     }
 
 // Verify Land by Admin
     function verifyLand(uint id,bool status) public view{
         require(msg.sender == address(admin.account));
         lands[id].verified=status;
+
+        emit LandVerified(id, status);
     }
 
 // Get User verification status
