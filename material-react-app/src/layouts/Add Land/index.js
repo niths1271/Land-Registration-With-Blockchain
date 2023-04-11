@@ -37,6 +37,7 @@ const AddLand = () => {
     pid: "",
     hissa: "",
     survey: "",
+    price: "",
   });
 
   const [errors, setErrors] = useState({
@@ -48,6 +49,7 @@ const AddLand = () => {
     hissaError: false,
     surveyError: false,
     yearError: false,
+    priceError: false,
   });
 
   const sendFileToIPFS = async (e) => {
@@ -82,7 +84,8 @@ const AddLand = () => {
       state: "",
       pid: "",
       hissa: "",
-      survey: ""
+      survey: "",
+      price: "",
     });
 
     setYear(null);
@@ -141,6 +144,7 @@ const AddLand = () => {
     var pidErr = false;
     var hissaErr = false;
     var surveyErr = false;
+    var priceErr = false;
 
     if (land.area.trim().length === 0) {
       areaErr = true;
@@ -170,7 +174,11 @@ const AddLand = () => {
       surveyErr = true;
     }
 
-    if (areaErr || cityErr || talukErr || stateErr || pidErr || hissaErr || surveyErr) {
+    if (land.price.trim().length === 0) {
+      priceErr = true;
+    }
+
+    if (areaErr || cityErr || talukErr || stateErr || pidErr || hissaErr || surveyErr || priceErr) {
       setErrors({
         areaError: areaErr,
         cityError: cityErr,
@@ -179,6 +187,7 @@ const AddLand = () => {
         pidError: pidErr,
         hissaError: hissaErr,
         surveyError: surveyErr,
+        priceError: priceErr,
       });
       return;
     }
@@ -193,6 +202,7 @@ const AddLand = () => {
       pidError: false,
       hissaError: false,
       surveyError: false,
+      priceError: false,
     });
 
     setNotification(true);
@@ -412,6 +422,33 @@ const AddLand = () => {
                 {errors.surveyError && (
                   <MDTypography variant="caption" color="error" fontWeight="light">
                     The survey number can not be null
+                  </MDTypography>
+                )}
+              </MDBox>
+            </MDBox>
+            {/* price */}
+            <MDBox
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+              width="100%"
+              mr={3}
+            >
+              <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
+                Price(Enter in Rupees)
+              </MDTypography>
+              <MDBox mb={2} width="100%">
+                <MDInput
+                  type="name"
+                  fullWidth
+                  name="price"
+                  value={land.price}
+                  onChange={changeHandler}
+                  error={errors.priceError}
+                />
+                {errors.priceError && (
+                  <MDTypography variant="caption" color="error" fontWeight="light">
+                    The price can not be null
                   </MDTypography>
                 )}
               </MDBox>
