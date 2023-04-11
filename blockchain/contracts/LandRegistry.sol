@@ -145,7 +145,7 @@ contract LandRegistry {
         users[msg.sender].verified = _verified;
 
     }
-
+}
 //     function addLand(string memory _name, uint256 _price) public {
 
 //         Land memory newLand = Land({
