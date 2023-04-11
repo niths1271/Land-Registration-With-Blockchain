@@ -95,15 +95,6 @@ contract LandRegistry {
 
 
 
-
-
-
-
-
-
-
-
-
 // To get land count
     function getLandCount() public view returns (uint) {
         return landCount;
@@ -129,6 +120,8 @@ contract LandRegistry {
             phone_num: _phone_num,
             verified:false
         });
+
+        registrationMapping[msg.sender]=true;
         users[msg.sender] = newUser;
 
         emit UserRegistered(_name,_age,_email,_aadharIpfsHash,_aadhar_num,_pan_num,_phone_num);
