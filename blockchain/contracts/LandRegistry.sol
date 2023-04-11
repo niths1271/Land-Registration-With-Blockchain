@@ -61,9 +61,9 @@ contract LandRegistry {
 
 
 // Events
-    event UserRegistered(address payable account, string name);
-    event LandAdded(uint256 id, string name, address payable owner);
-    event LandBought(uint256 id, address payable buyer, uint256 price);
+    // event UserRegistered(address payable account, string name);
+    // event LandAdded(uint256 id, string name, address payable owner);
+    // event LandBought(uint256 id, address payable buyer, uint256 price);
     event UserVerified(address userAddress, bool status);
     event LandVerified(uint id, bool status);
     event UserRegistered(string name,uint age,string email,string aadharIpfsHash,string aadhar_num,string pan_num, string phone_num);
@@ -146,37 +146,37 @@ contract LandRegistry {
 
     }
 
-    function addLand(string memory _name, uint256 _price) public {
+//     function addLand(string memory _name, uint256 _price) public {
 
-        Land memory newLand = Land({
-            id: landCount,
-            name: _name,
-            owner: msg.sender,
-            forSale: false,
-            price: _price
-        });
+//         Land memory newLand = Land({
+//             id: landCount,
+//             name: _name,
+//             owner: msg.sender,
+//             forSale: false,
+//             price: _price
+//         });
 
-        lands[landCount] = newLand;
-        landCount++;
+//         lands[landCount] = newLand;
+//         landCount++;
 
-        emit LandAdded(newLand.id, newLand.name, newLand.owner);
-    }
+//         emit LandAdded(newLand.id, newLand.name, newLand.owner);
+//     }
 
-    function buyLand(uint256 _id) public payable {
-        Land memory land = lands[_id];
+//     function buyLand(uint256 _id) public payable {
+//         Land memory land = lands[_id];
         
-        require(land.forSale, "Land not for sale");
-        require(msg.value == land.price, "Incorrect price");
+//         require(land.forSale, "Land not for sale");
+//         require(msg.value == land.price, "Incorrect price");
 
-        address payable oldOwner = land.owner;
-        address payable newOwner = msg.sender;
+//         address payable oldOwner = land.owner;
+//         address payable newOwner = msg.sender;
 
-        oldOwner.transfer(msg.value);
+//         oldOwner.transfer(msg.value);
 
-        land.owner = newOwner;
-        land.forSale = false;
-        lands[_id] = land;
+//         land.owner = newOwner;
+//         land.forSale = false;
+//         lands[_id] = land;
 
-        emit LandBought(_id, newOwner, msg.value);
-    }
-}
+//         emit LandBought(_id, newOwner, msg.value);
+//     }
+// }
