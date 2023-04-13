@@ -7,6 +7,8 @@ import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import MDAlert from "components/MDAlert";
 import Card from "@mui/material/Card";
+import getWeb3 from "getWeb3/getWeb3";
+import LandRegistry from "./LandRegistry.json";
 
 //Components for the calendar
 import dayjs from 'dayjs';
@@ -23,6 +25,13 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // import AuthService from "../../services/auth-service";
 
 const AddLand = () => {
+
+  const [dummy, setDummy] = useState({
+    LandInstance: undefined,
+    account: null,
+    web3: null,
+  });
+
   const [notification, setNotification] = useState(false);
 
   const [doc1, setDoc1] = useState(null);
@@ -117,6 +126,33 @@ const AddLand = () => {
     // }
   }
 
+  useEffect( async () => {
+    try {
+      //Get network provider and web3 instance
+      const web3 = await getWeb3();
+
+      const accounts = await web3.eth.getAccounts();
+
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = LandRegistry.networks[networkId];
+      const instance = new web3.eth.Contract(
+          LandRegistry.abi,
+          deployedNetwork && deployedNetwork.address,
+      );
+      setDummy({ LandInstance: instance, web3: web3, account: accounts[0] });
+
+
+        } catch (error) {
+            // Catch any errors for any of the above operations.
+            alert(
+                `Failed to load web3, accounts, or contract. Check console for details.`,
+            );
+            console.error(error);
+        }
+  },[]);
+
+  console.log(dummy);
+
   useEffect(() => {
     if (notification === true) {
       setTimeout(() => {
@@ -131,6 +167,12 @@ const AddLand = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  const addLand = async (name, price) => {
+   await dummy.LandInstance.methods.addLand(name, price).send({ from: dummy.account}).then((res) => {
+    console.log(res);
+   })
+  }
 
   const submitHandler = async (e) => {
     console.log(land);
@@ -193,6 +235,8 @@ const AddLand = () => {
     }
 
     sendFileToIPFS();
+
+    addLand(land.area, parseInt(land.pid));
 
     setErrors({
       areaError: false,
@@ -426,8 +470,8 @@ const AddLand = () => {
                 )}
               </MDBox>
             </MDBox>
-            {/* price */}
-            <MDBox
+            {/* Price */}
+           <MDBox
               display="flex"
               flexDirection="column"
               alignItems="flex-start"
@@ -435,7 +479,7 @@ const AddLand = () => {
               mr={3}
             >
               <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
-                Price(Enter in Rupees)
+                Price (Enter in rupees)
               </MDTypography>
               <MDBox mb={2} width="100%">
                 <MDInput
@@ -477,6 +521,9 @@ const AddLand = () => {
               </LocalizationProvider>
             </MDBox>
           </MDBox>
+
+          
+
           {/* Documents Upload */}
           <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
             <MDBox
@@ -519,6 +566,7 @@ const AddLand = () => {
               </MDButton>
             </MDBox>
           </MDBox>
+          
         </MDBox>
       </Card>
     </DashboardLayout>
