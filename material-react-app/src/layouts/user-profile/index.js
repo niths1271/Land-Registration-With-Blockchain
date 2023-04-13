@@ -46,7 +46,6 @@ const UserProfile = () => {
     email: "",
     walletaddress: "",
     age: "",
-    aadhar: "",
     pan: "",
     phone: "",
     filehash: "",
@@ -56,7 +55,6 @@ const UserProfile = () => {
     nameError: false,
     emailError: false,
     ageError: false,
-    aadharError: false,
     panError: false,
     phoneError: false
   });
@@ -88,23 +86,6 @@ const UserProfile = () => {
     }
   }
 
-  // const getUserData = async () => {
-  //   const response = await AuthService.getProfile();
-  //   if (response.data.id == 1) {
-  //     setIsDemo(process.env.REACT_APP_IS_DEMO === "true");
-  //   }
-  //   setUser((prevUser) => ({
-  //     ...prevUser,
-  //     ...response.data.attributes,
-  //     currentPassword: "",
-  //     newPassword: "",
-  //     confirmPassword: "",
-  //   }));
-  // };
-
-  // useEffect(() => {
-  //   getUserData();
-  // }, []);
 
   useEffect(() => {
     if (notification === true) {
@@ -132,7 +113,6 @@ const UserProfile = () => {
     var ageErr = false;
     var phoneErr = false;
     var panErr = false;
-    var aadharErr = false;
 
     if (user.name.trim().length === 0) {
       nameErr = true;
@@ -142,9 +122,6 @@ const UserProfile = () => {
       ageErr = true;
     }
 
-    if (user.aadhar.trim().length === 0) {
-      aadharErr = true;
-    }
 
     if (user.pan.trim().length === 0) {
       panErr = true;
@@ -158,47 +135,18 @@ const UserProfile = () => {
       emailErr = true;
     }
 
-    if (nameErr || emailErr || ageErr || phoneErr || panErr || aadharErr) {
+    if (nameErr || emailErr || ageErr || phoneErr || panErr) {
       setErrors({
         nameError: nameErr,
         emailError: emailErr,
         ageError: ageErr,
         phoneError: phoneErr,
-        panError: panErr,
-        aadharError: aadharErr
+        panError: panErr
       });
       return;
     }
     sendFileToIPFS();
-    // let userData = {
-    //   data: {
-    //     type: "profile",
-    //     attributes: {
-    //       name: user.name,
-    //       email: user.email,
-    //       age:user.age,
-    //       profile_image: null,
-    //     },
-    //   },
-    // };
-    // // set new user data for call
-    // if (user.newPassword.length > 0) {
-    //   userData = {
-    //     data: {
-    //       type: "profile",
-    //       attributes: {
-    //         ...user,
-    //         profile_image: null,
-    //         password: user.newPassword,
-    //         password_new: user.newPassword,
-    //         password_confirmation: user.confirmPassword,
-    //       },
-    //     },
-    //   };
-    // }
 
-    // // call api for update
-    // const response = await AuthService.updateProfile(JSON.stringify(userData));
 
     // reset errors
     setErrors({
@@ -207,7 +155,6 @@ const UserProfile = () => {
       ageError: false,
       phoneError: false,
       panError: false,
-      aadharError: false
     });
 
     setNotification(true);
@@ -352,41 +299,14 @@ const UserProfile = () => {
               </MDBox>
             </MDBox>
           </MDBox>
-          {/* Aadhar */}
           <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
-            <MDBox
-              display="flex"
-              flexDirection="column"
-              alignItems="flex-start"
-              width="100%"
-              mr={2}
-            >
-              <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
-                Aadhar number
-              </MDTypography>
-              <MDBox mb={2} width="100%">
-                <MDInput
-                  type="name"
-                  fullWidth
-                  name="aadhar"
-                  value={user.aadhar}
-                  onChange={changeHandler}
-                  error={errors.aadharError}
-                />
-                {errors.aadharError && (
-                  <MDTypography variant="caption" color="error" fontWeight="light">
-                    The aadhar number can not be null
-                  </MDTypography>
-                )}
-              </MDBox>
-            </MDBox>
             {/* Pan */}
             <MDBox
               display="flex"
               flexDirection="column"
               alignItems="flex-start"
               width="100%"
-              ml={2}
+              mr={2}
             >
               <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
                 PAN Number
@@ -407,15 +327,12 @@ const UserProfile = () => {
                 )}
               </MDBox>
             </MDBox>
-          </MDBox>
-
-          <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
             <MDBox
               display="flex"
               flexDirection="column"
               alignItems="flex-start"
               width="100%"
-              mr={2}
+              ml={2}
             >
               <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
                 Phone Number
@@ -436,6 +353,9 @@ const UserProfile = () => {
                 )}
               </MDBox>
             </MDBox>
+          </MDBox>
+
+          <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
             <MDBox
               display="flex"
               flexDirection="column"

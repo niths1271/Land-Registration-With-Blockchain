@@ -19,10 +19,8 @@ contract LandRegistry {
         uint id;
         uint256 area;
         string city;
-        string taluk;
         string state;
         uint256 pid;
-        uint256 hissa_no;
         uint256 survey_no;
         address payable owner;
         uint256 price;
@@ -65,7 +63,7 @@ contract LandRegistry {
     // event LandBought(uint256 id, address payable buyer, uint256 price);
     event UserVerified(address userAddress, bool status);
     event LandVerified(uint id, bool status);
-    event UserRegistered(string name,uint age,string email,string aadharIpfsHash,string aadhar_num,string pan_num, string phone_num);
+    event UserRegistered(string name,uint age,string email,string aadharIpfsHash,string pan_num, string phone_num);
 
 
 // Check whether user is registered to our network
@@ -108,7 +106,7 @@ contract LandRegistry {
 
 
 // Register User into the network
-    function registerUser(string memory _name,uint256 _age,string memory _email,string memory _aadharIpfsHash,string memory _aadhar_num,string memory _pan_num,string memory _phone_num) public {
+    function registerUser(string memory _name,uint256 _age,string memory _email,string memory _aadharIpfsHash,string memory _pan_num,string memory _phone_num) public {
         require(!registrationMapping[msg.sender]);
         User memory newUser = User({
             name: _name,
@@ -116,7 +114,6 @@ contract LandRegistry {
             age: _age,
             email: _email,
             aadharIpfsHash: _aadharIpfsHash,
-            aadhar_num: _aadhar_num,
             pan_num: _pan_num,
             phone_num: _phone_num,
             verified:false
@@ -125,11 +122,11 @@ contract LandRegistry {
         registrationMapping[msg.sender]=true;
         users[msg.sender] = newUser;
 
-        emit UserRegistered(_name,_age,_email,_aadharIpfsHash,_aadhar_num,_pan_num,_phone_num);
+        emit UserRegistered(_name,_age,_email,_aadharIpfsHash,_pan_num,_phone_num);
     }
 
 // Update User into network
-    function updateUser(string memory _name,uint256 _age,string memory _email,string memory _aadharIpfsHash,string memory _aadhar_num,string memory _pan_num,string memory _phone_num,bool _verified) public {
+    function updateUser(string memory _name,uint256 _age,string memory _email,string memory _aadharIpfsHash,string memory _pan_num,string memory _phone_num,bool _verified) public {
         //require that Seller is already registered
         require(registrationMapping[msg.sender] && (users[msg.sender].account == msg.sender));
 
@@ -137,12 +134,9 @@ contract LandRegistry {
         users[msg.sender].age = _age;
         users[msg.sender].email = _email;
         users[msg.sender].aadharIpfsHash = _aadharIpfsHash;
-        users[msg.sender].aadhar_num = _aadhar_num;
         users[msg.sender].pan_num = _pan_num;
         users[msg.sender].phone_num = _phone_num;
-        users[msg.sender].pan_num = _pan_num;
         users[msg.sender].verified = _verified;
-
     }
 }
 //     function addLand(string memory _name, uint256 _price) public {

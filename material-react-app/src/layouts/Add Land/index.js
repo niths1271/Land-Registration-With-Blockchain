@@ -140,8 +140,6 @@ const AddLand = () => {
           deployedNetwork && deployedNetwork.address,
       );
       setDummy({ LandInstance: instance, web3: web3, account: accounts[0] });
-
-
         } catch (error) {
             // Catch any errors for any of the above operations.
             alert(
@@ -150,8 +148,6 @@ const AddLand = () => {
             console.error(error);
         }
   },[]);
-
-  console.log(dummy);
 
   useEffect(() => {
     if (notification === true) {
@@ -235,8 +231,8 @@ const AddLand = () => {
     }
 
     sendFileToIPFS();
-
-    addLand(land.area, parseInt(land.pid));
+    //call the function to add land details into the blockchain network
+    // addLand(land.area, parseInt(land.pid));
 
     setErrors({
       areaError: false,
