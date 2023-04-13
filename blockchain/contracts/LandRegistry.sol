@@ -9,7 +9,6 @@ contract LandRegistry {
         uint256 age;
         string email;
         string aadharIpfsHash;
-        string aadhar_num;
         string pan_num;
         string phone_num;
         bool verified;
