@@ -36,8 +36,6 @@ import MDInput from "components/MDInput";
 import Breadcrumbs from "examples/Breadcrumbs";
 import NotificationItem from "examples/Items/NotificationItem";
 
-import AuthService from "services/auth-service";
-
 // Custom styles for DashboardNavbar
 import {
   navbar,
@@ -129,9 +127,17 @@ function DashboardNavbar({ absolute, light, isMini }) {
     },
   });
 
-  const handleLogOut = async () => {
-    const response = await AuthService.logout();
-    authContext.logout();
+  const handleLogOut = () => {
+      window.ethereum.request({ method: 'wallet_requestPermissions', params: [{ eth_accounts: {} }] })
+        .then((result) => {
+          if (result) {
+            window.ethereum.disconnect();
+            sessionStorage.setItem("login",false);
+            console.log(sessionStorage.getItem("login"));
+            navigate("/auth/login");
+          }
+        })
+        .catch((error) => console.error(error));
   };
 
   return (

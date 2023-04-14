@@ -30,14 +30,12 @@ import Transaction from "layouts/billing";
 import UserProfile from "layouts/user-profile";
 
 import Login from "auth/login";
-import Register from "auth/register";
-import ForgotPassword from "auth/forgot-password";
-import ResetPassword from "auth/reset-password";
 import AddLand from "layouts/Add Land";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
 import LandsForSale from "layouts/View lands Owned";
+import AdminDashboard from "layouts/Admin/AdminDashboard";
 
 const routes = [
   {
@@ -112,30 +110,15 @@ const routes = [
     route: "/auth/login",
     component: <Login />,
   },
+  
   {
-    type: "auth",
-    name: "Register",
-    key: "register",
-    icon: <Icon fontSize="small">reigster</Icon>,
-    route: "/auth/register",
-    component: <Register />,
-  },
-  {
-    type: "auth",
-    name: "Forgot Password",
-    key: "forgot-password",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/auth/forgot-password",
-    component: <ForgotPassword />,
-  },
-  {
-    type: "auth",
-    name: "Reset Password",
-    key: "reset-password",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/auth/reset-password",
-    component: <ResetPassword />,
-  },
+    type: "collapse",
+    name: "Admin",
+    key: "Admin",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/Admin",
+    component: <AdminDashboard />,
+  }
 ];
 
 export default routes;
