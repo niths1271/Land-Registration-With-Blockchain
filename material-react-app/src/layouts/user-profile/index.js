@@ -83,6 +83,10 @@ const UserProfile = () => {
 
   useEffect(async () => {
     console.log("entering useEffect");
+    if(!window.location.hash){
+      window.location = window.location + '#loaded';
+      window.location.reload();
+  }
     try {
       //Get network provider and web3 instance
       const web3 = await getWeb3();
@@ -158,6 +162,7 @@ const UserProfile = () => {
       await user.LandInstance.methods.registerUser(user.name, parseInt(user.age), user.email, ImgHash, user.pan, user.phone).send({ from: user.account }).then((res) => {
         console.log("User added successfully");
         setNotification(true);
+        window.location.reload(false);
       });
       //Take a look at your Pinata Pinned section, you will see a new file added to you list.   
     } catch (error) {
@@ -233,7 +238,6 @@ const UserProfile = () => {
       phoneError: false,
       panError: false,
     });
-    // window.location.reload(true);
   };
 
   return (
