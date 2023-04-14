@@ -38,10 +38,7 @@ import brandDark from "assets/images/logo-ct-dark.png";
 
 import { setupAxiosInterceptors } from "./services/interceptor";
 import ProtectedRoute from "examples/ProtectedRoute";
-import ForgotPassword from "auth/forgot-password";
-import ResetPassword from "auth/reset-password";
 import Login from "auth/login";
-import Register from "auth/register";
 import { AuthContext } from "context";
 import UserProfile from "layouts/user-profile";
 
@@ -163,6 +160,8 @@ export default function App() {
     </MDBox>
   );
 
+  const isLoggedIn = sessionStorage.getItem("login");
+  
   return (
     <>
       {direction === "rtl" ? (
@@ -211,11 +210,9 @@ export default function App() {
             </>
           )}
           {layout === "vr" && <Configurator />}
+          
           <Routes>
             <Route path="/auth/login" element={<Login />} />
-            <Route path="/auth/register" element={<Register />} />
-            <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-            <Route path="/auth/reset-password" element={<ResetPassword />} />
             <Route
               exact
               path="user-profile"
