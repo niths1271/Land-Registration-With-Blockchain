@@ -125,18 +125,9 @@ contract LandRegistry {
         emit UserRegistered(_name,_age,_email,_aadharIpfsHash,_pan_num,_phone_num);
     }
 
-// Update User into network
-    function updateUser(string memory _name,uint256 _age,string memory _email,string memory _aadharIpfsHash,string memory _pan_num,string memory _phone_num,bool _verified) public {
-        //require that Seller is already registered
-        require(registrationMapping[msg.sender] && (users[msg.sender].account == msg.sender));
-
-        users[msg.sender].name = _name;
-        users[msg.sender].age = _age;
-        users[msg.sender].email = _email;
-        users[msg.sender].aadharIpfsHash = _aadharIpfsHash;
-        users[msg.sender].pan_num = _pan_num;
-        users[msg.sender].phone_num = _phone_num;
-        users[msg.sender].verified = _verified;
+// Get the user details
+     function getUserDetails(address i) public view returns (string memory, uint, string memory, string memory, string memory, string memory,bool) {
+        return (users[i].name,users[i].age,users[i].email,users[i].aadharIpfsHash,users[i].pan_num,users[i].phone_num,users[i].verified);
     }
 }
 //     function addLand(string memory _name, uint256 _price) public {

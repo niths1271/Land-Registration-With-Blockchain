@@ -11,6 +11,10 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import CardMedia from '@mui/material/CardMedia';
 
+// For integrating with blockchain backend
+import getWeb3 from "getWeb3/getWeb3";
+import LandRegistry from "./LandRegistry.json";
+
 import Modal from '@mui/material/Modal';
 const style = {
   position: 'absolute',
@@ -38,13 +42,16 @@ const UserProfile = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
+  const [registered, setRegistered] = useState(false);
   const [notification, setNotification] = useState(false);
   const [fileImg, setFileImg] = useState(null);
   const [user, setUser] = useState({
+    LandInstance: undefined,
+    account: null,
+    web3: null,
+    verified: "",
     name: "",
     email: "",
-    walletaddress: "",
     age: "",
     pan: "",
     phone: "",
@@ -59,32 +66,11 @@ const UserProfile = () => {
     phoneError: false
   });
 
-  const sendFileToIPFS = async (e) => {
-    if (fileImg) {
-      try {
-        const formData = new FormData();
-        formData.append("file", fileImg);
-        const resFile = await axios({
-          method: "post",
-          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-          data: formData,
-          headers: {
-            'pinata_api_key': `${process.env.REACT_APP_PINATA_API_KEY}`,
-            'pinata_secret_api_key': `${process.env.REACT_APP_PINATA_API_SECRET}`,
-            "Content-Type": "multipart/form-data",
-            'Authorization': `Bearer ${process.env.REACT_APP_PINATA_API_ACCESS_TOKEN}`
-          },
-        });
-        const ImgHash = `${resFile.data.IpfsHash}`;
-        console.log(ImgHash);
-        setUser({ ...user, filehash: ImgHash });
-        //Take a look at your Pinata Pinned section, you will see a new file added to you list.   
-      } catch (error) {
-        console.log("Error sending File to IPFS: ")
-        console.log(error)
-      }
-    }
-  }
+  // const sendFileToIPFS = async (e) => {
+  //   if (fileImg) {
+
+  //   }
+  // }
 
 
   useEffect(() => {
@@ -95,12 +81,89 @@ const UserProfile = () => {
     }
   }, [notification]);
 
+  useEffect(async () => {
+    console.log("entering useEffect");
+    try {
+      //Get network provider and web3 instance
+      const web3 = await getWeb3();
+
+      const accounts = await web3.eth.getAccounts();
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = await LandRegistry.networks[networkId];
+      const instance = await new web3.eth.Contract(
+        LandRegistry.abi,
+        deployedNetwork && deployedNetwork.address,
+      );
+      var registered1 = await instance.methods.isRegistered(accounts[0]).call()
+      console.log(registered1);
+      setRegistered(registered1);
+      if (registered1) {
+        var data = await instance.methods.getUserDetails(accounts[0]).call();
+        console.log(data[3]);
+        setUser({
+          ...user,
+          LandInstance: instance,
+          web3: web3,
+          account: accounts[0],
+          name: data[0],
+          email: data[2],
+          age: data[1],
+          pan: data[4],
+          phone: data[5],
+          filehash: data[3],
+          verified: data[6],
+        });
+      } else {
+        setUser({
+          ...user,
+          LandInstance: instance,
+          web3: web3,
+          account: accounts[0],
+        });
+      }
+    } catch (error) {
+      // Catch any errors for any of the above operations.
+      alert(
+        `Failed to load web3, accounts, or contract. Check console for details.`,
+      );
+      console.error(error);
+    }
+  },[]);
+
   const changeHandler = (e) => {
     setUser({
       ...user,
       [e.target.name]: e.target.value,
     });
   };
+
+  const addUser = async (user) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", fileImg);
+      const resFile = await axios({
+        method: "post",
+        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        data: formData,
+        headers: {
+          'pinata_api_key': `${process.env.REACT_APP_PINATA_API_KEY}`,
+          'pinata_secret_api_key': `${process.env.REACT_APP_PINATA_API_SECRET}`,
+          "Content-Type": "multipart/form-data",
+          'Authorization': `Bearer ${process.env.REACT_APP_PINATA_API_ACCESS_TOKEN}`
+        },
+      });
+      const ImgHash = `${resFile.data.IpfsHash}`;
+      console.log(ImgHash);
+      setUser({ ...user, filehash: ImgHash });
+      await user.LandInstance.methods.registerUser(user.name, parseInt(user.age), user.email, ImgHash, user.pan, user.phone).send({ from: user.account }).then((res) => {
+        console.log("User added successfully");
+        setNotification(true);
+      });
+      //Take a look at your Pinata Pinned section, you will see a new file added to you list.   
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -145,9 +208,23 @@ const UserProfile = () => {
       });
       return;
     }
-    sendFileToIPFS();
+    // sendFileToIPFS();
 
+    console.log(user);
+    //Call addUser to insert user into blockchain network
+    addUser(user);
 
+    //reset user
+    setUser({
+      ...user,
+      name: "",
+      email: "",
+      walletaddress: "",
+      age: "",
+      pan: "",
+      phone: "",
+      filehash: "",
+    })
     // reset errors
     setErrors({
       nameError: false,
@@ -156,8 +233,7 @@ const UserProfile = () => {
       phoneError: false,
       panError: false,
     });
-
-    setNotification(true);
+    // window.location.reload(true);
   };
 
   return (
@@ -179,12 +255,13 @@ const UserProfile = () => {
           aria-describedby="modal-modal-description"
         >
           <MDBox sx={style}>
-            <MDTypography id="modal-modal-title" variant="h6" component="h2">
+            {user.filehash ? <><MDTypography id="modal-modal-title" variant="h6" component="h2">
               Preview
             </MDTypography>
-            <CardMedia>
-              <img src={`https://ipfs.io/ipfs/${user.filehash}`}></img>
-            </CardMedia>
+                <CardMedia
+                  image={`https://ipfs.io/ipfs/${user.filehash}`} component="img"
+                  height="700" sx={{objectFit: "contain" }} />
+              </> : "No Preview Available"}
           </MDBox>
         </Modal>
         <MDBox
@@ -213,6 +290,7 @@ const UserProfile = () => {
                   value={user.name}
                   onChange={changeHandler}
                   error={errors.nameError}
+                  disabled={registered}
                 />
                 {errors.nameError && (
                   <MDTypography variant="caption" color="error" fontWeight="light">
@@ -236,8 +314,7 @@ const UserProfile = () => {
                   type="name"
                   fullWidth
                   name="walletaddress"
-                  value={user.walletaddress}
-                  onChange={changeHandler}
+                  value={user.account ? user.account : ""}
                   disabled={true}
                 />
               </MDBox>
@@ -263,6 +340,7 @@ const UserProfile = () => {
                   value={user.age}
                   onChange={changeHandler}
                   error={errors.ageError}
+                  disabled={registered}
                 />
                 {errors.ageError && (
                   <MDTypography variant="caption" color="error" fontWeight="light">
@@ -290,6 +368,7 @@ const UserProfile = () => {
                   value={user.email}
                   onChange={changeHandler}
                   error={errors.emailError}
+                  disabled={registered}
                 />
                 {errors.emailError && (
                   <MDTypography variant="caption" color="error" fontWeight="light">
@@ -319,6 +398,7 @@ const UserProfile = () => {
                   value={user.pan}
                   onChange={changeHandler}
                   error={errors.panError}
+                  disabled={registered}
                 />
                 {errors.panError && (
                   <MDTypography variant="caption" color="error" fontWeight="light">
@@ -345,6 +425,7 @@ const UserProfile = () => {
                   value={user.phone}
                   onChange={changeHandler}
                   error={errors.phoneError}
+                  disabled={registered}
                 />
                 {errors.phoneError && (
                   <MDTypography variant="caption" color="error" fontWeight="light">
@@ -364,15 +445,17 @@ const UserProfile = () => {
               ml={2}
               mt={1}
             >
-              <MDTypography variant="body2" color="text" mr={5} fontWeight="regular" width="100%">
+              {!registered && <><MDTypography variant="body2" color="text" mr={5} fontWeight="regular" width="100%">
                 Upload Aadhar
               </MDTypography>
-              <MDBox mb={1} width="70%">
-                <input accept="image/*" multiple type="file" onChange={(e) => setFileImg(e.target.files[0])} required />
-              </MDBox>
-              <MDButton variant="gradient" color="info" onClick={handleOpen}>
-                <VisibilityIcon fontSize="inherit" />
-              </MDButton>
+                <MDBox mb={1} width="70%">
+                  <input accept="image/*" multiple type="file" onChange={(e) => setFileImg(e.target.files[0])} required />
+                </MDBox></>}
+              {registered && <><MDTypography variant="body2" color="text" mr={5} fontWeight="regular" width="100%">
+                View Aadhar Card
+              </MDTypography><MDButton variant="gradient" color="info" onClick={handleOpen}>
+                  <VisibilityIcon fontSize="inherit" />
+                </MDButton></>}
             </MDBox>
           </MDBox>
           <MDBox display="flex" flexDirection="column" mb={3}>
@@ -381,15 +464,15 @@ const UserProfile = () => {
               justifyContent="end"
               width="100%"
               mr={7}>
-              <MDBox mt={4} display="flex" mr={3}>
+              {registered && <MDBox mt={4} display="flex" mr={3}>
                 <MDButton variant="gradient" color="info" type="submit">
                   Request for Verification
                 </MDButton>
-              </MDBox>
+              </MDBox>}
               <MDBox mt={4} display="flex">
-                <MDButton variant="gradient" color="info" type="submit">
-                  Save changes
-                </MDButton>
+                {!registered && <MDButton variant="gradient" color="info" type="submit">
+                  Submit
+                </MDButton>}
               </MDBox>
             </MDBox>
           </MDBox>
