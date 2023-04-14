@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
@@ -91,31 +76,9 @@ function BasicLayout({ image, children }) {
                       marginBottom="0.5rem"
                     >
                       <Typography variant="body2" fontWeight="700" style={{ color: "white" }}>
-                        You can log in with
+                        You can login by connecting your metamask wallet
                       </Typography>
-                      <List dense={true}>
-                        <ListItem>
-                          <ListItemText
-                            disableTypography
-                            primary={
-                              <Typography
-                                variant="body2"
-                                fontWeight="400"
-                                style={{ color: "white" }}
-                              >
-                                Username{" "}
-                                <Typography variant="span" fontWeight="700">
-                                  admin@jsonapi.com
-                                </Typography>{" "}
-                                with password{" "}
-                                <Typography variant="span" fontWeight="700">
-                                  secret
-                                </Typography>
-                              </Typography>
-                            }
-                          />
-                        </ListItem>
-                      </List>
+                      
                     </MDBox>
                   </MDBox>
                 </MDBox>
