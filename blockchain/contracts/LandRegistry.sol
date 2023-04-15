@@ -104,6 +104,13 @@ contract LandRegistry {
         return landCount;
     }
 
+// Get Land details
+    function getLandDetails(uint _id) public view returns (string memory,string memory,string memory,string memory,string memory, address){
+        Land memory l = lands[_id];
+        return (l.area, l.city, l.pid, l.state, l.price, l.owner);
+    }
+
+
 
 // Register User into the network
     function registerUser(string memory _name,uint256 _age,string memory _email,string memory _aadharIpfsHash,string memory _pan_num,string memory _phone_num) public {
@@ -129,6 +136,27 @@ contract LandRegistry {
      function getUserDetails(address i) public view returns (string memory, uint, string memory, string memory, string memory, string memory,bool) {
         return (users[i].name,users[i].age,users[i].email,users[i].aadharIpfsHash,users[i].pan_num,users[i].phone_num,users[i].verified);
     }
+
+    // Add land 
+    function addLand(string memory _area, string memory _city, string memory _state, string memory _pid, string memory _price) public {
+
+        Land memory newLand = Land({
+            id: landCount,
+            area: _area,
+            owner: msg.sender,
+            city: _city,
+            state: _state,
+            pid: _pid,
+            verified: false,
+            price : _price
+        });
+
+        lands[landCount] = newLand;
+        landCount++;
+
+        emit LandAdded(newLand.id, _area, newLand.owner, _city, _state, _pid, _price);
+    }
+
 }
 //     function addLand(string memory _name, uint256 _price) public {
 

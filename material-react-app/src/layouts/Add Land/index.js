@@ -140,6 +140,8 @@ const AddLand = () => {
           deployedNetwork && deployedNetwork.address,
       );
       setDummy({ LandInstance: instance, web3: web3, account: accounts[0] });
+
+
         } catch (error) {
             // Catch any errors for any of the above operations.
             alert(
@@ -148,6 +150,7 @@ const AddLand = () => {
             console.error(error);
         }
   },[]);
+
 
   useEffect(() => {
     if (notification === true) {
@@ -164,8 +167,8 @@ const AddLand = () => {
     });
   };
 
-  const addLand = async (name, price) => {
-   await dummy.LandInstance.methods.addLand(name, price).send({ from: dummy.account}).then((res) => {
+  const addLand = async (area, city, state, pid, price) => {
+   await dummy.LandInstance.methods.addLand(area, city, state, pid, price).send({ from: dummy.account}).then((res) => {
     console.log(res);
    })
   }
@@ -231,8 +234,8 @@ const AddLand = () => {
     }
 
     sendFileToIPFS();
-    //call the function to add land details into the blockchain network
-    // addLand(land.area, parseInt(land.pid));
+
+    addLand(land.area, land.city, land.state, land.pid, land.price);
 
     setErrors({
       areaError: false,
