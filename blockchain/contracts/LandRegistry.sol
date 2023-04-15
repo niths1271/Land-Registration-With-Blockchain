@@ -64,6 +64,7 @@ contract LandRegistry {
     event UserVerified(address userAddress, bool status);
     event LandVerified(uint id, bool status);
     event UserRegistered(string name,uint age,string email,string aadharIpfsHash,string pan_num, string phone_num);
+    event LandAdded(uint id,string _area,address payable owner,string _city, string _state,string _pid, string _price);
 
 
 // Check whether user is registered to our network
