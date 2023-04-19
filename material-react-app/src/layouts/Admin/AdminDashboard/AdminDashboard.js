@@ -9,11 +9,11 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
 function createData(AccountAddress, Name, age, Email, City, AadhaarNumber, PANNumber, VerificationStatus) {
-  return { AccountAddress, Name, age, Email, City, AadhaarNumber, PANNumber, VerificationStatus };
+  return {  Name, age, Email, City, AadhaarNumber, PANNumber, VerificationStatus,AccountAddress, };
 }
 
 const rows = [
-  createData(14454468613125, 159, 6.0, 24, 4.0, 23, 25, 234),
+  createData(159,6.0,24, 4.0, 23, 25, 234,14454468613125),
   createData(7638376482634234, 159, 6.0, 24, 4.0, 23, 25, 234),
   createData(324238976987234, 159, 6.0, 24, 4.0, 23, 25, 234),
 ];
@@ -22,7 +22,7 @@ export default function AccessibleTable() {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 750 }} aria-label="caption table">
-        <caption>A basic table example with a caption</caption>
+        
         <TableHead>
           <TableRow >
             <TableCell spacing>Account Address</TableCell>
@@ -42,7 +42,9 @@ export default function AccessibleTable() {
               <TableCell component="th" scope="row">
                 {row.AccountAddress}
               </TableCell>
-              <TableCell component="th" scope="row">{row.Name}</TableCell>
+              <TableCell component="th" scope="row">
+                {row.Name}
+              </TableCell>
               <TableCell component="th" scope="row">{row.age}</TableCell>
               <TableCell component="th" scope="row">{row.Email}</TableCell>
               <TableCell component="th" scope="row">{row.City}</TableCell>
