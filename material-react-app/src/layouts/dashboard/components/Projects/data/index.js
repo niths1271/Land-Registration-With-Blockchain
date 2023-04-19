@@ -69,7 +69,7 @@ export default function data() {
             Property_ID:land.pid,
             Survey_No:land.survey,
             Hissa_No:land.hissa,
-            Land_Khata:land.doc_hash,
+            Land_Khata:<u><a href={`https://ipfs.io/ipfs/${land.doc_hash}`} target="_blank">Khata Document</a></u>,
             Estimated_Price: land.price,
             Verification_Status: String(land.verified)
           }]);
