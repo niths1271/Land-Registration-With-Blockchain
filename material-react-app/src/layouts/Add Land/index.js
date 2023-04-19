@@ -24,6 +24,8 @@ const AddLand = () => {
 
   const [doc1, setDoc1] = useState(null);
 
+  const [verification, setVerification] = useState(false);
+
   const [land, setLand] = useState({
     LandInstance: undefined,
     account: null,
@@ -56,6 +58,12 @@ const AddLand = () => {
           deployedNetwork && deployedNetwork.address,
       );
       setLand({ ...land,LandInstance: instance, web3: web3, account: accounts[0] });
+
+      const user = await instance.methods.users(accounts[0]).call();
+      if(user.verified == false){
+        setVerification(true);
+      }
+
         } catch (error) {
             // Catch any errors for any of the above operations.
             alert(
@@ -186,6 +194,14 @@ const AddLand = () => {
             </MDTypography>
           </MDAlert>
         )}
+        {verification && (
+          <MDAlert color="error" mt="20px">
+            <MDTypography variant="body2" color="white">
+              You are not verified to register the land.
+            </MDTypography>
+          </MDAlert>
+        )}
+
         <MDBox
           component="form"
           role="form"
@@ -321,7 +337,7 @@ const AddLand = () => {
               </MDBox>
             </MDBox>
           </MDBox>
-          <MDBox display="flex" flexDirection="column" mb={3}>
+          {!verification ? <MDBox display="flex" flexDirection="column" mb={3}>
             <MDBox mt={4} mr={7} display="flex" flexDirection="row"
               justifyContent="end">
               <MDButton variant="gradient" color="info" type="submit">
@@ -329,7 +345,8 @@ const AddLand = () => {
               </MDButton>
             </MDBox>
           </MDBox>
-          
+          : null
+          }        
         </MDBox>
       </Card>
     </DashboardLayout>
