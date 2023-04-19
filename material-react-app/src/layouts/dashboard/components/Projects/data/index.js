@@ -5,7 +5,7 @@
 * Material Dashboard 2 React - v2.1.0
 =========================================================
 
-* land Page: https://www.creative-tim.com/land/material-dashboard-react
+* Product Page: https://www.creative-tim.com/product/material-dashboard-react
 * Copyright 2022 Creative Tim (https://www.creative-tim.com)
 
 Coded by www.creative-tim.com
@@ -14,10 +14,9 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
-// @mui material components
 import { useState, useEffect } from "react";
 import * as React from 'react';
+// @mui material components
 import Tooltip from "@mui/material/Tooltip";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
@@ -35,13 +34,14 @@ import team1 from "assets/images/team-1.jpg";
 import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
-import getWeb3 from "getWeb3/getWeb3.js";
+import getWeb3 from "getWeb3/getWeb3";
 import LandRegistry from "./LandRegistry.json";
 
 
 export default function data() {
 
-  const [dummy, setDummy] = useState({
+
+  const [details, setdetails] = useState({
     LandInstance: undefined,
     account: null,
     web3: null,
@@ -59,12 +59,12 @@ export default function data() {
       const accounts = await web3.eth.getAccounts();
   
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = LandRegistry.networks[networkId];
-      const instance = new web3.eth.Contract(
+      const deployedNetwork = await LandRegistry.networks[networkId];
+      const instance = await new web3.eth.Contract(
           LandRegistry.abi,
           deployedNetwork && deployedNetwork.address,
       );
-      setDummy({ LandInstance: instance, web3: web3, account: accounts[0] });
+      setdetails({ LandInstance: instance, web3: web3, account: accounts[0] });
       const landCount = await  instance.methods.landCount().call();
       setLandCount(landCount);
 
@@ -87,7 +87,6 @@ export default function data() {
 
   console.log(landCount);
   console.log(lands);
-  
 
   const avatars = (members) =>
     members.map(([image, name]) => (
@@ -123,157 +122,26 @@ export default function data() {
   //   </MDBox>
   // );
 
-  return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Area</th>
-          <th scope="col">City</th>
-          <th scope="col">State</th>
-          <th scope="col">Pid</th>
-          <th scope="col">Price</th>
-        </tr>
-      </thead>
-      <tbody id="landList">
-        {lands.map((land, key) => (
-          <tr key={key}>
-            <th scope="row">{land.id.toString()}</th>
-            <td>{land.area}</td>
-            <td>{land.city}</td>
-            <td>{land.state}</td>
-            <td>{land.pid}</td>
-            <td>{land.price}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-      // {
-      //   companies: <Company image={logoXD} name="Material UI XD Version" />,
-      //   members: (
-      //     <MDBox display="flex" py={1}>
-      //       {avatars([
-      //         [team1, "Ryan Tompson"],
-      //         [team2, "Romina Hadid"],
-      //         [team3, "Alexander Smith"],
-      //         [team4, "Jessica Doe"],
-      //       ])}
-      //     </MDBox>
-      //   ),
-      //   budget: (
-      //     <MDTypography variant="caption" color="text" fontWeight="medium">
-      //       $14,000
-      //     </MDTypography>
-      //   ),
-      //   completion: (
-      //     <MDBox width="8rem" textAlign="left">
-      //       <MDProgress value={60} color="info" variant="gradient" label={false} />
-      //     </MDBox>
-      //   ),
+  return {
+    columns: [
+      { Header: "Sl_No", accessor: "Sl_No", width: "5%", align: "left" },
+      { Header: "Area", accessor: "Area", width: "15%", align: "left" },
+      { Header: "City", accessor: "City", width: "15%", align: "left" },
+      { Header: "State", accessor: "State", width: "15%", align: "left" },
+      { Header: "Estimated_Price", accessor: "Estimated_Price", width: "15%", align: "left" },
+      { Header: "Property_ID", accessor: "Property_ID", align: "left" },
+      { Header: "Survey_No", accessor: "Survey_No", align: "left" },
+      { Header: "Hissa_No", accessor: "Hissa_No", align: "left" },
+    ],
+
+    rows: [
+      // { Sl_No :"1",
+      //   Area: {lands[0].area},
+      //   City: {lands[0].city},
+      //   State: {lands[0].state},
+      //   Estimated_Price: {lands[0].price},
+      //   Property_ID: {lands[0].},
       // },
-      // {
-      //   companies: <Company image={logoAtlassian} name="Add Progress Track" />,
-      //   members: (
-      //     <MDBox display="flex" py={1}>
-      //       {avatars([
-      //         [team2, "Romina Hadid"],
-      //         [team4, "Jessica Doe"],
-      //       ])}
-      //     </MDBox>
-      //   ),
-      //   budget: (
-      //     <MDTypography variant="caption" color="text" fontWeight="medium">
-      //       $3,000
-      //     </MDTypography>
-      //   ),
-      //   completion: (
-      //     <MDBox width="8rem" textAlign="left">
-      //       <MDProgress value={10} color="info" variant="gradient" label={false} />
-      //     </MDBox>
-      //   ),
-      // }
-      // {
-      //   companies: <Company image={logoSlack} name="Fix Platform Errors" />,
-      //   members: (
-      //     <MDBox display="flex" py={1}>
-      //       {avatars([
-      //         [team1, "Ryan Tompson"],
-      //         [team3, "Alexander Smith"],
-      //       ])}
-      //     </MDBox>
-      //   ),
-      //   budget: (
-      //     <MDTypography variant="caption" color="text" fontWeight="medium">
-      //       Not set
-      //     </MDTypography>
-      //   ),
-      //   completion: (
-      //     <MDBox width="8rem" textAlign="left">
-      //       <MDProgress value={100} color="success" variant="gradient" label={false} />
-      //     </MDBox>
-      //   ),
-      // },
-      // {
-      //   companies: <Company image={logoSpotify} name="Launch our Mobile App" />,
-      //   members: (
-      //     <MDBox display="flex" py={1}>
-      //       {avatars([
-      //         [team4, "Jessica Doe"],
-      //         [team3, "Alexander Smith"],
-      //         [team2, "Romina Hadid"],
-      //         [team1, "Ryan Tompson"],
-      //       ])}
-      //     </MDBox>
-      //   ),
-      //   budget: (
-      //     <MDTypography variant="caption" color="text" fontWeight="medium">
-      //       $20,500
-      //     </MDTypography>
-      //   ),
-      //   completion: (
-      //     <MDBox width="8rem" textAlign="left">
-      //       <MDProgress value={100} color="success" variant="gradient" label={false} />
-      //     </MDBox>
-      //   ),
-      // },
-      // {
-      //   companies: <Company image={logoJira} name="Add the New Pricing Page" />,
-      //   members: (
-      //     <MDBox display="flex" py={1}>
-      //       {avatars([[team4, "Jessica Doe"]])}
-      //     </MDBox>
-      //   ),
-      //   budget: (
-      //     <MDTypography variant="caption" color="text" fontWeight="medium">
-      //       $500
-      //     </MDTypography>
-      //   ),
-      //   completion: (
-      //     <MDBox width="8rem" textAlign="left">
-      //       <MDProgress value={25} color="info" variant="gradient" label={false} />
-      //     </MDBox>
-      //   ),
-      // },
-      // {
-      //   companies: <Company image={logoInvesion} name="Redesign New Online Shop" />,
-      //   members: (
-      //     <MDBox display="flex" py={1}>
-      //       {avatars([
-      //         [team1, "Ryan Tompson"],
-      //         [team4, "Jessica Doe"],
-      //       ])}
-      //     </MDBox>
-      //   ),
-      //   budget: (
-      //     <MDTypography variant="caption" color="text" fontWeight="medium">
-      //       $2,000
-      //     </MDTypography>
-      //   ),
-      //   completion: (
-      //     <MDBox width="8rem" textAlign="left">
-      //       <MDProgress value={40} color="info" variant="gradient" label={false} />
-      //     </MDBox>
-      //   ),
-      // },
+    ]
+  };
 }
