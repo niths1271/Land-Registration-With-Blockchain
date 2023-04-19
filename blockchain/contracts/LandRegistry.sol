@@ -17,10 +17,10 @@ contract LandRegistry {
 // Struct declaration for land
     struct Land {
         uint id;
-        string area;
-        string city;
-        string state;
+        string hissa;
+        string survey;
         string pid;
+        string doc_hash;
         address payable owner;
         string price;
         bool verified;
@@ -62,7 +62,7 @@ contract LandRegistry {
     event UserVerified(address userAddress, bool status);
     event LandVerified(uint id, bool status);
     event UserRegistered(string name,uint age,string email,string aadharIpfsHash,string pan_num, string phone_num);
-    event LandAdded(uint id,string _area,address payable owner,string _city, string _state,string _pid, string _price);
+    event LandAdded(uint id,string _hissa,address payable owner,string _doc_hash, string _survey,string _pid, string _price);
 
 
 // Check whether user is registered to our network
@@ -106,7 +106,7 @@ contract LandRegistry {
 // Get Land details
     function getLandDetails(uint _id) public view returns (string memory,string memory,string memory,string memory,string memory, address){
         Land memory l = lands[_id];
-        return (l.area, l.city, l.pid, l.state, l.price, l.owner);
+        return (l.hissa, l.doc_hash, l.pid, l.survey, l.price, l.owner);
     }
 
 
@@ -137,14 +137,14 @@ contract LandRegistry {
     }
 
     // Add land 
-    function addLand(string memory _area, string memory _city, string memory _state, string memory _pid, string memory _price) public {
+    function addLand(string memory _hissa, string memory _doc_hash, string memory _survey, string memory _pid, string memory _price) public {
 
         Land memory newLand = Land({
             id: landCount,
-            area: _area,
+            hissa: _hissa,
             owner: msg.sender,
-            city: _city,
-            state: _state,
+            doc_hash: _doc_hash,
+            survey: _survey,
             pid: _pid,
             verified: false,
             price : _price
@@ -153,41 +153,7 @@ contract LandRegistry {
         lands[landCount] = newLand;
         landCount++;
 
-        emit LandAdded(newLand.id, _area, newLand.owner, _city, _state, _pid, _price);
+        emit LandAdded(newLand.id, _hissa, newLand.owner, _doc_hash, _survey, _pid, _price);
     }
 
 }
-//     function addLand(string memory _name, uint256 _price) public {
-
-//         Land memory newLand = Land({
-//             id: landCount,
-//             name: _name,
-//             owner: msg.sender,
-//             forSale: false,
-//             price: _price
-//         });
-
-//         lands[landCount] = newLand;
-//         landCount++;
-
-//         emit LandAdded(newLand.id, newLand.name, newLand.owner);
-//     }
-
-//     function buyLand(uint256 _id) public payable {
-//         Land memory land = lands[_id];
-        
-//         require(land.forSale, "Land not for sale");
-//         require(msg.value == land.price, "Incorrect price");
-
-//         address payable oldOwner = land.owner;
-//         address payable newOwner = msg.sender;
-
-//         oldOwner.transfer(msg.value);
-
-//         land.owner = newOwner;
-//         land.forSale = false;
-//         lands[_id] = land;
-
-//         emit LandBought(_id, newOwner, msg.value);
-//     }
-// }
