@@ -138,7 +138,6 @@ contract LandRegistry {
 
     // Add land 
     function addLand(string memory _hissa, string memory _doc_hash, string memory _survey, string memory _pid, string memory _price) public {
-
         Land memory newLand = Land({
             id: landCount,
             hissa: _hissa,
@@ -155,5 +154,9 @@ contract LandRegistry {
 
         emit LandAdded(newLand.id, _hissa, newLand.owner, _doc_hash, _survey, _pid, _price);
     }
+
+    // Buy Land
+
+    
 
 }

@@ -17,9 +17,8 @@ Coded by www.creative-tim.com
 import { useState, useEffect } from "react";
 import * as React from 'react';
 // @mui material components
-import Tooltip from "@mui/material/Tooltip";
-import MDAvatar from "components/MDAvatar";
-
+import MDBadge from "components/MDBadge";
+import MDBox from "components/MDBox";
 
 // Images
 
@@ -41,11 +40,10 @@ export default function data() {
 
 
   useEffect(async () => {
-    console.log("entering useEffect");
-    if(!window.location.hash){
+    if (!window.location.hash) {
       window.location = window.location + '#loaded';
       window.location.reload();
-  }
+    }
     try {
       //Get network provider and web3 instance
       const web3 = await getWeb3();
@@ -65,13 +63,17 @@ export default function data() {
         const land = await instance.methods.lands(i).call();
         if (land.owner == accounts[0]) {
           setLands(prevLands => [...prevLands, {
-            Sl_No:i+1,
-            Property_ID:land.pid,
-            Survey_No:land.survey,
-            Hissa_No:land.hissa,
-            Land_Khata:<u><a href={`https://ipfs.io/ipfs/${land.doc_hash}`} target="_blank">Khata Document</a></u>,
+            Sl_No: i + 1,
+            Property_ID: land.pid,
+            Survey_No: land.survey,
+            Hissa_No: land.hissa,
+            Land_Khata: <u><a href={`https://ipfs.io/ipfs/${land.doc_hash}`} target="_blank">Khata Document</a></u>,
             Estimated_Price: land.price,
-            Verification_Status: String(land.verified)
+            Verification_Status: land.verified ? <MDBox ml={-1}>
+              <MDBadge badgeContent="VERIFIED" color="success" variant="gradient" size="sm" />
+            </MDBox> : <MDBox ml={-1}>
+              <MDBadge badgeContent="NOT VERIFIED" color="dark" variant="gradient" size="sm" />
+            </MDBox>
           }]);
         }
       }
@@ -94,31 +96,6 @@ export default function data() {
       { Header: "Estimated_Price", accessor: "Estimated_Price", width: "15%", align: "left" },
       { Header: "Verification Status", accessor: "Verification_Status", width: "15%", align: "left" },
     ],
-    rows:lands
-    // {
-    //   Sl_No:"1",
-    //   Property_ID:"123",
-    //   Survey_No:"234",
-    //   Hissa_No:"12",
-    //   Land_Khata:"Eqeqeqe",
-    //   Estimated_Price:"21212",
-    //   Verification_Status:"true"
-    // }
-    // // { Sl_No :"1",
-    // //   Area: {lands[0].area},
-    // //   City: {lands[0].city},
-    // //   State: {lands[0].state},
-    // //   Estimated_Price: {lands[0].price},
-    // //   Property_ID: {lands[0].},
-    // // },
+    rows: lands
   };
 }
-
-// doc_hash: "Qmd6NNPEXhpjzfcUVLePRXb9E2Pr6B4NEu8iHbEs8xaAVh"
-// hissa: "121"
-// id: "0"
-// owner: "0x347EafB7EEdaEc254758Ac746046fA1CD06A30F0"
-// pid: "112"
-// price: "313131313"
-// survey: "131313"
-// verified: false
