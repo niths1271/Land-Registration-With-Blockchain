@@ -41,23 +41,16 @@ const AddLand = () => {
   const [land, setLand] = useState({
     area: "",
     city: "",
-    taluk: "",
     state: "",
     pid: "",
-    hissa: "",
-    survey: "",
     price: "",
   });
 
   const [errors, setErrors] = useState({
     areaError: false,
     cityError: false,
-    talukError: false,
     stateError: false,
     pidError: false,
-    hissaError: false,
-    surveyError: false,
-    yearError: false,
     priceError: false,
   });
 
@@ -89,11 +82,8 @@ const AddLand = () => {
     setLand({
       area: "",
       city: "",
-      taluk: "",
       state: "",
       pid: "",
-      hissa: "",
-      survey: "",
       price: "",
     });
 
@@ -169,6 +159,8 @@ const AddLand = () => {
 
   const addLand = async (area, city, state, pid, price) => {
    await dummy.LandInstance.methods.addLand(area, city, state, pid, price).send({ from: dummy.account}).then((res) => {
+    setNotification(true);
+    //window.location.reload(false);
     console.log(res);
    })
   }
@@ -180,11 +172,8 @@ const AddLand = () => {
 
     var areaErr = false;
     var cityErr = false;
-    var talukErr = false;
     var stateErr = false;
     var pidErr = false;
-    var hissaErr = false;
-    var surveyErr = false;
     var priceErr = false;
 
     if (land.area.trim().length === 0) {
@@ -195,9 +184,9 @@ const AddLand = () => {
       cityErr = true;
     }
 
-    if (land.taluk.trim().length === 0) {
-      talukErr = true;
-    }
+    // if (land.taluk.trim().length === 0) {
+    //   talukErr = true;
+    // }
 
     if (land.state.trim().length === 0) {
       stateErr = true;
@@ -207,27 +196,24 @@ const AddLand = () => {
       pidErr = true;
     }
 
-    if (land.hissa.trim().length === 0) {
-      hissaErr = true;
-    }
+    // if (land.hissa.trim().length === 0) {
+    //   hissaErr = true;
+    // }
 
-    if (land.survey.trim().length === 0) {
-      surveyErr = true;
-    }
+    // if (land.survey.trim().length === 0) {
+    //   surveyErr = true;
+    // }
 
     if (land.price.trim().length === 0) {
       priceErr = true;
     }
 
-    if (areaErr || cityErr || talukErr || stateErr || pidErr || hissaErr || surveyErr || priceErr) {
+    if (areaErr || cityErr || stateErr || pidErr || priceErr) {
       setErrors({
         areaError: areaErr,
         cityError: cityErr,
-        talukError: talukErr,
         stateError: stateErr,
         pidError: pidErr,
-        hissaError: hissaErr,
-        surveyError: surveyErr,
         priceError: priceErr,
       });
       return;
@@ -240,11 +226,8 @@ const AddLand = () => {
     setErrors({
       areaError: false,
       cityError: false,
-      talukError: false,
       stateError: false,
       pidError: false,
-      hissaError: false,
-      surveyError: false,
       priceError: false,
     });
 
@@ -331,7 +314,7 @@ const AddLand = () => {
           </MDBox>
           {/* Taluk */}
           <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
-            <MDBox
+            {/* <MDBox
               display="flex"
               flexDirection="column"
               alignItems="flex-start"
@@ -356,7 +339,7 @@ const AddLand = () => {
                   </MDTypography>
                 )}
               </MDBox>
-            </MDBox>
+            </MDBox> */}
             {/* State */}
             <MDBox
               display="flex"
@@ -414,7 +397,7 @@ const AddLand = () => {
               </MDBox>
             </MDBox>
             {/* Hissa NUmber */}
-            <MDBox
+            {/* <MDBox
               display="flex"
               flexDirection="column"
               alignItems="flex-start"
@@ -439,11 +422,11 @@ const AddLand = () => {
                   </MDTypography>
                 )}
               </MDBox>
-            </MDBox>
+            </MDBox> */}
           </MDBox>
           {/* Survey Number */}
           <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
-            <MDBox
+            {/* <MDBox
               display="flex"
               flexDirection="column"
               alignItems="flex-start"
@@ -468,7 +451,7 @@ const AddLand = () => {
                   </MDTypography>
                 )}
               </MDBox>
-            </MDBox>
+            </MDBox> */}
             {/* Price */}
            <MDBox
               display="flex"
@@ -497,7 +480,7 @@ const AddLand = () => {
               </MDBox>
             </MDBox>
             {/* Year of purchase */}
-            <MDBox
+            {/* <MDBox
               display="flex"
               flexDirection="column"
               alignItems="flex-start"
@@ -512,19 +495,19 @@ const AddLand = () => {
                   onChange={(newYear) => { setYear(dayjs(newYear)) }}
                   required
                 />
-                {/* {errors.yearError && (
+                {errors.yearError && (
                   <MDTypography variant="caption" color="error" fontWeight="light">
                     Year can not be null
                   </MDTypography>
-                )} */}
+                )}
               </LocalizationProvider>
-            </MDBox>
+            </MDBox> */}
           </MDBox>
 
           
 
           {/* Documents Upload */}
-          <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
+          {/* <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
             <MDBox
               display="flex"
               flexDirection="column"
@@ -555,7 +538,7 @@ const AddLand = () => {
                 <input accept="image/*" multiple type="file" onChange={(e) => setDoc2(e.target.files[0])} required />
               </MDBox>
             </MDBox>
-          </MDBox>
+          </MDBox> */}
 
           <MDBox display="flex" flexDirection="column" mb={3}>
             <MDBox mt={4} mr={7} display="flex" flexDirection="row"

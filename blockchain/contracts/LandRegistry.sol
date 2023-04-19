@@ -17,14 +17,12 @@ contract LandRegistry {
 // Struct declaration for land
     struct Land {
         uint id;
-        uint256 area;
+        string area;
         string city;
         string state;
-        uint256 pid;
-        uint256 survey_no;
+        string pid;
         address payable owner;
-        uint256 price;
-        bool forSale;
+        string price;
         bool verified;
     }
 
