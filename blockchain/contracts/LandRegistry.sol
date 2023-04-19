@@ -157,6 +157,5 @@ contract LandRegistry {
 
     // Buy Land
 
-    
 
 }
