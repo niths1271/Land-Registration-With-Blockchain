@@ -15,12 +15,12 @@ import BasicLayoutLanding from "layouts/authentication/components/BasicLayoutLan
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
-
+import metamaskLogo from "assets/images/logos/gray-logos/metamask-icon.svg"
 // import AuthService from "services/auth-service";
 // import { AuthContext } from "context";
 
 function Login() {
-  
+  const [errorMessage, setErrorMessage] = useState("");
   //MetaMask integration
 
   const navigate = useNavigate();
@@ -119,6 +119,9 @@ function Login() {
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
             Sign in
+            <div>
+              <img src={metamaskLogo} alt="metamask logo"/>
+            </div>
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
@@ -133,6 +136,7 @@ function Login() {
                         : "Connect Wallet"}
                   </span>
               </MDButton>
+              {errorMessage && <div style={{ color: "red",fontSize: "15px" }}> {errorMessage} <a target="_blank" href="https://metamask.io/download/">here!</a> </div>}
             </MDBox>
         </MDBox>
       </Card>

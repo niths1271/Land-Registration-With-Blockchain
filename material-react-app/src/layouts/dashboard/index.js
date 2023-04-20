@@ -9,7 +9,7 @@ export default function Dashboard() {
   const isLoggedIn = sessionStorage.getItem("login");
   console.log(isLoggedIn);
 
-  return ( (isLoggedIn ) ? ( <DashboardRender/> ) : ( <Login/> ) );
+  return ( isLoggedIn ? ( <DashboardRender/> ) : ( <Login/> ) );
 }
 
  
