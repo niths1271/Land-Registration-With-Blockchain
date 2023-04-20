@@ -237,7 +237,7 @@ const UserProfile = () => {
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox mb={2} />
-      <Header name={user.name}>
+      <Header name={user.name} verified={user.verified}>
         {notification && (
           <MDAlert color="info" mt="20px">
             <MDTypography variant="body2" color="white">
