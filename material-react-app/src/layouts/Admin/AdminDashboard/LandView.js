@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/function-component-definition */
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,54 +11,250 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import MDTypography from "components/MDTypography";
 
-function createData(AccountAddress, Name, age, Email, City, AadhaarNumber, PANNumber, VerificationStatus) {
-  return { AccountAddress, Name, age, Email, City, AadhaarNumber, PANNumber, VerificationStatus };
-}
 
-const rows = [
-  createData(14454468613125, 159, 6.0, 24, 4.0, 23, 25, 234),
-  createData(7638376482634234, 159, 6.0, 24, 4.0, 23, 25, 234),
-  createData(324238976987234, 159, 6.0, 24, 4.0, 23, 25, 234),
-];
+
+// Material Dashboard 2 React components
+import MDBox from "components/MDBox";
+import MDBadge from "components/MDBadge";
+
 
 export default function LandViewTable() {
-  return (
-    <>
-    <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="caption table">
-            <caption>A basic table example with a caption</caption>
-            <TableHead>
-                <TableRow>
-                    <TableCell align="right">Account Address</TableCell>
-                    <TableCell align="right">Name</TableCell>
-                    <TableCell align="right">age</TableCell>
-                    <TableCell align="right">Email</TableCell>
-                    <TableCell align="right">City</TableCell>
-                    <TableCell align="right">Aadhaar Number</TableCell>
-                    <TableCell align="right">PAN Number</TableCell>
-                    <TableCell align="right">Verification Status</TableCell>
-                    <TableCell align="right">Verify</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {rows.map((row) => (
-                    <TableRow key={row.AccountAddress}>
-                        <TableCell component="th" scope="row">
-                            {row.AccountAddress}
-                        </TableCell>
-                        <TableCell component="th" scope="row">{row.Name}</TableCell>
-                        <TableCell>{row.age}</TableCell>
-                        <TableCell>{row.Email}</TableCell>
-                        <TableCell>{row.City}</TableCell>
-                        <TableCell>{row.AadhaarNumber}</TableCell>
-                        <TableCell>{row.PANNumber}</TableCell>
-                        <TableCell>{row.VerificationStatus}</TableCell>
-                        <TableCell><Button variant="contained" style={{ backgroundColor: "black" }}>Verify</Button></TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
-    </TableContainer>
-    </>
-  );
+  return {
+    columns: [
+      { Header: "Account Address", accessor: "Account_Address", width: "45%", align: "left" },
+      { Header: "Name", accessor: "Name", align: "left" },
+      { Header: "Age", accessor: "Age", align: "center" },
+      { Header: "Email", accessor: "Email", align: "center" },
+      { Header: "City", accessor: "City", align: "center" },
+      { Header: "Aadhaar Number", accessor: "Aadhaar_Number", align: "left" },
+      { Header: "PAN Number", accessor: "PAN_Number", align: "center" },
+      { Header: "Verification Status", accessor: "Verification_Status", align: "center" },
+      
+    ],
+
+    rows: [
+      {
+        Account_Address:(
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            23515184626198626198492526548451
+          </MDTypography>
+        ),
+        Name:(
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Mithun
+          </MDTypography>
+        ) ,
+        Age: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            21
+          </MDTypography>
+        ) ,
+        Email:(
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            mithunrk.cs9@bmsce.ac.in
+          </MDTypography>
+        )  ,
+        City:(
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            bangalore
+          </MDTypography>
+        )  ,
+        Aadhaar_Number: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            51551545262645
+          </MDTypography>
+        )  ,
+        PAN_Number:  (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            32548155151
+          </MDTypography>
+        ) ,
+        Verification_Status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="Verified" color="success" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+      },
+      {
+        Account_Address:(
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            23515184626198626198492526548451
+          </MDTypography>
+        ),
+        Name:(
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Mithun
+          </MDTypography>
+        ) ,
+        Age: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            21
+          </MDTypography>
+        ) ,
+        Email:(
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            mithunrk.cs9@bmsce.ac.in
+          </MDTypography>
+        )  ,
+        City:(
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            bangalore
+          </MDTypography>
+        )  ,
+        Aadhaar_Number: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            51551545262645
+          </MDTypography>
+        )  ,
+        PAN_Number:  (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            32548155151
+          </MDTypography>
+        ) ,
+        Verification_Status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="Verified" color="success" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+      },
+      {
+        Account_Address:(
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            23515184626198626198492526548451
+          </MDTypography>
+        ),
+        Name:(
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Mithun
+          </MDTypography>
+        ) ,
+        Age: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            21
+          </MDTypography>
+        ) ,
+        Email:(
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            mithunrk.cs9@bmsce.ac.in
+          </MDTypography>
+        )  ,
+        City:(
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            bangalore
+          </MDTypography>
+        )  ,
+        Aadhaar_Number: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            51551545262645
+          </MDTypography>
+        )  ,
+        PAN_Number:  (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            32548155151
+          </MDTypography>
+        ) ,
+        Verification_Status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="Verified" color="dark" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+      },
+      // {
+      //   author: <Author image={team3} name="Alexa Liras" email="alexa@creative-tim.com" />,
+      //   function: <Job title="Programator" description="Developer" />,
+      //   status: (
+      //     <MDBox ml={-1}>
+      //       <MDBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+      //     </MDBox>
+      //   ),
+      //   employed: (
+      //     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+      //       11/01/19
+      //     </MDTypography>
+      //   ),
+      //   action: (
+      //     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+      //       Edit
+      //     </MDTypography>
+      //   ),
+      // },
+      // {
+      //   author: <Author image={team4} name="Laurent Perrier" email="laurent@creative-tim.com" />,
+      //   function: <Job title="Executive" description="Projects" />,
+      //   status: (
+      //     <MDBox ml={-1}>
+      //       <MDBadge badgeContent="online" color="success" variant="gradient" size="sm" />
+      //     </MDBox>
+      //   ),
+      //   employed: (
+      //     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+      //       19/09/17
+      //     </MDTypography>
+      //   ),
+      //   action: (
+      //     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+      //       Edit
+      //     </MDTypography>
+      //   ),
+      // },
+      // {
+      //   author: <Author image={team3} name="Michael Levi" email="michael@creative-tim.com" />,
+      //   function: <Job title="Programator" description="Developer" />,
+      //   status: (
+      //     <MDBox ml={-1}>
+      //       <MDBadge badgeContent="online" color="success" variant="gradient" size="sm" />
+      //     </MDBox>
+      //   ),
+      //   employed: (
+      //     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+      //       24/12/08
+      //     </MDTypography>
+      //   ),
+      //   action: (
+      //     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+      //       Edit
+      //     </MDTypography>
+      //   ),
+      // },
+      // {
+      //   author: <Author image={team3} name="Richard Gran" email="richard@creative-tim.com" />,
+      //   function: <Job title="Manager" description="Executive" />,
+      //   status: (
+      //     <MDBox ml={-1}>
+      //       <MDBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+      //     </MDBox>
+      //   ),
+      //   employed: (
+      //     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+      //       04/10/21
+      //     </MDTypography>
+      //   ),
+      //   action: (
+      //     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+      //       Edit
+      //     </MDTypography>
+      //   ),
+      // },
+      // {
+      //   author: <Author image={team4} name="Miriam Eric" email="miriam@creative-tim.com" />,
+      //   function: <Job title="Programator" description="Developer" />,
+      //   status: (
+      //     <MDBox ml={-1}>
+      //       <MDBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+      //     </MDBox>
+      //   ),
+      //   employed: (
+      //     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+      //       14/09/20
+      //     </MDTypography>
+      //   ),
+      //   action: (
+      //     <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+      //       Edit
+      //     </MDTypography>
+      //   ),
+      // },
+    ],
+  };
+
 }

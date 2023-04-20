@@ -12,22 +12,19 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 // Data
-import LandViewTable from "./LandView";
-import AccessibleTable from "./AdminDashboard";
-import Button from '@mui/material/Button';
 import DataTable from "examples/Tables/DataTable";
 
 import UserViewTable from "./UserView";
+import UserRequestViewTable from "./userRequestView"
 
-function AdminDashboard() {
-  const [Landvisible, setLandvisible] = useState(false);
-  const [uservisible, setUservisible] = useState(false);
+function UserRequests() {
+  
   const { columns, rows } = UserViewTable();
-  const { col, row } = LandViewTable();
-
+  const { columns: pColumns, rows: pRows } = UserRequestViewTable();
   return (
     <DashboardLayout>
       <DashboardNavbar />
+       
         <MDBox pt={6} pb={3}>
           <Grid container spacing={6}>
             
@@ -59,10 +56,44 @@ function AdminDashboard() {
               </Card>
             </Grid>
           </Grid>
+       
+        </MDBox>
+        <MDBox pt={6} pb={3}>
+          <Grid container spacing={6}>
+            
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    User Verification Requests
+                  </MDTypography>
+                </MDBox>
+                
+                <DataTable
+                  table={{ columns: pColumns, rows: pRows }}
+                //   table={{ columns, rows }}
+                  isSorted={false}
+                  entriesPerPage={false}
+                  showTotalEntries={false}
+                  noEndBorder
+                />
+                
+              </Card>
+            </Grid>
+          </Grid>
         </MDBox>
 
     </DashboardLayout>
   );
 }
 
-export default AdminDashboard;
+export default UserRequests;

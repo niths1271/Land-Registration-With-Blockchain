@@ -36,6 +36,8 @@ import AddLand from "layouts/Add Land";
 import Icon from "@mui/material/Icon";
 import LandsForSale from "layouts/View lands Owned";
 import AdminDashboard from "layouts/Admin/AdminDashboard";
+import UserRequests from "layouts/UserRequests";
+import LandRequests from "layouts/LandRequests";
 
 const routes = [
   {
@@ -118,6 +120,22 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/Admin",
     component: <AdminDashboard />,
+  },
+  {
+    type: "collapse",
+    name: "User Requests",
+    key: "User Requests",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/UserRequests",
+    component: <UserRequests />,
+  },
+  {
+    type: "collapse",
+    name: "LandRequests",
+    key: "LandRequests",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/LandRequests",
+    component: <LandRequests />,
   }
 ];
 
