@@ -66,12 +66,6 @@ const UserProfile = () => {
     phoneError: false
   });
 
-  // const sendFileToIPFS = async (e) => {
-  //   if (fileImg) {
-
-  //   }
-  // }
-
 
   useEffect(() => {
     if (notification === true) {
