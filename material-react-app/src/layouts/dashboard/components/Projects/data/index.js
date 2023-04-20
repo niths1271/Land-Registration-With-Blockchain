@@ -43,7 +43,7 @@ export default function data() {
       setdetails({ LandInstance: instance, web3: web3, account: accounts[0] });
       const landCount = await instance.methods.landCount().call();
       setLandCount(landCount);
-      for (let i = 0; i <= landCount; i++) {
+      for (let i = 0; i < landCount; i++) {
         const land = await instance.methods.lands(i).call();
         if (land.owner == accounts[0]) {
           setLands(prevLands => [...prevLands, {

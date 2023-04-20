@@ -115,7 +115,10 @@ contract LandRegistry {
         return (l.hissa, l.doc_hash, l.pid, l.survey, l.price, l.owner);
     }
 
-
+// To get land count
+    function getUserCount() public view returns (uint) {
+        return userCount;
+    }
 
 // Register User into the network
     function registerUser(string memory _name,uint256 _age,string memory _email,string memory _aadharIpfsHash,string memory _pan_num,string memory _phone_num) public {
@@ -133,6 +136,7 @@ contract LandRegistry {
 
         registrationMapping[msg.sender]=true;
         users[msg.sender] = newUser;
+        userCount++;
 
         emit UserRegistered(_name,_age,_email,_aadharIpfsHash,_pan_num,_phone_num);
     }
