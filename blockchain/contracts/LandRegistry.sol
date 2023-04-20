@@ -58,6 +58,7 @@ contract LandRegistry {
 // Variables
     uint256 public landCount;
     uint256 public userCount;
+    address[] public r_users;
 
 
 // Events
@@ -69,6 +70,20 @@ contract LandRegistry {
     event UserRegistered(string name,uint age,string email,string aadharIpfsHash,string pan_num, string phone_num);
     event LandAdded(uint id,string _hissa,address payable owner,string _doc_hash, string _survey,string _pid, string _price);
 
+//Int conversion
+//   function st2num(string memory numString) public pure returns(uint) {
+//         uint  val=0;
+//         bytes   memory stringBytes = bytes(numString);
+//         for (uint  i =  0; i<stringBytes.length; i++) {
+//             uint exp = stringBytes.length - i;
+//             bytes1 ival = stringBytes[i];
+//             uint8 uval = uint8(ival);
+//            uint jval = uval - uint(0x30);
+   
+//            val +=  (uint(jval) * (10**(exp-1))); 
+//         }
+//       return val;
+//     }
 
 
 // Check whether user is registered to our network
@@ -103,6 +118,10 @@ contract LandRegistry {
         return users[_userAddress].verified;
     }
 
+// Get all the users
+   function getUsers() public view returns( address [] memory ){
+        return(r_users);
+    }
 
 // To get land count
     function getLandCount() public view returns (uint) {
@@ -137,6 +156,7 @@ contract LandRegistry {
         registrationMapping[msg.sender]=true;
         users[msg.sender] = newUser;
         userCount++;
+        r_users.push(msg.sender);
 
         emit UserRegistered(_name,_age,_email,_aadharIpfsHash,_pan_num,_phone_num);
     }
@@ -166,6 +186,26 @@ contract LandRegistry {
     }
 
     // Buy Land
+    // function buyLand(uint _id) public payable {
+    //     // Fetch the Land
+    //     Land memory _land = lands[_id];
 
+    //     uint _price = st2num(_land.price);
+    //     // Fetch the owner
+    //     address payable _seller = _land.owner;
+    //     // Make sure the Land has a valid id
+    //     require(_land.id > 0 && _land.id <= landCount);
+    //     // Require that there is enough Ether in the transaction
+    //     require(msg.value >= _price);
+    //     // Require that the buyer is not the seller
+    //     require(_seller != msg.sender);
+    //     // Transfer ownership to the buyer
+    //     _land.owner = msg.sender;
+    //     lands[_id] = _land;
+    //     // Pay the seller by sending them Ether
+    //     address(_seller).transfer(msg.value);
+    //     // Trigger an event
+    //     emit LandBought(landCount, _land.pid, _price, msg.sender);
+    // }
 
 }
