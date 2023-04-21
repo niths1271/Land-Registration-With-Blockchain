@@ -18,140 +18,135 @@ import MDBadge from "components/MDBadge";
 
 
 
-export default function UserViewTable() {
-  
+export default function LandRequestViewTable() {
     return {
       columns: [
-        { Header: "Account Address", accessor: "Account_Address", width: "45%", align: "left" },
-        { Header: "Name", accessor: "Name", align: "left" },
-        { Header: "Age", accessor: "Age", align: "center" },
-        { Header: "Email", accessor: "Email", align: "center" },
-        { Header: "City", accessor: "City", align: "center" },
-        { Header: "Aadhaar Number", accessor: "Aadhaar_Number", align: "left" },
-        { Header: "PAN Number", accessor: "PAN_Number", align: "center" },
-        
+        { Header: "Sl_No", accessor: "Sl_No", width: "45%", align: "left" },
+        { Header: "Property_ID", accessor: "Property_ID", align: "left" },
+        { Header: "Survey_No", accessor: "Survey_No", align: "center" },
+        { Header: "Hissa_No", accessor: "Hissa_No", align: "center" },
+        { Header: "Land Khata", accessor: "Land_Khata", align: "center" },
+        { Header: "Estimated Price", accessor: "Estimated_Price", align: "left" },
+        { Header: "Verification Status", accessor: "Verification_Status", align: "center" },
+      
       ],
   
       rows: [
         {
-          Account_Address:(
+          Sl_No:(
+            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+              1
+            </MDTypography>
+          ),
+          Property_ID:(
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
               23515184626198626198492526548451
             </MDTypography>
-          ),
-          Name:(
-            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              Mithun
-            </MDTypography>
           ) ,
-          Age: (
+          Survey_No: (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
               21
             </MDTypography>
           ) ,
-          Email:(
+          Hissa_No:(
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              mithunrk.cs9@bmsce.ac.in
+            84626198626548451
             </MDTypography>
           )  ,
-          City:(
+          Land_Khata:(
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              bangalore
+              <a href="#">KHATA_DOCUMENT</a>
             </MDTypography>
           )  ,
-          Aadhaar_Number: (
+          Estimated_Price: (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              51551545262645
+              5155154.12
             </MDTypography>
           )  ,
-          PAN_Number:  (
+          Verification_Status:  (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              32548155151
+              <div><Button variant="contained" style={{ backgroundColor: "black", marginRight: "5px" }}>Verify</Button>
+              <Button variant="contained" style={{ backgroundColor: "red", marginLeft: "5px" }}>Reject</Button></div>
             </MDTypography>
           ) 
         },
         {
-          Account_Address:(
+          Sl_No:(
+            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+              2
+            </MDTypography>
+          ),
+          Property_ID:(
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
               23515184626198626198492526548451
             </MDTypography>
-          ),
-          Name:(
-            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              Mithun
-            </MDTypography>
           ) ,
-          Age: (
+          Survey_No: (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
               21
             </MDTypography>
           ) ,
-          Email:(
+          Hissa_No:(
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              mithunrk.cs9@bmsce.ac.in
+            84626198626548451
             </MDTypography>
           )  ,
-          City:(
+          Land_Khata:(
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              bangalore
+              <a href="#">KHATA_DOCUMENT</a>
             </MDTypography>
           )  ,
-          Aadhaar_Number: (
+          Estimated_Price: (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              51551545262645
+              5155154.12
             </MDTypography>
           )  ,
-          PAN_Number:  (
+          Verification_Status:  (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              32548155151
+              <div><Button variant="contained" style={{ backgroundColor: "black", marginRight: "5px" }}>Verify</Button>
+              <Button variant="contained" style={{ backgroundColor: "red", marginLeft: "5px" }}>Reject</Button></div>
             </MDTypography>
           ) 
         },
         {
-          Account_Address:(
+          Sl_No:(
+            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+              3
+            </MDTypography>
+          ),
+          Property_ID:(
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
               23515184626198626198492526548451
             </MDTypography>
-          ),
-          Name:(
-            <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              Mithun
-            </MDTypography>
           ) ,
-          Age: (
+          Survey_No: (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
               21
             </MDTypography>
           ) ,
-          Email:(
+          Hissa_No:(
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              mithunrk.cs9@bmsce.ac.in
+            84626198626548451
             </MDTypography>
           )  ,
-          City:(
+          Land_Khata:(
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              bangalore
+              <a href="#">KHATA_DOCUMENT</a>
             </MDTypography>
           )  ,
-          Aadhaar_Number: (
+          Estimated_Price: (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              51551545262645
+              5155154.12
             </MDTypography>
           )  ,
-          PAN_Number:  (
+          Verification_Status:  (
             <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-              32548155151
+              <div><Button variant="contained" style={{ backgroundColor: "black", marginRight: "5px" }}>Verify</Button>
+              <Button variant="contained" style={{ backgroundColor: "red", marginLeft: "5px" }}>Reject</Button></div>
             </MDTypography>
-          ) ,
-          Verification_Status: (
-            <MDBox ml={-1}>
-              <MDBadge badgeContent="Verified" color="dark" variant="gradient" size="sm" />
-            </MDBox>
-          ),
+          ) 
         },
-        
-      
-      ],
+      ]
     };
   
 }

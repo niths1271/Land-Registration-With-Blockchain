@@ -14,13 +14,13 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // Data
 import DataTable from "examples/Tables/DataTable";
 
-import UserViewTable from "./UserView";
-import UserRequestViewTable from "./userRequestView"
+import LandViewTable from "./LandView";
+import LandRequestViewTable from "./LandRequestView"
 
 function LandRequests() {
   
-  const { columns, rows } = UserViewTable();
-  const { columns: pColumns, rows: pRows } = UserRequestViewTable();
+  const { columns, rows } = LandViewTable();
+  const { columns: pColumns, rows: pRows } = LandRequestViewTable();
   return (
     <DashboardLayout>
       <DashboardNavbar />

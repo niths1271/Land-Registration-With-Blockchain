@@ -185,8 +185,6 @@ export default function App() {
             {layout === "vr" && <Configurator />}
             <Routes>
               <Route path="login" element={<Navigate to="/auth/login" />} />
-              <Route path="register" element={<Navigate to="/auth/register" />} />
-              <Route path="forgot-password" element={<Navigate to="/auth/forgot-password" />} />
               {getRoutes(routes)}
               <Route path="*" element={<Navigate to="/dashboard" />} />
             </Routes>
