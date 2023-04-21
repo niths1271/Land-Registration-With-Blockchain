@@ -47,7 +47,6 @@ export default function data() {
         const land = await instance.methods.lands(i).call();
         if (land.owner == accounts[0]) {
           setLands(prevLands => [...prevLands, {
-            Sl_No: i + 1,
             Property_ID: land.pid,
             Survey_No: land.survey,
             Hissa_No: land.hissa,
@@ -72,7 +71,6 @@ export default function data() {
 
   return {
     columns: [
-      { Header: "Sl_No", accessor: "Sl_No", width: "5%", align: "left" },
       { Header: "Property_ID", accessor: "Property_ID", align: "left" },
       { Header: "Survey_No", accessor: "Survey_No", align: "left" },
       { Header: "Hissa_No", accessor: "Hissa_No", align: "left" },
