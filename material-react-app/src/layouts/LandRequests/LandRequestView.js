@@ -20,20 +20,20 @@ export default function LandRequestViewTable() {
 
   const [lands, setLands] = useState([]);
 
-  const approveHandler = (instance,account,acc)=>{
-    //   instance.methods.verifyUser(account,true).send({ from:acc}).then((res) => {
-    //     console.log(res);
-    //     console.log("User Verified Successfully");
-    //     alert("User Profile Has been verified");
-    //  })
-    }
-  
-    const rejectHandler = (instance,account,acc)=>{
-    //   instance.methods.verifyUser(account,false).send({ from:acc}).then((res) => {
-    //     console.log(res);
-    //     console.log("User Profile Rejected Successfully");
-    //     alert("User Profile Has been rejected");
-    //  })
+  const approveHandler = (event,instance,id,admin) => {
+    event.stopPropagation();
+    instance.methods.verifyLand(parseInt(id),true).send({ from: admin,gas: 2100000 }).then((res) => {
+      alert("Land Has been verified");
+      window.location.reload(false);
+    })
+  }
+
+  const rejectHandler = (event,instance,id,admin) => {
+    event.stopPropagation();
+    instance.methods.verifyLand(parseInt(id),false).send({ from: admin,gas: 2100000}).then((res) => {
+      alert("Land Has been rejected");
+      window.location.reload(false);
+    })
   }
 
   useEffect(async () => {
@@ -55,7 +55,6 @@ export default function LandRequestViewTable() {
       );
       setdetails({ LandInstance: instance, web3: web3, account: accounts[0] });
       const landC = await instance.methods.landCount().call();
-      console.log(landC);
       setLandCount(landC);
       for (let i = 0; i < landC; i++) {
         const land = await instance.methods.lands(i).call();
@@ -68,11 +67,11 @@ export default function LandRequestViewTable() {
             Hissa_No: land.hissa,
             Land_Khata: <u><a href={`https://ipfs.io/ipfs/${land.doc_hash}`} target="_blank">Khata Document</a></u>,
             Estimated_Price:land.price,
-            Verification_Request: (
-              <MDBox ml={-1}>
-                <div><Button variant="contained" style={{ backgroundColor: "black", marginRight: "5px", }} >Approve</Button>
-                  <Button variant="contained" style={{ backgroundColor: "red", marginLeft: "5px" }} >Reject</Button></div>
-              </MDBox>
+            Approve: (
+              <Button variant="contained" style={{ backgroundColor: "black", marginRight: "5px", }} onClick={(e)=>approveHandler(e,instance,land.id, accounts[0])}>Approve</Button>
+            ),
+            Reject:(
+              <Button variant="contained" style={{ backgroundColor: "red", marginLeft: "5px" }} onClick={(e)=>rejectHandler(e,instance,land.id,accounts[0])}>Reject</Button>
             )
           }]);
         }
@@ -95,8 +94,8 @@ export default function LandRequestViewTable() {
         { Header: "Hissa_No", accessor: "Hissa_No", align: "center" },
         { Header: "Land Khata", accessor: "Land_Khata", align: "center" },
         { Header: "Estimated Price", accessor: "Estimated_Price", align: "left" },
-        { Header: "Verification Request", accessor: "Verification_Request", align: "center" },
-      
+        { Header: "Approve", accessor: "Approve", align: "center" },
+        { Header: "Reject", accessor: "Reject", align: "center" },
       ],
   
       rows: lands,

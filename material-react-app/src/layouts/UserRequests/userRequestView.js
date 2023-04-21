@@ -20,8 +20,6 @@ export default function UserRequestViewTable() {
   const approveHandler = (event,instance, account, admin) => {
     event.stopPropagation();
     instance.methods.verifyUser(account, true).send({ from: admin,gas: 2100000 }).then((res) => {
-      console.log(res);
-      console.log("User Verified Successfully");
       alert("User Profile Has been verified");
       window.location.reload(false);
     })
@@ -30,8 +28,6 @@ export default function UserRequestViewTable() {
   const rejectHandler = (event,instance, account, admin) => {
     event.stopPropagation();
     instance.methods.verifyUser(account, false).send({ from: admin,gas: 2100000}).then((res) => {
-      console.log(res);
-      console.log("User Profile Rejected Successfully");
       alert("User Profile Has been rejected");
       window.location.reload(false);
     })
@@ -58,7 +54,6 @@ export default function UserRequestViewTable() {
       const userCount = await instance.methods.userCount().call();
       setUserCount(userCount);
       const acc = await instance.methods.getUsers().call();
-      console.log(acc);
       for (let i = 0; i < acc.length; i++) {
         const user = await instance.methods.users(acc[i]).call();
         if (!user.verified) {
