@@ -2,10 +2,6 @@ import * as React from 'react';
 import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
 
-
-// Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-
 // To fetch data from backend
 import getWeb3 from "getWeb3/getWeb3";
 import LandRegistry from "./LandRegistry.json";
@@ -20,6 +16,26 @@ export default function UserRequestViewTable() {
   });
 
   const [users, setUsers] = useState([]);
+
+  const approveHandler = (event,instance, account, admin) => {
+    event.stopPropagation();
+    instance.methods.verifyUser(account, true).send({ from: admin,gas: 2100000 }).then((res) => {
+      console.log(res);
+      console.log("User Verified Successfully");
+      alert("User Profile Has been verified");
+      window.location.reload(false);
+    })
+  }
+
+  const rejectHandler = (event,instance, account, admin) => {
+    event.stopPropagation();
+    instance.methods.verifyUser(account, false).send({ from: admin,gas: 2100000}).then((res) => {
+      console.log(res);
+      console.log("User Profile Rejected Successfully");
+      alert("User Profile Has been rejected");
+      window.location.reload(false);
+    })
+  }
 
   useEffect(async () => {
     if (!window.location.hash) {
@@ -41,35 +57,25 @@ export default function UserRequestViewTable() {
       setdetails({ LandInstance: instance, web3: web3, account: accounts[0] });
       const userCount = await instance.methods.userCount().call();
       setUserCount(userCount);
-      const acc = [
-        '0x9866EC02daB89A799eC4c6AAB429951e66AD2844',
-        '0x003a7514361FcE1e0b353a2E18a4Dd35B149D3e9',
-        '0xc430b4C918CC4aDa258aed41de81B0E5678b1843',
-        '0xa4748C4FDd76bC98aB33e7f3345E8EbEff203174',
-        '0x347EafB7EEdaEc254758Ac746046fA1CD06A30F0',
-        '0x7E282394badb9BF2C5191F0AE0CED46684Ef1D52',
-        '0xcA2075ABC4f4612C5E825844Cfe48cE1fe450bc0',
-        '0xcC169f35303F2B4E0E68Ce81a8dDF510a7B6b712',
-        '0x0D6c48DbcA5aD560Cc4D0246717297deD94DB900',
-        '0xf7660b080B5C46C37F3f9FD36F95893058D75dE0'
-      ];
+      const acc = await instance.methods.getUsers().call();
+      console.log(acc);
       for (let i = 0; i < acc.length; i++) {
         const user = await instance.methods.users(acc[i]).call();
-        if (user.name && !user.verified) {
+        if (!user.verified) {
           setUsers(prevUsers => [...prevUsers, {
             // Sl_no: i + 1,
-            Account_Address:acc[i],
+            Account_Address: acc[i],
             Name: user.name,
             Age: user.age,
             Email: user.email,
             phone_num: user.phone_num,
-            Aadhaar_Doc: <u><a href={`https://ipfs.io/ipfs/${user.aadharIpfsHash}`} target="_blank">Khata Document</a></u>,
+            Aadhaar_Doc: <u><a href={`https://ipfs.io/ipfs/${user.aadharIpfsHash}`} target="_blank">Aadhar Card</a></u>,
             PAN_Number: user.pan_num,
-            Verification_Request: (
-              <MDBox ml={-1}>
-                <div><Button variant="contained" style={{ backgroundColor: "black", marginRight: "5px", }} onSubmit={approveHandler(instance,acc[i],accounts[0])}>Approve</Button>
-                  <Button variant="contained" style={{ backgroundColor: "red", marginLeft: "5px" }} onSubmit={rejectHandler(instance,acc[i],accounts[0])}>Reject</Button></div>
-              </MDBox>
+            Approve: (
+              <Button variant="contained" style={{ backgroundColor: "black", marginRight: "5px", }} onClick={(e)=>approveHandler(e,instance, acc[i], accounts[0])}>Approve</Button>
+            ),
+            Reject:(
+              <Button variant="contained" style={{ backgroundColor: "red", marginLeft: "5px" }} onClick={(e)=>rejectHandler(e,instance,acc[i],accounts[0])}>Reject</Button>
             )
           }]);
         }
@@ -83,21 +89,6 @@ export default function UserRequestViewTable() {
     }
   }, []);
 
-  const approveHandler = (instance,account,acc)=>{
-  //   instance.methods.verifyUser(account,true).send({ from:acc}).then((res) => {
-  //     console.log(res);
-  //     console.log("User Verified Successfully");
-  //     alert("User Profile Has been verified");
-  //  })
-  }
-
-  const rejectHandler = (instance,account,acc)=>{
-  //   instance.methods.verifyUser(account,false).send({ from:acc}).then((res) => {
-  //     console.log(res);
-  //     console.log("User Profile Rejected Successfully");
-  //     alert("User Profile Has been rejected");
-  //  })
-}
 
   return {
     columns: [
@@ -109,8 +100,8 @@ export default function UserRequestViewTable() {
       { Header: "Phone Number", accessor: "phone_num", align: "center" },
       { Header: "Aadhaar Document", accessor: "Aadhaar_Doc", align: "left" },
       { Header: "PAN Number", accessor: "PAN_Number", align: "center" },
-      { Header: "Verification Request", accessor: "Verification_Request", align: "center" },
-
+      { Header: "Approve", accessor: "Approve", align: "center" },
+      { Header: "Reject", accessor: "Reject", align: "center" },
     ],
 
     rows: users
