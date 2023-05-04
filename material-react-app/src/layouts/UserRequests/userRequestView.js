@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
-
+import emailjs from '@emailjs/browser';
 // To fetch data from backend
 import getWeb3 from "getWeb3/getWeb3";
 import LandRegistry from "./LandRegistry.json";
 
 export default function UserRequestViewTable() {
+
+  // const [userEmail, setuserEmail] = useState("");
+  // const [temp,setTemp] = useState();
+  
 
   const [userCount, setUserCount] = useState(0);
   const [details, setdetails] = useState({
@@ -17,20 +21,55 @@ export default function UserRequestViewTable() {
 
   const [users, setUsers] = useState([]);
 
-  const approveHandler = (event,instance, account, admin) => {
+  const approveHandler = (event,instance, account, admin, name, email) => {
     event.stopPropagation();
-    instance.methods.verifyUser(account, true).send({ from: admin,gas: 2100000 }).then((res) => {
-      alert("User Profile Has been verified");
-      window.location.reload(false);
-    })
+    try{
+      instance.methods.verifyUser(account, true).send({ from: admin,gas: 2100000 }).then((res) => {
+        alert("User Profile Has been verified");
+        window.location.reload(false);
+      })
+      var templateParams = {
+        from_name: 'admin',
+        to_name: name,
+        to_email: email,
+        message: 'User Request Accepted!',
+      };
+      console.log(email);
+      emailjs.send('service_eil3zej', 'template_vi3cepi', templateParams, '_rxW964OmUs6WHOc3')
+        .then((result) => {
+            // show the user a success message
+            console.log("success");
+        }, (error) => {
+            // show the user an error
+            console.log("error");
+        });
+    }catch(error){
+      console.log(error);
+    }
   }
 
-  const rejectHandler = (event,instance, account, admin) => {
+  const rejectHandler = (event,instance, account, admin, name, email) => {
     event.stopPropagation();
+    
     instance.methods.verifyUser(account, false).send({ from: admin,gas: 2100000}).then((res) => {
       alert("User Profile Has been rejected");
       window.location.reload(false);
     })
+    var templateParams = {
+      from_name: 'admin',
+      to_name: name,
+      to_email: email,
+      message: 'User Request Rejected',
+    };
+    console.log(email);
+    emailjs.send('service_eil3zej', 'template_vi3cepi', templateParams, '_rxW964OmUs6WHOc3')
+      .then((result) => {
+          // show the user a success message
+          console.log("success");
+      }, (error) => {
+          // show the user an error
+          console.log("error");
+      });
   }
 
   useEffect(async () => {
@@ -62,15 +101,15 @@ export default function UserRequestViewTable() {
             Account_Address: acc[i],
             Name: user.name,
             Age: user.age,
-            Email: user.email,
+            Email: user.email,            
             phone_num: user.phone_num,
             Aadhaar_Doc: <u><a href={`https://ipfs.io/ipfs/${user.aadharIpfsHash}`} target="_blank">Aadhar Card</a></u>,
             PAN_Number: user.pan_num,
             Approve: (
-              <Button variant="contained" style={{ backgroundColor: "black", marginRight: "5px", }} onClick={(e)=>approveHandler(e,instance, acc[i], accounts[0])}>Approve</Button>
+              <Button variant="contained" style={{ backgroundColor: "black", marginRight: "5px", }} onClick={(e)=>approveHandler(e,instance, acc[i], accounts[0],user.name,user.email)}>Approve</Button>
             ),
             Reject:(
-              <Button variant="contained" style={{ backgroundColor: "red", marginLeft: "5px" }} onClick={(e)=>rejectHandler(e,instance,acc[i],accounts[0])}>Reject</Button>
+              <Button variant="contained" style={{ backgroundColor: "red", marginLeft: "5px" }} onClick={(e)=>rejectHandler(e,instance,acc[i],accounts[0],user.name,user.email)}>Reject</Button>
             )
           }]);
         }

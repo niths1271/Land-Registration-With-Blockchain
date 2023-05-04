@@ -28,6 +28,7 @@ import createCache from "@emotion/cache";
 
 // Material Dashboard 2 React routes
 import routes from "routes";
+// import adminRoutes from "AdminRoutes";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -42,8 +43,12 @@ import Login from "auth/login";
 import { AuthContext } from "context";
 import UserProfile from "layouts/user-profile";
 
+import getWeb3 from "getWeb3/getWeb3";
+import LandRegistry from "./LandRegistry.json";
+
 export default function App() {
   const authContext = useContext(AuthContext);
+
 
   const [controller, dispatch] = useMaterialUIController();
   const {
@@ -113,6 +118,42 @@ export default function App() {
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
 
+
+  const [admin,setAdmin] = useState("");
+
+  useEffect(async () => {
+    if (!window.location.hash) {
+      window.location = window.location + '#loaded';
+      window.location.reload();
+    }
+    try {
+      //Get network provider and web3 instance
+      const web3 = await getWeb3();
+  
+      const accounts = await web3.eth.getAccounts();
+  
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = await LandRegistry.networks[networkId];
+      const instance = await new web3.eth.Contract(
+        LandRegistry.abi,
+        deployedNetwork && deployedNetwork.address,
+      );
+      const adminAddress = await instance.methods.getAdminAddress().call();
+      if(adminAddress == accounts[0]) {
+        setAdmin(true); 
+        console.log("admin"); 
+      }else{
+        setAdmin(false);
+      }
+    } catch (error) {
+      // Catch any errors for any of the above operations.
+      alert(
+        `Failed to load web3, accounts, or contract. Check console for details.`,
+      );
+      console.error(error);
+    }
+  }, []);
+
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
       if (route.collapse) {
@@ -132,8 +173,21 @@ export default function App() {
             key={route.key}
           />
         );
+      }else{
+        return (
+          <Route
+            exact
+            path={route.route}
+            element={
+              <ProtectedRoute isAuthenticated={authContext.isAuthenticated}>
+                {route.component}
+              </ProtectedRoute>
+            }
+            key={route.key}
+          />)
+          ;
       }
-      return null;
+      // return null;
     });
 
   const configsButton = (
@@ -185,7 +239,7 @@ export default function App() {
             {layout === "vr" && <Configurator />}
             <Routes>
               <Route path="login" element={<Navigate to="/auth/login" />} />
-              {getRoutes(routes)}
+              {getRoutes(routes) }
               <Route path="*" element={<Navigate to="/dashboard" />} />
             </Routes>
           </ThemeProvider>
@@ -221,8 +275,10 @@ export default function App() {
               }
               key="user-profile"
             />
-            {getRoutes(routes)}
+            {getRoutes(routes) }
+
             <Route path="*" element={<Navigate to="/dashboard" />} />
+
           </Routes>
         </ThemeProvider>
       )}

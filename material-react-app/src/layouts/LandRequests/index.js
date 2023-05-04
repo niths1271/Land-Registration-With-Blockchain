@@ -21,6 +21,7 @@ function LandRequests() {
   
   const { columns, rows } = LandViewTable();
   const { columns: pColumns, rows: pRows } = LandRequestViewTable();
+  
   return (
     <DashboardLayout>
       <DashboardNavbar />

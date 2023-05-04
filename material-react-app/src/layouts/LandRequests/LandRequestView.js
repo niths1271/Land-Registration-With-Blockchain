@@ -1,15 +1,33 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from "react";
-
+// import { Modal,Box } from '@mui/material';
+// import sendgrid from '@sendgrid/mail';
+import emailjs from '@emailjs/browser';
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
 
 // To fetch data from backend
 import getWeb3 from "getWeb3/getWeb3";
 import LandRegistry from "./LandRegistry.json";
+// const sendgrid = require("@sendgrid/mail");
 
 export default function LandRequestViewTable() {
+  // const [open, setOpen] = useState(false);
+  
+  // const msg = {
+  //   to: 'ham019708@gmail.com',
+  //   from: '25.06manojha@gmail.com',
+  //   subject: 'Sending with SendGrid is Fun',
+  //   text: 'and easy to do anywhere, even with Node.js',
+  //   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+  // };
+  // sendgrid.setApiKey(process.env.REACT_APP_SENDGRID_API_KEY);
+
+  var templateParams = {
+    from_name: 'admin',
+    to_name: '25.06manojha@gmail.com',
+    message: 'Request Rejected',
+  };
 
   const [landCount, setLandCount] = useState(0);
   const [details, setdetails] = useState({
@@ -22,6 +40,21 @@ export default function LandRequestViewTable() {
 
   const approveHandler = (event,instance,id,admin) => {
     event.stopPropagation();
+    // var templateParams = {
+    //   from_name: 'admin',
+    //   to_name: name,
+    //   to_email: email,
+    //   message: 'User Request Rejected',
+    // };
+    // console.log(email);
+    // emailjs.send('service_eil3zej', 'template_vi3cepi', templateParams, '_rxW964OmUs6WHOc3')
+    //   .then((result) => {
+    //       // show the user a success message
+    //       console.log("success");
+    //   }, (error) => {
+    //       // show the user an error
+    //       console.log("error");
+    //   });
     instance.methods.verifyLand(parseInt(id),true).send({ from: admin,gas: 2100000 }).then((res) => {
       alert("Land Has been verified");
       window.location.reload(false);
@@ -30,8 +63,18 @@ export default function LandRequestViewTable() {
 
   const rejectHandler = (event,instance,id,admin) => {
     event.stopPropagation();
+    emailjs.send('service_eil3zej', 'template_vi3cepi', templateParams, '_rxW964OmUs6WHOc3')
+      .then((result) => {
+          // show the user a success message
+          console.log("success");
+      }, (error) => {
+          // show the user an error
+          console.log("error");
+      });
     instance.methods.verifyLand(parseInt(id),false).send({ from: admin,gas: 2100000}).then((res) => {
       alert("Land Has been rejected");
+      
+      // sendgrid.send(msg);
       window.location.reload(false);
     })
   }
@@ -99,8 +142,7 @@ export default function LandRequestViewTable() {
       ],
   
       rows: lands,
-    };
-  
+    };  
 }
 
 
