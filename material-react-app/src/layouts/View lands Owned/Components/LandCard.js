@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
@@ -13,7 +14,13 @@ const Img = styled('img')({
   maxHeight: '100%',
 });
 
-export default function ComplexGrid() {
+export default function ComplexGrid(props) {
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    props.buyLand(props._id, props.Estimated_Price, props.instance, props.account, props.web3);
+    console.log(props._id);
+  }
   return (
     <Paper
       sx={{
@@ -33,32 +40,29 @@ export default function ComplexGrid() {
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="body1" component="div">
-                Property 1
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-                Dimensions:40*60
+                Property {parseInt(props._id)+1}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                PID: 1030114
+                PID: {props.Property_ID}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Survey no:45
+                Survey no: {props.Survey_No}
               </Typography>
             </Grid>
             <Grid item>
               <Typography sx={{ cursor: 'pointer' }} variant="body1">
-              <u><a href="https://ipfs.io/ipfs/QmUTLZYapeUrNFpQAP8nCUBTk9krDDoyYD2gVJtzMmW5pb" target="_blank">Land Document</a></u>
+              <u><a href={`https://ipfs.io/ipfs/${props.Land_Khata}`} target="_blank">Land Document</a></u>
               </Typography>
             </Grid>
           </Grid>
           <Grid item direction="column">
             <Grid item xs mb={13}>
               <Typography variant="subtitle1" component="div">
-                $19.00
+                {props.Estimated_Price}
               </Typography>
             </Grid>
             <Grid item>
-              <MDButton variant="contained" color="error">
+              <MDButton onClick={submitHandler} variant="contained" color="error">
                 Buy Land
               </MDButton>
             </Grid>

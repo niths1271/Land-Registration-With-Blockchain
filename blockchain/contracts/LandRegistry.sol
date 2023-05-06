@@ -17,13 +17,13 @@ contract LandRegistry {
 // Struct declaration for land
     struct Land {
         uint id;
-        string hissa;
         string survey;
         string pid;
         string doc_hash;
         address payable owner;
         string price;
         bool verified;
+        bool forsale;
     }
 
 // Struct declaration for Admin
@@ -64,26 +64,26 @@ contract LandRegistry {
 // Events
     // event UserRegistered(address payable account, string name);
     // event LandAdded(uint256 id, string name, address payable owner);
-    // event LandBought(uint256 id, address payable buyer, uint256 price);
+    event LandBought(uint256 id, address payable buyer);
     event UserVerified(address userAddress, bool status);
     event LandVerified(uint id, bool status);
     event UserRegistered(string name,uint age,string email,string aadharIpfsHash,string pan_num, string phone_num);
-    event LandAdded(uint id,string _hissa,address payable owner,string _doc_hash, string _survey,string _pid, string _price);
+    event LandAdded(uint id,address payable owner,string _doc_hash, string _survey,string _pid, string _price);
 
 //Int conversion
-//   function st2num(string memory numString) public pure returns(uint) {
-//         uint  val=0;
-//         bytes   memory stringBytes = bytes(numString);
-//         for (uint  i =  0; i<stringBytes.length; i++) {
-//             uint exp = stringBytes.length - i;
-//             bytes1 ival = stringBytes[i];
-//             uint8 uval = uint8(ival);
-//            uint jval = uval - uint(0x30);
+  function st2num(string memory numString) public pure returns(uint) {
+        uint  val=0;
+        bytes   memory stringBytes = bytes(numString);
+        for (uint  i =  0; i<stringBytes.length; i++) {
+            uint exp = stringBytes.length - i;
+            bytes1 ival = stringBytes[i];
+            uint8 uval = uint8(ival);
+           uint jval = uval - uint(0x30);
    
-//            val +=  (uint(jval) * (10**(exp-1))); 
-//         }
-//       return val;
-//     }
+           val +=  (uint(jval) * (10**(exp-1))); 
+        }
+      return val;
+    }
 
 
 // Check whether user is registered to our network
@@ -129,9 +129,9 @@ contract LandRegistry {
     }
 
 // Get Land details
-    function getLandDetails(uint _id) public view returns (string memory,string memory,string memory,string memory,string memory, address){
+    function getLandDetails(uint _id) public view returns (string memory,string memory,string memory,string memory, address){
         Land memory l = lands[_id];
-        return (l.hissa, l.doc_hash, l.pid, l.survey, l.price, l.owner);
+        return (l.doc_hash, l.pid, l.survey, l.price, l.owner);
     }
 
 // To get land count
@@ -167,45 +167,40 @@ contract LandRegistry {
     }
 
     // Add land 
-    function addLand(string memory _hissa, string memory _doc_hash, string memory _survey, string memory _pid, string memory _price) public {
+    function addLand(string memory _doc_hash, string memory _survey, string memory _pid, string memory _price) public {
         Land memory newLand = Land({
             id: landCount,
-            hissa: _hissa,
             owner: msg.sender,
             doc_hash: _doc_hash,
             survey: _survey,
             pid: _pid,
             verified: false,
-            price : _price
+            price : _price,
+            forsale: true
         });
 
         lands[landCount] = newLand;
         landCount++;
 
-        emit LandAdded(newLand.id, _hissa, newLand.owner, _doc_hash, _survey, _pid, _price);
+        emit LandAdded(newLand.id, newLand.owner, _doc_hash, _survey, _pid, _price);
     }
 
     // Buy Land
-    // function buyLand(uint _id) public payable {
-    //     // Fetch the Land
-    //     Land memory _land = lands[_id];
+    function buyLand(uint _id) public payable {
 
-    //     uint _price = st2num(_land.price);
-    //     // Fetch the owner
-    //     address payable _seller = _land.owner;
-    //     // Make sure the Land has a valid id
-    //     require(_land.id > 0 && _land.id <= landCount);
-    //     // Require that there is enough Ether in the transaction
-    //     require(msg.value >= _price);
-    //     // Require that the buyer is not the seller
-    //     require(_seller != msg.sender);
-    //     // Transfer ownership to the buyer
-    //     _land.owner = msg.sender;
-    //     lands[_id] = _land;
-    //     // Pay the seller by sending them Ether
-    //     address(_seller).transfer(msg.value);
-    //     // Trigger an event
-    //     emit LandBought(landCount, _land.pid, _price, msg.sender);
-    // }
+        uint _price = st2num(lands[_id].price);
+         // Require that there is enough Ether in the transaction
+        require(msg.value >= _price);
+        // Require that the buyer is not the seller
+        require(lands[_id].owner != msg.sender);
+        // Pay the seller by sending them Ether
+        lands[_id].owner.transfer(msg.value);
+        // Trigger an event
+        lands[_id].owner = msg.sender;
+        // Update forsale
+        lands[_id].forsale = false;
+
+        emit LandBought(landCount, msg.sender);
+    }
 
 }
