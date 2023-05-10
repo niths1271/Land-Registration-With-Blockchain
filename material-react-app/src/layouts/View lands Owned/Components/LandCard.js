@@ -67,6 +67,7 @@ export default function ComplexGrid(props) {
               </MDButton>
             </Grid>
           </Grid>
+          <a href={`http://localhost:3000/viewLand?landId=${props._id}`}>tap to view more..</a>
         </Grid>
       </Grid>
     </Paper>

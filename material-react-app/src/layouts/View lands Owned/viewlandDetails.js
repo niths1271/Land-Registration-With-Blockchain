@@ -11,7 +11,7 @@ import getWeb3 from "getWeb3/getWeb3";
 import LandRegistry from "./LandRegistry.json";
 
 import axios from "axios";
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -19,10 +19,34 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // import AuthService from "../../services/auth-service";
 
 const AddLand = () => {
+  const url = window.location.href;
+  const url1 = url.split("=");
+  const url2 = url1[1].split("#");
+  const id = url2[0];
+//   console.log(id);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
 
   const [notification, setNotification] = useState(false);
 
   const [doc1, setDoc1] = useState(null);
+  const [landD, setlandD] = useState({
+    doc_hash: "",
+    pid: "",
+    survey: "",
+    price: "",
+    owner: ""
+  });
+
+  const [userD, setUserD] = useState({
+    name: "",
+    age: "",
+    email: "",
+    pan: "",
+    phone: "",
+    verified: ""
+  });
 
   const [verification, setVerification] = useState(false);
 
@@ -62,6 +86,13 @@ const AddLand = () => {
           deployedNetwork && deployedNetwork.address,
       );
       setLand({ ...land,LandInstance: instance, web3: web3, account: accounts[0] });
+      const landDetail = await instance.methods.getLandDetails(id).call();
+    //   console.log(landDetail);
+      setlandD({owner: landDetail[4], survey: landDetail[2], doc_hash: landDetail[0], pid: landDetail[1], price: landDetail[3] });
+      
+      const userDetail = await instance.methods.getUserDetails(landDetail[4]).call();
+      setUserD({name: userDetail[0], age: userDetail[1], email: userDetail[2], pan: userDetail[4], phone: userDetail[5], verified: userDetail[6] });
+      console.log(userDetail);
 
       const user = await instance.methods.users(accounts[0]).call();
       if(user.verified == false){
@@ -190,22 +221,9 @@ const AddLand = () => {
         px: 2,
         mr:10,
         ml:10
-      }}>
-        {notification && (
-          <MDAlert color="info" mt="20px">
-            <MDTypography variant="body2" color="white">
-              Land details have been addded
-            </MDTypography>
-          </MDAlert>
-        )}
-        {verification && (
-          <MDAlert color="error" mt="20px">
-            <MDTypography variant="body2" color="white">
-              You are not verified to register the land.
-            </MDTypography>
-          </MDAlert>
-        )}
-
+        
+      }} >
+        <h4>Land & User Details</h4>
         <MDBox
           component="form"
           role="form"
@@ -230,9 +248,10 @@ const AddLand = () => {
                   type="name"
                   fullWidth
                   name="pid"
-                  value={land.pid}
+                  value={landD.pid}
                   onChange={changeHandler}
                   error={errors.pidError}
+                  disabled
                 />
                 {errors.pidError && (
                   <MDTypography variant="caption" color="error" fontWeight="light">
@@ -249,16 +268,17 @@ const AddLand = () => {
               ml={2}
             >
               <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
-                Hissa Number
+                Owner Address
               </MDTypography>
               <MDBox mb={1} width="100%">
                 <MDInput
                   type="name"
                   fullWidth
-                  name="hissa"
-                  value={land.hissa}
+                  name="owner"
+                  value={landD.owner}
                   onChange={changeHandler}
                   error={errors.hissaError}
+                  disabled
                 />
                 {errors.hissaError && (
                   <MDTypography variant="caption" color="error" fontWeight="light">
@@ -284,9 +304,10 @@ const AddLand = () => {
                   type="name"
                   fullWidth
                   name="survey"
-                  value={land.survey}
+                  value={landD.survey}
                   onChange={changeHandler}
                   error={errors.surveyError}
+                  disabled
                 />
                 {errors.surveyError && (
                   <MDTypography variant="caption" color="error" fontWeight="light">
@@ -304,16 +325,17 @@ const AddLand = () => {
               ml={2}
             >
               <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
-                Price (Enter in rupees)
+              Owner Name
               </MDTypography>
               <MDBox mb={2} width="100%">
                 <MDInput
                   type="name"
                   fullWidth
                   name="price"
-                  value={land.price}
+                  value={userD.name}
                   onChange={changeHandler}
                   error={errors.priceError}
+                  disabled
                 />
                 {errors.priceError && (
                   <MDTypography variant="caption" color="error" fontWeight="light">
@@ -323,6 +345,176 @@ const AddLand = () => {
               </MDBox>
             </MDBox>
           </MDBox>
+          <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
+            <MDBox
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+              width="100%"
+              mr={2}
+            >
+              <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
+              Price (Enter in rupees)
+              </MDTypography>
+              <MDBox mb={2} width="100%">
+                <MDInput
+                  type="name"
+                  fullWidth
+                  name="pid"
+                  value={landD.price}
+                  onChange={changeHandler}
+                  error={errors.pidError}
+                  disabled
+                />
+                {errors.pidError && (
+                  <MDTypography variant="caption" color="error" fontWeight="light">
+                    PID number can not be null
+                  </MDTypography>
+                )}
+              </MDBox>
+            </MDBox>
+            <MDBox
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+              width="100%"
+              ml={2}
+            >
+              <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
+                Owner age
+              </MDTypography>
+              <MDBox mb={1} width="100%">
+                <MDInput
+                  type="name"
+                  fullWidth
+                  name="owner"
+                  value={userD.age}
+                  onChange={changeHandler}
+                  error={errors.hissaError}
+                  disabled
+                />
+                {errors.hissaError && (
+                  <MDTypography variant="caption" color="error" fontWeight="light">
+                    Hissa number must be valid
+                  </MDTypography>
+                )}
+              </MDBox>
+            </MDBox>
+          </MDBox>
+          <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
+            <MDBox
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+              width="100%"
+              mr={3}
+            >
+              <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
+                Email 
+              </MDTypography>
+              <MDBox mb={2} width="100%">
+                <MDInput
+                  type="name"
+                  fullWidth
+                  name="survey"
+                  value={userD.email}
+                  onChange={changeHandler}
+                  error={errors.surveyError}
+                  disabled
+                />
+                {errors.surveyError && (
+                  <MDTypography variant="caption" color="error" fontWeight="light">
+                    The survey number can not be null
+                  </MDTypography>
+                )}
+              </MDBox>
+            </MDBox>
+            {/* Price */}
+           <MDBox
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+              width="100%"
+              ml={2}
+            >
+              <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
+                PAN
+              </MDTypography>
+              <MDBox mb={2} width="100%">
+                <MDInput
+                  type="name"
+                  fullWidth
+                  name="price"
+                  value={userD.pan}
+                  onChange={changeHandler}
+                  error={errors.priceError}
+                  disabled
+                />
+                {errors.priceError && (
+                  <MDTypography variant="caption" color="error" fontWeight="light">
+                    The price can not be null
+                  </MDTypography>
+                )}
+              </MDBox>
+            </MDBox>
+          </MDBox>
+          <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
+            <MDBox
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+              width="100%"
+              mr={3}
+            >
+              <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
+                Phone 
+              </MDTypography>
+              <MDBox mb={2} width="100%">
+                <MDInput
+                  type="name"
+                  fullWidth
+                  name="survey"
+                  value={userD.phone}
+                  onChange={changeHandler}
+                  error={errors.surveyError}
+                  disabled
+                />
+                {errors.surveyError && (
+                  <MDTypography variant="caption" color="error" fontWeight="light">
+                    The survey number can not be null
+                  </MDTypography>
+                )}
+              </MDBox>
+            </MDBox>
+            {/* Price */}
+           <MDBox
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+              width="100%"
+              ml={2}
+            >
+              <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
+                verified
+              </MDTypography>
+              <MDBox mb={2} width="100%">
+                <MDInput
+                  type="name"
+                  fullWidth
+                  name="price"
+                  value={userD.verified}
+                  onChange={changeHandler}
+                  error={errors.priceError}
+                  disabled
+                />
+                {errors.priceError && (
+                  <MDTypography variant="caption" color="error" fontWeight="light">
+                    The price can not be null
+                  </MDTypography>
+                )}
+              </MDBox>
+            </MDBox>
+          </MDBox>    
           {/* Documents Upload */}
           <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
             <MDBox
@@ -334,25 +526,17 @@ const AddLand = () => {
               mt={1}
             >
               <MDTypography variant="body2" color="text" mr={5} fontWeight="regular" width="100%">
-                Upload Khata Certificate
+                View Khata Document
               </MDTypography>
-              <MDBox mb={1} width="70%">
-                <input accept="image/*" multiple type="file" onChange={(e) => setDoc1(e.target.files[0])} required />
-              </MDBox>
-            </MDBox>
-          </MDBox>
-          {!verification ? <MDBox display="flex" flexDirection="column" mb={3}>
-            <MDBox mt={4} mr={7} display="flex" flexDirection="row"
-              justifyContent="end">
-              <MDButton variant="gradient" color="info" type="submit">
-                SUBMIT
+              <MDButton variant="gradient" color="info" onClick={handleOpen}>
+              
+                  <VisibilityIcon fontSize="inherit" />
               </MDButton>
             </MDBox>
-          </MDBox>
-          : null
-          }        
+          </MDBox>      
         </MDBox>
       </Card>
+      
     </DashboardLayout>
   );
 };

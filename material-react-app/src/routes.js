@@ -38,6 +38,8 @@ import LandsForSale from "layouts/View lands Owned";
 import AdminDashboard from "layouts/Admin/AdminDashboard";
 import UserRequests from "layouts/UserRequests";
 import LandRequests from "layouts/LandRequests";
+import LandProfile from "layouts/View lands Owned/viewlandDetails";
+
 
 const routes = [
   {
@@ -120,7 +122,8 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/LandRequests",
     component: <LandRequests />,
-  }
+  },
+  
 ];
 
 export default routes;

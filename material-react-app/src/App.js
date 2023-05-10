@@ -29,7 +29,7 @@ import createCache from "@emotion/cache";
 // Material Dashboard 2 React routes
 import routes from "routes";
 // import adminRoutes from "AdminRoutes";
-
+import LandProfile from "layouts/View lands Owned/viewlandDetails";
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
@@ -239,6 +239,7 @@ export default function App() {
             {layout === "vr" && <Configurator />}
             <Routes>
               <Route path="login" element={<Navigate to="/auth/login" />} />
+              <Route path="/viewLand" element={<LandProfile />} />
               {getRoutes(routes) }
               <Route path="*" element={<Navigate to="/dashboard" />} />
             </Routes>
@@ -276,7 +277,8 @@ export default function App() {
               key="user-profile"
             />
             {getRoutes(routes) }
-
+            <Route path="/viewLand" element={<LandProfile />} />
+            
             <Route path="*" element={<Navigate to="/dashboard" />} />
 
           </Routes>

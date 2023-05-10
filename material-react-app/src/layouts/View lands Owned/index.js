@@ -21,6 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function LandsForSale() {
+  const [Survey_No, setSurvey_No] = useState("");
 
   const [details, setdetails] = useState({
     LandInstance: undefined,
@@ -73,9 +74,12 @@ export default function LandsForSale() {
               _id = {land.id}
               Property_ID = {land.pid}
               Survey_No = {land.survey}
-               Land_Khata = {land.doc_hash}
-              Estimated_Price = {land.price} /> </Grid>
+              Land_Khata = {land.doc_hash}
+              Estimated_Price = {land.price} /> 
+                           
+              </Grid>
             ]);
+            
           }
       }
     } catch (error) {
