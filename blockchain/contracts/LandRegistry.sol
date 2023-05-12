@@ -69,6 +69,7 @@ contract LandRegistry {
     event LandVerified(uint id, bool status);
     event UserRegistered(string name,uint age,string email,string aadharIpfsHash,string pan_num, string phone_num);
     event LandAdded(uint id,address payable owner,string _doc_hash, string _survey,string _pid, string _price);
+    event editSale(uint id, bool forsale);
 
 //Int conversion
   function st2num(string memory numString) public pure returns(uint) {
@@ -85,8 +86,14 @@ contract LandRegistry {
       return val;
     }
 
+//Edit Forsale
+   function editForSale(uint _id) public{
+    lands[_id].forsale = !lands[_id].forsale;
 
-// Check whether user is registered to our network
+    emit editSale(_id, lands[_id].forsale);
+   }
+
+//Check whether user is registered to our network
     function isRegistered(address userAddress)public view returns (bool){
         if(registrationMapping[userAddress])
             return true;
@@ -187,7 +194,8 @@ contract LandRegistry {
 
     // Buy Land
     function buyLand(uint _id) public payable {
-
+        //Is user verified
+        //require(registrationMapping[])
         uint _price = st2num(lands[_id].price);
          // Require that there is enough Ether in the transaction
         require(msg.value >= _price);
