@@ -3,11 +3,14 @@ import * as React from 'react';
 // @mui material components
 import MDBadge from "components/MDBadge";
 import MDBox from "components/MDBox";
+import { Button } from "@mui/material";
 
 // Images
 
 import getWeb3 from "getWeb3/getWeb3";
-import LandRegistry from "./LandRegistry.json";
+import LandRegistry from "abis/LandRegistry.json";
+import { boolean } from "yup/lib/locale";
+import { bool } from "yup";
 
 
 export default function data() {
@@ -22,6 +25,18 @@ export default function data() {
   const [landCount, setLandCount] = useState(0);
   const [lands, setLands] = useState([]);
 
+  const approveHandler = async (event,instance,id,account,sale) => {
+    event.stopPropagation();
+    
+    instance.methods.editForSale(parseInt(id)).send({ from: account, gas: 2100000 }).then((res) => {
+      if(sale == false){
+        alert("Land Has been added for sale");
+      }else{
+        alert("Land Has been removed from the sale-list");
+      }
+      window.location.reload(false);
+    })
+  }
 
   useEffect(async () => {
     if (!window.location.hash) {
@@ -46,18 +61,38 @@ export default function data() {
       for (let i = 0; i < landCount; i++) {
         const land = await instance.methods.lands(i).call();
         if (land.owner == accounts[0]) {
-          setLands(prevLands => [...prevLands, {
-            Property_ID: land.pid,
-            Survey_No: land.survey,
-            Hissa_No: land.hissa,
-            Land_Khata: <u><a href={`https://ipfs.io/ipfs/${land.doc_hash}`} target="_blank">Khata Document</a></u>,
-            Estimated_Price: land.price,
-            Verification_Status: land.verified ? <MDBox ml={-1}>
-              <MDBadge badgeContent="VERIFIED" color="success" variant="gradient" size="sm" />
-            </MDBox> : <MDBox ml={-1}>
-              <MDBadge badgeContent="NOT VERIFIED" color="dark" variant="gradient" size="sm" />
-            </MDBox>
-          }]);
+          if(land.forsale == false){
+            setLands(prevLands => [...prevLands, {
+              Property_ID: land.pid,
+              Survey_No: land.survey,
+              Land_Khata: <u><a href={`https://ipfs.io/ipfs/${land.doc_hash}`} target="_blank">Khata Document</a></u>,
+              Estimated_Price: land.price,
+              Verification_Status: land.verified ? <MDBox ml={-1}>
+                <MDBadge badgeContent="VERIFIED" color="success" variant="gradient" size="sm" />
+              </MDBox> : <MDBox ml={-1}>
+                <MDBadge badgeContent="NOT VERIFIED" color="dark" variant="gradient" size="sm" />
+              </MDBox>,
+              Add: (
+                <Button variant="contained" style={{ backgroundColor: "green", marginRight: "5px", color:"white", width:"80px" }} onClick={(e)=>approveHandler(e,instance,land.id, accounts[0], land.forsale)}>Add</Button>
+              )
+            }]);
+          }
+          else{
+            setLands(prevLands => [...prevLands, {
+              Property_ID: land.pid,
+              Survey_No: land.survey,
+              Land_Khata: <u><a href={`https://ipfs.io/ipfs/${land.doc_hash}`} target="_blank">Khata Document</a></u>,
+              Estimated_Price: land.price,
+              Verification_Status: land.verified ? <MDBox ml={-1}>
+                <MDBadge badgeContent="VERIFIED" color="success" variant="gradient" size="sm" />
+              </MDBox> : <MDBox ml={-1}>
+                <MDBadge badgeContent="NOT VERIFIED" color="dark" variant="gradient" size="sm" />
+              </MDBox>,
+              Add: (
+                <Button variant="contained" style={{ backgroundColor: "red", marginRight: "5px", color:"white", width:"80px", }} onClick={(e)=>approveHandler(e,instance,land.id, accounts[0], land.forsale)}>Remove</Button>
+              )
+            }]);
+          }
         }
       }
     } catch (error) {
@@ -69,14 +104,16 @@ export default function data() {
     }
   }, []);
 
+  console.log(typeof(lands));
+
   return {
     columns: [
       { Header: "Property_ID", accessor: "Property_ID", align: "left" },
       { Header: "Survey_No", accessor: "Survey_No", align: "left" },
-      { Header: "Hissa_No", accessor: "Hissa_No", align: "left" },
       { Header: "Land Khata", accessor: "Land_Khata", width: "15%", align: "left" },
       { Header: "Estimated_Price", accessor: "Estimated_Price", width: "15%", align: "left" },
       { Header: "Verification Status", accessor: "Verification_Status", width: "15%", align: "left" },
+      { Header: "SellLand", accessor: "Add", width: "15%", align: "left" },
     ],
     rows: lands
   };
