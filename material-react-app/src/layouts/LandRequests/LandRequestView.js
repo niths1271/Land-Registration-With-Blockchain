@@ -23,12 +23,6 @@ export default function LandRequestViewTable() {
   // };
   // sendgrid.setApiKey(process.env.REACT_APP_SENDGRID_API_KEY);
 
-  var templateParams = {
-    from_name: 'admin',
-    to_name: '25.06manojha@gmail.com',
-    message: 'Request Rejected',
-  };
-
   const [landCount, setLandCount] = useState(0);
   const [details, setdetails] = useState({
     LandInstance: undefined,
@@ -38,32 +32,21 @@ export default function LandRequestViewTable() {
 
   const [lands, setLands] = useState([]);
 
-  const approveHandler = (event,instance,id,admin) => {
+  const approveHandler = (event, instance, id, admin, email, name) => {
     event.stopPropagation();
-    // var templateParams = {
-    //   from_name: 'admin',
-    //   to_name: name,
-    //   to_email: email,
-    //   message: 'User Request Rejected',
-    // };
-    // console.log(email);
-    // emailjs.send('service_eil3zej', 'template_vi3cepi', templateParams, '_rxW964OmUs6WHOc3')
-    //   .then((result) => {
-    //       // show the user a success message
-    //       console.log("success");
-    //   }, (error) => {
-    //       // show the user an error
-    //       console.log("error");
-    //   });
-    instance.methods.verifyLand(parseInt(id),true).send({ from: admin,gas: 2100000 }).then((res) => {
-      alert("Land Has been verified");
-      window.location.reload(false);
-    })
-  }
-
-  const rejectHandler = (event,instance,id,admin) => {
-    event.stopPropagation();
-    emailjs.send('service_eil3zej', 'template_vi3cepi', templateParams, '_rxW964OmUs6WHOc3')
+    console.log(email);
+    try{
+      instance.methods.verifyLand(parseInt(id),true).send({ from: admin,gas: 2100000 }).then((res) => {
+        alert("Land Has been verified");
+        window.location.reload(false);
+      })
+      var AcceptTemplateParams = {
+        from_name: 'admin',
+        to_name: name,
+        to_email: email,
+        message: 'Land Request Accepted',
+      };
+      emailjs.send('service_eil3zej', 'template_vi3cepi', AcceptTemplateParams, '_rxW964OmUs6WHOc3')
       .then((result) => {
           // show the user a success message
           console.log("success");
@@ -71,12 +54,36 @@ export default function LandRequestViewTable() {
           // show the user an error
           console.log("error");
       });
-    instance.methods.verifyLand(parseInt(id),false).send({ from: admin,gas: 2100000}).then((res) => {
-      alert("Land Has been rejected");
       
-      // sendgrid.send(msg);
-      window.location.reload(false);
-    })
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  const rejectHandler = (event, instance, id, admin, email, name) => {
+    event.stopPropagation();
+    try{
+      instance.methods.verifyLand(parseInt(id),false).send({ from: admin,gas: 2100000}).then((res) => {
+        alert("Land Has been rejected");
+        window.location.reload(false);
+      })
+      var RejectTemplateParams = {
+        from_name: 'admin',
+        to_name: name,
+        to_email: email,
+        message: 'Land Request Rejected',
+      };
+      emailjs.send('service_eil3zej', 'template_vi3cepi', RejectTemplateParams, '_rxW964OmUs6WHOc3')
+      .then((result) => {
+          // show the user a success message
+          console.log("success");
+      }, (error) => {
+          // how the user an error
+          console.log("error");
+      });
+    }catch(error){
+      console.log(error);
+    }
   }
 
   useEffect(async () => {
@@ -101,7 +108,9 @@ export default function LandRequestViewTable() {
       setLandCount(landC);
       for (let i = 0; i < landC; i++) {
         const land = await instance.methods.lands(i).call();
-        if (!land.verified) {
+        const userDetail = await instance.methods.getUserDetails(land.owner).call();
+        
+        if (!land.verified && userDetail[6]) {
           setLands(prevLands => [...prevLands, {
             // Sl_no: i + 1,
             Owner:land.owner,
@@ -111,10 +120,10 @@ export default function LandRequestViewTable() {
             Land_Khata: <u><a href={`https://ipfs.io/ipfs/${land.doc_hash}`} target="_blank">Khata Document</a></u>,
             Estimated_Price:land.price,
             Approve: (
-              <Button variant="contained" style={{ backgroundColor: "black", marginRight: "5px", }} onClick={(e)=>approveHandler(e,instance,land.id, accounts[0])}>Approve</Button>
+              <Button variant="contained" style={{ backgroundColor: "black", marginRight: "5px", }} onClick={(e)=>approveHandler(e,instance,land.id, accounts[0], userDetail[2], userDetail[0])}>Approve</Button>
             ),
             Reject:(
-              <Button variant="contained" style={{ backgroundColor: "red", marginLeft: "5px" }} onClick={(e)=>rejectHandler(e,instance,land.id,accounts[0])}>Reject</Button>
+              <Button variant="contained" style={{ backgroundColor: "red", marginLeft: "5px" }} onClick={(e)=>rejectHandler(e,instance,land.id,accounts[0], userDetail[2], userDetail[0])}>Reject</Button>
             )
           }]);
         }

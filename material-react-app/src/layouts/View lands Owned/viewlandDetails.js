@@ -19,11 +19,13 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // import AuthService from "../../services/auth-service";
 
 const AddLand = () => {
-  const url = window.location.href;
-  const url1 = url.split("=");
-  const url2 = url1[1].split("#");
-  const id = url2[0];
-//   console.log(id);
+//   const url = window.location.href;
+//   const url1 = url.split("=");
+//   const url2 = url1[1].split("#");
+//   const id = url2[0];
+// //   console.log(id);
+  const queryParameters = new URLSearchParams(window.location.search);
+  const id = queryParameters.get("landId");
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);

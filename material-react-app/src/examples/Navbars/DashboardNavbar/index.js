@@ -127,17 +127,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
     },
   });
 
-  const handleLogOut = () => {
-      window.ethereum.request({ method: 'wallet_requestPermissions', params: [{ eth_accounts: {} }] })
-        .then((result) => {
-          if (result) {
-            window.ethereum.disconnect();
-            sessionStorage.setItem("login",false);
-            console.log(sessionStorage.getItem("login"));
-            navigate("/auth/login");
-          }
-        })
-        .catch((error) => console.error(error));
+  const handleLogOut = async () => {
+    const accounts = await window.ethereum.request({ method: 'wallet_requestPermissions', params: [{ eth_accounts: {} }] })
+        .then(() => { 
+                      window.ethereum.request({ method: 'eth_requestAccounts' })})
   };
 
   return (
