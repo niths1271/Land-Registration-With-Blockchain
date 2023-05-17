@@ -114,7 +114,7 @@ const EditLand = () => {
 
   const updateLand = async (land) => {
     try {
-      if(doc1Hash){
+      if(doc1){
       const formData = new FormData();
       formData.append("file", doc1);
       const resFile = await axios({
