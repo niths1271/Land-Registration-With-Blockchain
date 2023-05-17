@@ -69,6 +69,7 @@ contract LandRegistry {
     event LandVerified(uint id, bool status);
     event UserRegistered(string name,uint age,string email,string aadharIpfsHash,string pan_num, string phone_num);
     event LandAdded(uint id,address payable owner,string _doc_hash, string _survey,string _pid, string _price);
+    event editSale(uint id, bool forsale);
 
 //Int conversion
   function st2num(string memory numString) public pure returns(uint) {
@@ -85,8 +86,14 @@ contract LandRegistry {
       return val;
     }
 
+//Edit Forsale
+   function editForSale(uint _id) public{
+    lands[_id].forsale = !lands[_id].forsale;
 
-// Check whether user is registered to our network
+    emit editSale(_id, lands[_id].forsale);
+   }
+
+//Check whether user is registered to our network
     function isRegistered(address userAddress)public view returns (bool){
         if(registrationMapping[userAddress])
             return true;
@@ -161,9 +168,22 @@ contract LandRegistry {
         emit UserRegistered(_name,_age,_email,_aadharIpfsHash,_pan_num,_phone_num);
     }
 
-// Get the user details
+    // Get the user details
      function getUserDetails(address i) public view returns (string memory, uint, string memory, string memory, string memory, string memory,bool) {
         return (users[i].name,users[i].age,users[i].email,users[i].aadharIpfsHash,users[i].pan_num,users[i].phone_num,users[i].verified);
+    }
+
+    // Update User
+    function updateUser(string memory _name,uint256 _age,string memory _email,string memory _aadharIpfsHash,string memory _pan_num,string memory _phone_num) public {
+        //require that Seller is already registered
+        require(registrationMapping[msg.sender] && (users[msg.sender].account == msg.sender));
+
+        users[msg.sender].name = _name;
+        users[msg.sender].age = _age;
+        users[msg.sender].email = _email;
+        users[msg.sender].pan_num = _pan_num;
+        users[msg.sender].phone_num = _phone_num;
+        users[msg.sender].aadharIpfsHash=_aadharIpfsHash;
     }
 
     // Add land 
@@ -187,7 +207,8 @@ contract LandRegistry {
 
     // Buy Land
     function buyLand(uint _id) public payable {
-
+        //Is user verified
+        //require(registrationMapping[])
         uint _price = st2num(lands[_id].price);
          // Require that there is enough Ether in the transaction
         require(msg.value >= _price);

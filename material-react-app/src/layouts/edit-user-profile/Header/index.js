@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import MDButton from "components/MDButton";
-import { Link } from 'react-router-dom'
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
 
@@ -47,33 +46,14 @@ function Header({ name, verified, children, registered }) {
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
 
 
-  const submitHandler = () => {
-
+  const submitHandler=()=>{
+    
   };
 
   return (
     <MDBox position="relative" mb={5}>
-      <MDBox
-        display="flex"
-        alignItems="center"
-        position="relative"
-        minHeight="18.75rem"
-        borderRadius="xl"
-        sx={{
-          backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
-            `${linearGradient(
-              rgba(gradients.info.main, 0.6),
-              rgba(gradients.info.state, 0.6)
-            )}, url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "50%",
-          overflow: "hidden",
-        }}
-      />
       <Card
         sx={{
-          position: "relative",
-          mt: -15,
           mx: 3,
           py: 2,
           px: 2,
@@ -93,15 +73,6 @@ function Header({ name, verified, children, registered }) {
                 {verified ? "Verified" : "Verification Pending"}
               </MDTypography>
             </MDBox>
-          </Grid>
-          <Grid item ml={90} mb={4}>
-            {registered && !verified && <MDBox mt={4} display="flex" mr={3}>
-              <Link to='/editUser' target='_blank'>
-                <MDButton variant="gradient" color="info" type="submit" onSubmit={submitHandler}>
-                  Edit
-                </MDButton>
-              </Link>
-            </MDBox>}
           </Grid>
         </Grid>
         {children}
