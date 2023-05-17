@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import emailjs from '@emailjs/browser';
 // To fetch data from backend
 import getWeb3 from "getWeb3/getWeb3";
-import LandRegistry from "./LandRegistry.json";
+import LandRegistry from "abis/LandRegistry.json";
 
 export default function UserRequestViewTable() {
 
