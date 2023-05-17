@@ -8,7 +8,7 @@ import MDButton from "components/MDButton";
 import MDAlert from "components/MDAlert";
 import Card from "@mui/material/Card";
 import getWeb3 from "getWeb3/getWeb3";
-import LandRegistry from "./LandRegistry.json";
+import LandRegistry from "abis/LandRegistry.json";
 
 import axios from "axios";
 
@@ -19,7 +19,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // import AuthService from "../../services/auth-service";
 
 const AddLand = () => {
-
+  // push it
   const [notification, setNotification] = useState(false);
 
   const [doc1, setDoc1] = useState(null);
@@ -30,7 +30,6 @@ const AddLand = () => {
     LandInstance: undefined,
     account: null,
     web3: null,
-    hissa:"",
     survey:"",
     doc_hash:"",
     pid: "",
@@ -38,7 +37,6 @@ const AddLand = () => {
   });
 
   const [errors, setErrors] = useState({
-    hissaError: false,
     surveyError: false,
     pidError: false,
     priceError: false,
@@ -114,13 +112,12 @@ const AddLand = () => {
       // var verified = land.LandInstance.methods.getUserVerificationStatus(land.account);
       // if(verified){
         console.log(land);
-        await land.LandInstance.methods.addLand(land.hissa,land.survey,land.pid,land.price).send({ from: land.account}).then((res) => {
+        await land.LandInstance.methods.addLand(doc1Hash,land.survey,land.pid,land.price).send({ from: land.account}).then((res) => {
           setNotification(true);
           //window.location.reload(false);
           console.log(res);
           setLand({
             ...land,
-            hissa:"",
             survey:"",
             pid: "",
             price: "",
@@ -140,17 +137,12 @@ const AddLand = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    var hissaErr = false;
     var surveyErr = false;
     var pidErr = false;
     var priceErr = false;
 
     if (land.pid.trim().length === 0) {
       pidErr = true;
-    }
-
-    if (land.hissa.trim().length === 0) {
-      hissaErr = true;
     }
 
     if (land.survey.trim().length === 0) {
@@ -161,9 +153,8 @@ const AddLand = () => {
       priceErr = true;
     }
 
-    if (hissaErr || surveyErr || pidErr || priceErr) {
+    if (surveyErr || pidErr || priceErr) {
       setErrors({
-        hissaError:  hissaErr,
         surveyError: surveyErr,
         pidError: pidErr,
         priceError: priceErr,
@@ -174,7 +165,6 @@ const AddLand = () => {
     addLand(land);
 
     setErrors({
-      hissaError: false,
       surveyError: false,
       pidError: false,
       priceError: false,
@@ -253,18 +243,12 @@ const AddLand = () => {
               </MDTypography>
               <MDBox mb={1} width="100%">
                 <MDInput
+                  disabled
                   type="name"
                   fullWidth
                   name="hissa"
-                  value={land.hissa}
                   onChange={changeHandler}
-                  error={errors.hissaError}
                 />
-                {errors.hissaError && (
-                  <MDTypography variant="caption" color="error" fontWeight="light">
-                    Hissa number must be valid
-                  </MDTypography>
-                )}
               </MDBox>
             </MDBox>
           </MDBox>
