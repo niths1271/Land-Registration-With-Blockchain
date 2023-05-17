@@ -131,8 +131,21 @@ const EditLand = () => {
       const doc1Hash = `${resFile.data.IpfsHash}`;
       console.log(doc1Hash);
       setLand({ ...land, doc_hash: doc1Hash });
-    }
-      console.log(land);
+      await land.LandInstance.methods.updateLand(doc1Hash,land.survey, land.pid, land.price,id).send({ from: land.account }).then((res) => {
+        console.log(res);
+        setLand({
+          ...land,
+          survey: "",
+          pid: "",
+          price: "",
+        });
+        setDoc1("");
+        alert(
+          `Land details updated successfully.You will be redirected to dashboard`,
+        );
+        navigate('/dashboard');
+      });
+    }else{
       await land.LandInstance.methods.updateLand(land.doc_hash,land.survey, land.pid, land.price,id).send({ from: land.account }).then((res) => {
         console.log(res);
         setLand({
@@ -147,6 +160,7 @@ const EditLand = () => {
         );
         navigate('/dashboard');
       });
+    }
       // }else{
       //   alert(
       //     "User verfication is still pending"
