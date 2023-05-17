@@ -134,7 +134,6 @@ const EditLand = () => {
     }
       console.log(land);
       await land.LandInstance.methods.updateLand(land.doc_hash,land.survey, land.pid, land.price,id).send({ from: land.account }).then((res) => {
-        setNotification(true);
         console.log(res);
         setLand({
           ...land,
