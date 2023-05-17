@@ -19,7 +19,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // import AuthService from "../../services/auth-service";
 
 const AddLand = () => {
-  // push it
+  // push done
   const [notification, setNotification] = useState(false);
 
   const [doc1, setDoc1] = useState(null);
