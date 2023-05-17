@@ -31,6 +31,7 @@ import routes from "routes";
 // import adminRoutes from "AdminRoutes";
 import LandProfile from "layouts/View lands Owned/viewlandDetails";
 import EditUserProfile from "layouts/edit-user-profile";
+import EditLand from "layouts/Edit Land";
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
@@ -241,6 +242,8 @@ export default function App() {
             <Routes>
               <Route path="login" element={<Navigate to="/auth/login" />} />
               <Route path="/viewLand" element={<LandProfile />} />
+              <Route path="/editUser" element={<EditUserProfile />} />
+              <Route path="/editLand" element={<EditLand />} />
               {getRoutes(routes) }
               <Route path="*" element={<Navigate to="/dashboard" />} />
             </Routes>
@@ -279,6 +282,7 @@ export default function App() {
             {getRoutes(routes) }
             <Route path="/viewLand" element={<LandProfile />} />
             <Route path="/editUser" element={<EditUserProfile />} />
+            <Route path="/editLand" element={<EditLand />} />
             <Route path="*" element={<Navigate to="/dashboard" />} />
 
           </Routes>

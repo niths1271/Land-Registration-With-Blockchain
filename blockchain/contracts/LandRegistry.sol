@@ -205,6 +205,14 @@ contract LandRegistry {
         emit LandAdded(newLand.id, newLand.owner, _doc_hash, _survey, _pid, _price);
     }
 
+    // Update land
+    function updateLand(string memory _doc_hash, string memory _survey, string memory _pid, string memory _price,uint id) public {
+        lands[id].pid=_pid;
+        lands[id].doc_hash=_doc_hash;
+        lands[id].survey=_survey;
+        lands[id].price=_price;
+    }
+
     // Buy Land
     function buyLand(uint _id) public payable {
         //Is user verified

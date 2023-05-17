@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import * as React from 'react';
+import { useNavigate } from "react-router-dom";
 // @mui material components
 import MDBadge from "components/MDBadge";
 import MDBox from "components/MDBox";
@@ -9,13 +10,10 @@ import { Button } from "@mui/material";
 
 import getWeb3 from "getWeb3/getWeb3";
 import LandRegistry from "abis/LandRegistry.json";
-import { boolean } from "yup/lib/locale";
-import { bool } from "yup";
 
 
 export default function data() {
-
-
+  const navigate = useNavigate();
   const [details, setdetails] = useState({
     LandInstance: undefined,
     account: null,
@@ -37,6 +35,13 @@ export default function data() {
       window.location.reload(false);
     })
   }
+
+  const editHandler = async (event,instance,id,account)=>{
+    event.stopPropagation();
+    navigate(`/editLand?id=${id}`);
+  };
+
+
 
   useEffect(async () => {
     if (!window.location.hash) {
@@ -74,6 +79,9 @@ export default function data() {
               </MDBox>,
               Add: (
                 <Button variant="contained" style={{ backgroundColor: "green", marginRight: "5px", color:"white", width:"80px" }} onClick={(e)=>approveHandler(e,instance,land.id, accounts[0], land.forsale)}>Add</Button>
+              ),
+              Edit_Land:(
+                <Button variant="contained" style={{ backgroundColor: "blue", marginRight: "5px", color:"white", width:"80px" }} disabled={land.verified} onClick={(e)=>editHandler(e,instance,land.id, accounts[0])}>Edit</Button>
               )
             }]);
           }
@@ -90,6 +98,9 @@ export default function data() {
               </MDBox>,
               Add: (
                 <Button variant="contained" style={{ backgroundColor: "red", marginRight: "5px", color:"white", width:"80px", }} onClick={(e)=>approveHandler(e,instance,land.id, accounts[0], land.forsale)}>Remove</Button>
+              ),
+              Edit_Land:(
+                <Button variant="contained" style={{ backgroundColor: "blue", marginRight: "5px", color:"white", width:"80px" }} disabled={land.verified} onClick={(e)=>editHandler(e,instance,land.id, accounts[0])}>Edit</Button>
               )
             }]);
           }
@@ -114,6 +125,7 @@ export default function data() {
       { Header: "Estimated_Price", accessor: "Estimated_Price", width: "15%", align: "left" },
       { Header: "Verification Status", accessor: "Verification_Status", width: "15%", align: "left" },
       { Header: "SellLand", accessor: "Add", width: "15%", align: "left" },
+      { Header: "Edit Land", accessor: "Edit_Land", width: "15%", align: "left" },
     ],
     rows: lands
   };

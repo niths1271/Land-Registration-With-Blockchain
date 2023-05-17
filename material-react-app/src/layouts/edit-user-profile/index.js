@@ -8,6 +8,8 @@ import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import axios from "axios";
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import MDAlert from "components/MDAlert";
+
 
 import CardMedia from '@mui/material/CardMedia';
 
@@ -43,6 +45,7 @@ const EditUserProfile = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
 
   const [registered, setRegistered] = useState(false);
   const [fileImg, setFileImg] = useState(null);
@@ -237,6 +240,13 @@ const EditUserProfile = () => {
     <DashboardLayout>
       <MDBox mb={2} />
       <Header name={user.name} verified={user.verified} registered={registered}>
+      {user.verified && (
+          <MDAlert color="info" mt="20px">
+            <MDTypography variant="body2" color="white">
+              You can no longer make changes to profile as it has already been verified.
+            </MDTypography>
+          </MDAlert>
+        )}
         <Modal
           open={open}
           onClose={handleClose}
@@ -450,9 +460,9 @@ const EditUserProfile = () => {
               width="100%"
               mr={7}>
               <MDBox display="flex" mr={2}>
-                <MDButton variant="gradient" color="info" type="submit">
+                {!user.verified && <MDButton variant="gradient" color="info" type="submit">
                   Update
-                </MDButton>
+                </MDButton>}
               </MDBox>
             </MDBox>
           </MDBox>
