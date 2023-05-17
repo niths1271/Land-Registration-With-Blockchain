@@ -10,7 +10,7 @@ import MDButton from 'components/MDButton';
 
 import LandCard from './Components/LandCard';
 import getWeb3 from "getWeb3/getWeb3";
-import LandRegistry from "./LandRegistry.json";
+import LandRegistry from "abis/LandRegistry.json";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

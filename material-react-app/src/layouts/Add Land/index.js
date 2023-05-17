@@ -8,7 +8,7 @@ import MDButton from "components/MDButton";
 import MDAlert from "components/MDAlert";
 import Card from "@mui/material/Card";
 import getWeb3 from "getWeb3/getWeb3";
-import LandRegistry from "./LandRegistry.json";
+import LandRegistry from "abis/LandRegistry.json";
 
 import axios from "axios";
 

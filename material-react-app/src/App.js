@@ -30,6 +30,7 @@ import createCache from "@emotion/cache";
 import routes from "routes";
 // import adminRoutes from "AdminRoutes";
 import LandProfile from "layouts/View lands Owned/viewlandDetails";
+import EditUserProfile from "layouts/edit-user-profile";
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
@@ -44,7 +45,7 @@ import { AuthContext } from "context";
 import UserProfile from "layouts/user-profile";
 
 import getWeb3 from "getWeb3/getWeb3";
-import LandRegistry from "./LandRegistry.json";
+import LandRegistry from "abis/LandRegistry.json";
 
 export default function App() {
   const authContext = useContext(AuthContext);
@@ -263,7 +264,6 @@ export default function App() {
             </>
           )}
           {layout === "vr" && <Configurator />}
-          
           <Routes>
             <Route path="/auth/login" element={<Login />} />
             <Route
@@ -278,7 +278,7 @@ export default function App() {
             />
             {getRoutes(routes) }
             <Route path="/viewLand" element={<LandProfile />} />
-            
+            <Route path="/editUser" element={<EditUserProfile />} />
             <Route path="*" element={<Navigate to="/dashboard" />} />
 
           </Routes>
