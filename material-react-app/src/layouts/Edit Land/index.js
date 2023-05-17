@@ -11,6 +11,8 @@ import getWeb3 from "getWeb3/getWeb3";
 import LandRegistry from "abis/LandRegistry.json";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
+import { Navigate, useNavigate } from "react-router-dom";
+
 import axios from "axios";
 
 // Material Dashboard 2 React example components
@@ -31,14 +33,9 @@ const style = {
 };
 
 var id;
+
 const EditLand = () => {
-  
-  if(id == null){
-    const queryParameters = new URLSearchParams(window.location.search);
-    id = queryParameters.get("id");
-    console.log(id);
-  }
-  
+  const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -64,6 +61,12 @@ const EditLand = () => {
   });
 
   useEffect(async () => {
+    const queryParameters = new URLSearchParams(window.location.search);
+    const d = queryParameters.get("id");
+    if(d){
+      console.log(d);
+      id=d
+    }
     if(!window.location.hash){
       window.location = window.location + '#loaded';
       window.location.reload();
@@ -80,17 +83,17 @@ const EditLand = () => {
         LandRegistry.abi,
         deployedNetwork && deployedNetwork.address,
       );
-      const land = await instance.methods.lands(id).call();
+      const land1 = await instance.methods.lands(id).call();
       setLand({
         ...land,
         LandInstance: instance,
         web3: web3,
         account: accounts[0],
-        survey: land.survey,
-        doc_hash: land.doc_hash,
-        pid: land.pid,
-        price: land.price,
-        verified:land.verified
+        survey: land1.survey,
+        doc_hash: land1.doc_hash,
+        pid: land1.pid,
+        price: land1.price,
+        verified:land1.verified
       });
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -111,6 +114,7 @@ const EditLand = () => {
 
   const updateLand = async (land) => {
     try {
+      if(doc1Hash){
       const formData = new FormData();
       formData.append("file", doc1);
       const resFile = await axios({
@@ -127,6 +131,7 @@ const EditLand = () => {
       const doc1Hash = `${resFile.data.IpfsHash}`;
       console.log(doc1Hash);
       setLand({ ...land, doc_hash: doc1Hash });
+    }
       console.log(land);
       await land.LandInstance.methods.updateLand(doc1Hash,land.survey, land.pid, land.price,id).send({ from: land.account }).then((res) => {
         setNotification(true);
@@ -138,8 +143,11 @@ const EditLand = () => {
           price: "",
         });
         setDoc1("");
-
-      })
+        alert(
+          `Land details updated successfully.You will be redirected to dashboard`,
+        );
+        navigate('/dashboard');
+      });
       // }else{
       //   alert(
       //     "User verfication is still pending"
