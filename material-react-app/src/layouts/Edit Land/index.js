@@ -128,7 +128,7 @@ const EditLand = () => {
       console.log(doc1Hash);
       setLand({ ...land, doc_hash: doc1Hash });
       console.log(land);
-      await land.LandInstance.methods.addLand(doc1Hash,land.survey, land.pid, land.price,id).send({ from: land.account }).then((res) => {
+      await land.LandInstance.methods.updateLand(doc1Hash,land.survey, land.pid, land.price,id).send({ from: land.account }).then((res) => {
         setNotification(true);
         console.log(res);
         setLand({
