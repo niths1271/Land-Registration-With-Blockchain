@@ -16,8 +16,8 @@ import LandRegistry from "abis/LandRegistry.json";
 function AdminDashboard() {
 
   const [userCount, setUserCount] = useState(0);
-  const [verfiedUsers, setverfiedUsers] = useState(0);
-  const [verfiedLand, setverfiedLand] = useState(0);
+  var [unverfiedUsers, setunVerfiedUsers] = useState(0);
+  var [unverfiedLand, setUnverfiedLand] = useState(0);
   const [landCount, setLandCount] = useState(0);
 
   const [details, setdetails] = useState({
@@ -49,23 +49,26 @@ function AdminDashboard() {
       const totalUsers = await instance.methods.getUsers().call();
       for (let i = 0; i < totalUsers.length; i++) {
         const user = await instance.methods.users(totalUsers[i]).call();
-        if (!user.verified) {
-          verfiedUsers=verfiedUsers+1;          
+        if (!user[7]) {
+          unverfiedUsers=unverfiedUsers+1;
+          
         }
+        console.log(unverfiedUsers);
       }
-      setverfiedUsers(verfiedUsers);
+      setunVerfiedUsers(unverfiedUsers);
       const landCount = await instance.methods.landCount().call();
       setLandCount(landCount);
       for (let i = 0; i < landCount; i++) {
         const land = await instance.methods.lands(i).call();
-        if (!land.verified) {
-          verfiedLand=verfiedLand+1;
+        console.log(land);
+        if (!land[6]) {
+          unverfiedLand=unverfiedLand+1;
+          setUnverfiedLand(unverfiedLand);
         }
       }
-      setverfiedLand(verfiedLand);
-      console.log("user count",userCount);
-      console.log("land count",landCount);
-      console.log(totalUsers);
+      // console.log("user count",userCount);
+      // console.log("land count",landCount);
+      // console.log(totalUsers);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -113,7 +116,7 @@ function AdminDashboard() {
                 color="primary"
                 icon="person"
                 title="unverfied Users"
-                count={verfiedUsers}
+                count={unverfiedUsers}
                 percentage={{
                   color: "success",
                   label: "unverified",
@@ -127,7 +130,7 @@ function AdminDashboard() {
                 color="primary"
                 icon="person_add"
                 title="unverfied Lands"
-                count={verfiedLand}
+                count={unverfiedLand}
                 percentage={{
                   color: "success",
                   label: "unverified",
