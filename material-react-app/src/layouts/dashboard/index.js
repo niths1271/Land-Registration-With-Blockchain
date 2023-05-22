@@ -6,10 +6,10 @@ import DashboardRender from "./DashboardRender";
 
 export default function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
-  const isLoggedIn = sessionStorage.getItem("login");
-  console.log(isLoggedIn);
+  // const isLoggedIn = sessionStorage.getItem("login");
+  // console.log(isLoggedIn);
 
-  return ( isLoggedIn ? ( <DashboardRender/> ) : ( <Login/> ) );
+  return <DashboardRender/>;
 }
 
  

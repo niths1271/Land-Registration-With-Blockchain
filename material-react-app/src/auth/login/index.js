@@ -13,6 +13,9 @@ import MDButton from "components/MDButton";
 // Authentication layout components
 import BasicLayoutLanding from "layouts/authentication/components/BasicLayoutLanding";
 
+import getWeb3 from "getWeb3/getWeb3";
+import LandRegistry from "abis/LandRegistry.json";
+
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 import metamaskLogo from "assets/images/logos/gray-logos/metamask-icon.svg"
@@ -20,12 +23,49 @@ import metamaskLogo from "assets/images/logos/gray-logos/metamask-icon.svg"
 // import { AuthContext } from "context";
 
 function Login() {
+
+  const [admin,setAdmin] = useState("");
+
   const [errorMessage, setErrorMessage] = useState("");
   //MetaMask integration
 
   const navigate = useNavigate();
 
   const [walletAddress, setWalletAddress] = useState("");
+
+  useEffect(async () => {
+    if (!window.location.hash) {
+      window.location = window.location + '#loaded';
+      window.location.reload();
+    }
+    try {
+      //Get network provider and web3 instance
+      const web3 = await getWeb3();
+  
+      const accounts = await web3.eth.getAccounts();
+  
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = await LandRegistry.networks[networkId];
+      const instance = await new web3.eth.Contract(
+        LandRegistry.abi,
+        deployedNetwork && deployedNetwork.address,
+      );
+      const adminAddress = await instance.methods.getAdminAddress().call();
+      if(adminAddress == accounts[0]) {
+        setAdmin(true); 
+        console.log("admin"); 
+      }else{
+        setAdmin(false);
+      }
+    } catch (error) {
+      // Catch any errors for any of the above operations.
+      alert(
+        `Failed to load web3, accounts, or contract. Check console for details.`,
+      );
+      console.error(error);
+    }
+  }, []);
+
 
   useEffect(() => {
     getCurrentWalletConnected();
@@ -67,7 +107,7 @@ function Login() {
           sessionStorage.setItem("login",true);
           console.log("sessionStorage set");
 
-          navigate("/dashboard");
+          admin?navigate("/Admin"):navigate("/dashboard");
           
           console.log(accounts[0]);
         } else {

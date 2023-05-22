@@ -38,10 +38,16 @@ import LandsForSale from "layouts/View lands Owned";
 import AdminDashboard from "layouts/Admin/AdminDashboard";
 import UserRequests from "layouts/UserRequests";
 import LandRequests from "layouts/LandRequests";
-import LandProfile from "layouts/View lands Owned/viewlandDetails";
-
 
 const routes = [
+  {
+    type: "collapse",
+    name: "User Profile",
+    key: "user-profile",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/user-profile",
+    component: <UserProfile />,
+  },
   {
     type: "collapse",
     name: "Dashboard",
@@ -50,14 +56,14 @@ const routes = [
     route: "/dashboard",
     component: <Dashboard />,
   },
-  {
-    type: "collapse",
-    name: "Tables",
-    key: "tables",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/tables",
-    component: <Tables />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Tables",
+  //   key: "tables",
+  //   icon: <Icon fontSize="small">table_view</Icon>,
+  //   route: "/tables",
+  //   component: <Tables />,
+  // },
   {
     type: "collapse",
     name: "Lands For Sale",
@@ -83,47 +89,38 @@ const routes = [
     component: <Transaction />,
   },
   {
-    type: "examples",
-    name: "User Profile",
-    key: "user-profile",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/user-profile",
-    component: <UserProfile />,
-  },
-  {
     type: "auth",
     name: "Login",
     key: "login",
     icon: <Icon fontSize="small">login</Icon>,
     route: "/auth/login",
     component: <Login />,
-  },
-  
-  {
-    type: "collapse",
-    name: "Admin",
-    key: "Admin",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/Admin",
-    component: <AdminDashboard />,
-  },
-  {
-    type: "collapse",
-    name: "User Requests",
-    key: "User Requests",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/UserRequests",
-    component: <UserRequests />,
-  },
-  {
-    type: "collapse",
-    name: "LandRequests",
-    key: "LandRequests",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/LandRequests",
-    component: <LandRequests />,
-  },
-  
+  }
 ];
 
-export default routes;
+const adminRoutes = [{
+  type: "collapse",
+  name: "Admin",
+  key: "Admin",
+  icon: <Icon fontSize="small">table_view</Icon>,
+  route: "/Admin",
+  component: <AdminDashboard />,
+},
+{
+  type: "collapse",
+  name: "UserRequests",
+  key: "UserRequests",
+  icon: <Icon fontSize="small">table_view</Icon>,
+  route: "/UserRequests",
+  component: <UserRequests />,
+},
+{
+  type: "collapse",
+  name: "LandRequests",
+  key: "LandRequests",
+  icon: <Icon fontSize="small">table_view</Icon>,
+  route: "/LandRequests",
+  component: <LandRequests />,
+}];
+
+export {routes,adminRoutes};

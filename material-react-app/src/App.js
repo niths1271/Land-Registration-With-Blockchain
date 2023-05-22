@@ -27,7 +27,7 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
 // Material Dashboard 2 React routes
-import routes from "routes";
+import {routes,adminRoutes} from "routes";
 // import adminRoutes from "AdminRoutes";
 import LandProfile from "layouts/View lands Owned/viewlandDetails";
 import EditUserProfile from "layouts/edit-user-profile";
@@ -50,7 +50,7 @@ import LandRegistry from "abis/LandRegistry.json";
 
 export default function App() {
   const authContext = useContext(AuthContext);
-
+  const [admin,setAdmin] = useState("");
 
   const [controller, dispatch] = useMaterialUIController();
   const {
@@ -104,10 +104,6 @@ export default function App() {
 
   // if the token expired or other errors it logs out and goes to the login page
   const navigate = useNavigate();
-  setupAxiosInterceptors(() => {
-    authContext.logout();
-    navigate("/auth/login");
-  });
 
   // Setting the dir attribute for the body element
   useEffect(() => {
@@ -120,14 +116,11 @@ export default function App() {
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
 
-
-  const [admin,setAdmin] = useState("");
-
   useEffect(async () => {
-    if (!window.location.hash) {
-      window.location = window.location + '#loaded';
-      window.location.reload();
-    }
+    // if (!window.location.hash) {
+    //   window.location = window.location + '#loaded';
+    //   window.location.reload();
+    // }
     try {
       //Get network provider and web3 instance
       const web3 = await getWeb3();
@@ -158,9 +151,9 @@ export default function App() {
 
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
-      if (route.collapse) {
-        return getRoutes(route.collapse);
-      }
+      // if (route.collapse) {
+      //   return getRoutes(route.collapse);
+      // }
 
       if (route.route && route.type !== "auth") {
         return (
@@ -168,26 +161,11 @@ export default function App() {
             exact
             path={route.route}
             element={
-              <ProtectedRoute isAuthenticated={authContext.isAuthenticated}>
-                {route.component}
-              </ProtectedRoute>
+                route.component
             }
             key={route.key}
           />
         );
-      }else{
-        return (
-          <Route
-            exact
-            path={route.route}
-            element={
-              <ProtectedRoute isAuthenticated={authContext.isAuthenticated}>
-                {route.component}
-              </ProtectedRoute>
-            }
-            key={route.key}
-          />)
-          ;
       }
       // return null;
     });
@@ -230,7 +208,7 @@ export default function App() {
                   color={sidenavColor}
                   brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
                   brandName="Material Dashboard 2"
-                  routes={routes}
+                  routes={admin?adminRoutes:routes}
                   onMouseEnter={handleOnMouseEnter}
                   onMouseLeave={handleOnMouseLeave}
                 />
@@ -244,8 +222,9 @@ export default function App() {
               <Route path="/viewLand" element={<LandProfile />} />
               <Route path="/editUser" element={<EditUserProfile />} />
               <Route path="/editLand" element={<EditLand />} />
-              {getRoutes(routes) }
-              <Route path="*" element={<Navigate to="/dashboard" />} />
+              {getRoutes(routes)}
+              {getRoutes(adminRoutes)}
+              {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
             </Routes>
           </ThemeProvider>
         </CacheProvider>
@@ -258,7 +237,7 @@ export default function App() {
                 color={sidenavColor}
                 brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
                 brandName="Material Dashboard 2"
-                routes={routes}
+                routes={admin?adminRoutes:routes}
                 onMouseEnter={handleOnMouseEnter}
                 onMouseLeave={handleOnMouseLeave}
               />
@@ -273,18 +252,16 @@ export default function App() {
               exact
               path="user-profile"
               element={
-                <ProtectedRoute isAuthenticated={authContext.isAuthenticated}>
-                  <UserProfile />
-                </ProtectedRoute>
+                  <UserProfile />     
               }
               key="user-profile"
             />
-            {getRoutes(routes) }
+            {getRoutes(routes)}
+            {getRoutes(adminRoutes)}
             <Route path="/viewLand" element={<LandProfile />} />
             <Route path="/editUser" element={<EditUserProfile />} />
             <Route path="/editLand" element={<EditLand />} />
-            <Route path="*" element={<Navigate to="/dashboard" />} />
-
+            {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
           </Routes>
         </ThemeProvider>
       )}

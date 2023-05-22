@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import * as React from 'react';
-import { Navigate, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
