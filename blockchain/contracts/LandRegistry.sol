@@ -197,7 +197,7 @@ contract LandRegistry {
             pid: _pid,
             verified: false,
             price : _price,
-            forsale: true
+            forsale: false
         });
         lands[landCount] = newLand;
         landCount++;

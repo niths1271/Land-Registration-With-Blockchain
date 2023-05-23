@@ -13,7 +13,6 @@ import { CardActionArea } from "@mui/material";
 import MDAlert from "components/MDAlert";
 import MDTypography from "components/MDTypography";
 
-
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -27,6 +26,16 @@ import LandRegistry from "abis/LandRegistry.json";
 export default function DashboardRender (){
   const [registered, setRegistered] = useState(true);
   const [verified, setverified] = useState(true);
+
+  const [landCount, setLandCount] = useState(0);
+  const [pendingCount, setPendingCount] = useState(0);
+  const [saleCount, setSaleCount] = useState(0);
+  const [ownCount, setOwnCount] = useState(0);
+
+  var own = 0;
+  var sale = 0;
+  var pending = 0;
+
   useEffect(async () => {
     if(!window.location.hash){
       window.location = window.location + '#loaded';
@@ -48,6 +57,25 @@ export default function DashboardRender (){
       setRegistered(registered1);
       var verified1=await instance.methods.getUserVerificationStatus(accounts[0]).call();
       setverified(verified1)
+
+      const landCount = await instance.methods.landCount().call();
+        setLandCount(landCount);
+
+        for (let i = 0; i < landCount; i++) {
+          const land = await instance.methods.lands(i).call();
+          if(land.owner == accounts[0]){
+               own = own + 1;
+               setOwnCount(own);
+        }
+        if(land.owner == accounts[0] && land.verified == false){
+               pending = pending + 1;
+               setPendingCount(pending);
+        }
+        if(land.forsale == true){
+          sale = sale + 1;
+          setSaleCount(sale);
+        }
+        }
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -89,20 +117,22 @@ export default function DashboardRender (){
                     />
                     <CardContent>
                       <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        align="center"
+                        fontSize='30px'
+                        fontWeight='bold'
+                      >
+                        {ownCount}
+                        
+                      </Typography>
+                      <Typography
                         gutterBottom
                         variant="h5"
                         component="div"
                         align="center"
                       >
                         Lands Owned
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        align="center"
-                      >
-                        Total Number Of Lands Owned By You Currently !
-                        
                       </Typography>
                     </CardContent>
                   </CardActionArea>
@@ -120,6 +150,16 @@ export default function DashboardRender (){
                       alt="Pending"
                     />
                     <CardContent>
+                     
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        align="center"
+                        fontSize='30px'
+                        fontWeight='bold'
+                      >
+                        {pendingCount}
+                      </Typography>
                       <Typography
                         gutterBottom
                         variant="h5"
@@ -127,13 +167,6 @@ export default function DashboardRender (){
                         align="center"
                       >
                         Pending Verification
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        align="center"
-                      >
-                        Lands Under Verification Currently By Admin!
                       </Typography>
                     </CardContent>
                   </CardActionArea>
@@ -154,6 +187,16 @@ export default function DashboardRender (){
                       align="center"
                     />
                     <CardContent>
+                      
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        align="center"
+                        fontSize='30px'
+                        fontWeight='bold'
+                      >
+                        {saleCount}
+                      </Typography>
                       <Typography
                         gutterBottom
                         variant="h5"
@@ -161,13 +204,6 @@ export default function DashboardRender (){
                         align="center"
                       >
                         Lands For Sale
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        align="center"
-                      >
-                        Total Number Of Lands Out For Sale Currently !
                       </Typography>
                     </CardContent>
                   </CardActionArea>

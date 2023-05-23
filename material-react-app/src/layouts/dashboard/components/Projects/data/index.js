@@ -66,24 +66,45 @@ export default function data() {
       for (let i = 0; i < landCount; i++) {
         const land = await instance.methods.lands(i).call();
         if (land.owner == accounts[0]) {
-          if(land.forsale == false){
-            setLands(prevLands => [...prevLands, {
-              Property_ID: land.pid,
-              Survey_No: land.survey,
-              Land_Khata: <u><a href={`https://ipfs.io/ipfs/${land.doc_hash}`} target="_blank">Khata Document</a></u>,
-              Estimated_Price: land.price,
-              Verification_Status: land.verified ? <MDBox ml={-1}>
-                <MDBadge badgeContent="VERIFIED" color="success" variant="gradient" size="sm" />
-              </MDBox> : <MDBox ml={-1}>
-                <MDBadge badgeContent="NOT VERIFIED" color="dark" variant="gradient" size="sm" />
-              </MDBox>,
-              Add: (
-                <Button variant="contained" style={{ backgroundColor: "green", marginRight: "5px", color:"white", width:"80px" }} onClick={(e)=>approveHandler(e,instance,land.id, accounts[0], land.forsale)}>Add</Button>
-              ),
-              Edit_Land:(
-                <Button variant="contained" style={{ backgroundColor: "blue", marginRight: "5px", color:"white", width:"80px" }} disabled={land.verified} onClick={(e)=>editHandler(e,instance,land.id, accounts[0])}>Edit</Button>
-              )
-            }]);
+          if(land.verified == true){
+            if(land.forsale == false){
+              setLands(prevLands => [...prevLands, {
+                Property_ID: land.pid,
+                Survey_No: land.survey,
+                Land_Khata: <u><a href={`https://ipfs.io/ipfs/${land.doc_hash}`} target="_blank">Khata Document</a></u>,
+                Estimated_Price: land.price,
+                Verification_Status: land.verified ? <MDBox ml={-1}>
+                  <MDBadge badgeContent="VERIFIED" color="success" variant="gradient" size="sm" />
+                </MDBox> : <MDBox ml={-1}>
+                  <MDBadge badgeContent="NOT VERIFIED" color="dark" variant="gradient" size="sm" />
+                </MDBox>,
+                Add: (
+                  <Button variant="contained" style={{ backgroundColor: "green", marginRight: "5px", color:"white", width:"80px" }} onClick={(e)=>approveHandler(e,instance,land.id, accounts[0], land.forsale)}>Add</Button>
+                ),
+                Edit_Land:(
+                  <Button variant="contained" style={{ backgroundColor: "blue", marginRight: "5px", color:"white", width:"80px" }} disabled={land.verified} onClick={(e)=>editHandler(e,instance,land.id, accounts[0])}>Edit</Button>
+                )
+              }]);
+            }
+            else{
+              setLands(prevLands => [...prevLands, {
+                Property_ID: land.pid,
+                Survey_No: land.survey,
+                Land_Khata: <u><a href={`https://ipfs.io/ipfs/${land.doc_hash}`} target="_blank">Khata Document</a></u>,
+                Estimated_Price: land.price,
+                Verification_Status: land.verified ? <MDBox ml={-1}>
+                  <MDBadge badgeContent="VERIFIED" color="success" variant="gradient" size="sm" />
+                </MDBox> : <MDBox ml={-1}>
+                  <MDBadge badgeContent="NOT VERIFIED" color="dark" variant="gradient" size="sm" />
+                </MDBox>,
+                Add: (
+                  <Button variant="contained" style={{ backgroundColor: "red", marginRight: "5px", color:"white", width:"80px", }} onClick={(e)=>approveHandler(e,instance,land.id, accounts[0], land.forsale)}>Remove</Button>
+                ),
+                Edit_Land:(
+                  <Button variant="contained" style={{ backgroundColor: "blue", marginRight: "5px", color:"white", width:"80px" }} disabled={land.verified} onClick={(e)=>editHandler(e,instance,land.id, accounts[0])}>Edit</Button>
+                )
+              }]);
+            }
           }
           else{
             setLands(prevLands => [...prevLands, {
@@ -97,7 +118,7 @@ export default function data() {
                 <MDBadge badgeContent="NOT VERIFIED" color="dark" variant="gradient" size="sm" />
               </MDBox>,
               Add: (
-                <Button variant="contained" style={{ backgroundColor: "red", marginRight: "5px", color:"white", width:"80px", }} onClick={(e)=>approveHandler(e,instance,land.id, accounts[0], land.forsale)}>Remove</Button>
+                <MDBadge badgeContent="Land is not verified" color="dark" variant="gradient" size="sm" />
               ),
               Edit_Land:(
                 <Button variant="contained" style={{ backgroundColor: "blue", marginRight: "5px", color:"white", width:"80px" }} disabled={land.verified} onClick={(e)=>editHandler(e,instance,land.id, accounts[0])}>Edit</Button>
