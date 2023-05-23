@@ -6,6 +6,8 @@ import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import MDAlert from "components/MDAlert";
+import Typography from '@mui/material/Typography';
+
 import Card from "@mui/material/Card";
 import getWeb3 from "getWeb3/getWeb3";
 import LandRegistry from "abis/LandRegistry.json";
@@ -530,10 +532,9 @@ const AddLand = () => {
               <MDTypography variant="body2" color="text" mr={5} fontWeight="regular" width="100%">
                 View Khata Document
               </MDTypography>
-              <MDButton variant="gradient" color="info" onClick={handleOpen}>
-              
-                  <VisibilityIcon fontSize="inherit" />
-              </MDButton>
+              <Typography sx={{ cursor: 'pointer' }} variant="body1">
+              <u><a href={`https://ipfs.io/ipfs/${landD.doc_hash}`} target="_blank">Land Document</a></u>
+              </Typography>
             </MDBox>
           </MDBox>      
         </MDBox>

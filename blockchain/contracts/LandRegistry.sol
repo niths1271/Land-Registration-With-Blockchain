@@ -187,7 +187,8 @@ contract LandRegistry {
     }
 
     // Add land 
-    function addLand(string memory _doc_hash, string memory _survey, string memory _pid, string memory _price) public {
+    function addLand(string memory _doc_hash, string memory _survey, 
+    string memory _pid, string memory _price) public {
         Land memory newLand = Land({
             id: landCount,
             owner: msg.sender,
@@ -198,10 +199,8 @@ contract LandRegistry {
             price : _price,
             forsale: true
         });
-
         lands[landCount] = newLand;
         landCount++;
-
         emit LandAdded(newLand.id, newLand.owner, _doc_hash, _survey, _pid, _price);
     }
 

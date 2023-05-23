@@ -40,7 +40,7 @@ export default function ComplexGrid(props) {
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="body1" component="div">
-                Property {parseInt(props._id)+1}
+                Property {parseInt(props._id) + 1}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 PID: {props.Property_ID}
@@ -50,24 +50,26 @@ export default function ComplexGrid(props) {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography sx={{ cursor: 'pointer' }} variant="body1">
+              {/* <Typography sx={{ cursor: 'pointer' }} variant="body1">
               <u><a href={`https://ipfs.io/ipfs/${props.Land_Khata}`} target="_blank">Land Document</a></u>
+              </Typography> */}
+              <Typography sx={{ cursor: 'pointer' }} variant="body1">
+                <a href={`http://localhost:3000/viewLand?landId=${props._id}`} target="_blank">tap to view more..</a>
               </Typography>
             </Grid>
           </Grid>
           <Grid item direction="column">
-            <Grid item xs mb={13}>
+            {/* <Grid item xs mb={13}>
               <Typography variant="subtitle1" component="div">
                 {props.Estimated_Price}
               </Typography>
-            </Grid>
+            </Grid> */}
             <Grid item>
               <MDButton onClick={submitHandler} variant="contained" color="error">
                 Buy Land
               </MDButton>
             </Grid>
           </Grid>
-          <a href={`http://localhost:3000/viewLand?landId=${props._id}`}>tap to view more..</a>
         </Grid>
       </Grid>
     </Paper>
