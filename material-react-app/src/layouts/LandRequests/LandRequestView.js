@@ -116,7 +116,6 @@ export default function LandRequestViewTable() {
             Owner:land.owner,
             Property_ID: land.pid,
             Survey_No: land.survey,
-            Hissa_No: land.hissa,
             Land_Khata: <u><a href={`https://ipfs.io/ipfs/${land.doc_hash}`} target="_blank">Khata Document</a></u>,
             Estimated_Price:land.price,
             Approve: (
@@ -143,7 +142,6 @@ export default function LandRequestViewTable() {
         { Header: "Owner Address", accessor: "Owner", align: "left" },
         { Header: "Property_ID", accessor: "Property_ID", align: "left" },
         { Header: "Survey_No", accessor: "Survey_No", align: "center" },
-        { Header: "Hissa_No", accessor: "Hissa_No", align: "center" },
         { Header: "Land Khata", accessor: "Land_Khata", align: "center" },
         { Header: "Estimated Price", accessor: "Estimated_Price", align: "left" },
         { Header: "Approve", accessor: "Approve", align: "center" },

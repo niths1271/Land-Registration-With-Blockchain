@@ -41,6 +41,7 @@ import LandRequests from "layouts/LandRequests";
 
 const routes = [
   {
+    boolAdmin:false,
     type: "collapse",
     name: "User Profile",
     key: "user-profile",
@@ -49,6 +50,7 @@ const routes = [
     component: <UserProfile />,
   },
   {
+    boolAdmin:false,
     type: "collapse",
     name: "Dashboard",
     key: "dashboard",
@@ -56,23 +58,17 @@ const routes = [
     route: "/dashboard",
     component: <Dashboard />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Tables",
-  //   key: "tables",
-  //   icon: <Icon fontSize="small">table_view</Icon>,
-  //   route: "/tables",
-  //   component: <Tables />,
-  // },
   {
+    boolAdmin:false,
     type: "collapse",
-    name: "Lands For Sale",
-    key: "Lands For Sale",
+    name: "LandsForSale",
+    key: "LandsForSale",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/Lands-ForSale",
     component: <LandsForSale />,
   },
   {
+    boolAdmin:false,
     type: "collapse",
     name: "Add Land",
     key: "Add Land",
@@ -81,6 +77,7 @@ const routes = [
     component: <AddLand />,
   },
   {
+    boolAdmin:false,
     type: "collapse",
     name: "Transactions",
     key: "transactions",
@@ -89,13 +86,14 @@ const routes = [
     component: <Transaction />,
   },
   {
+    boolAdmin:false,
     type: "auth",
     name: "Login",
     key: "login",
     icon: <Icon fontSize="small">login</Icon>,
     route: "/auth/login",
     component: <Login />,
-  }
+  },
 ];
 
 const adminRoutes = [{

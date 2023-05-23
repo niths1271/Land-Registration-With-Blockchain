@@ -27,7 +27,7 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
 // Material Dashboard 2 React routes
-import {routes,adminRoutes} from "routes";
+import { routes, adminRoutes } from "routes";
 // import adminRoutes from "AdminRoutes";
 import LandProfile from "layouts/View lands Owned/viewlandDetails";
 import EditUserProfile from "layouts/edit-user-profile";
@@ -50,7 +50,7 @@ import LandRegistry from "abis/LandRegistry.json";
 
 export default function App() {
   const authContext = useContext(AuthContext);
-  const [admin,setAdmin] = useState("");
+  const [admin, setAdmin] = useState("");
 
   const [controller, dispatch] = useMaterialUIController();
   const {
@@ -117,16 +117,16 @@ export default function App() {
   }, [pathname]);
 
   useEffect(async () => {
-    // if (!window.location.hash) {
-    //   window.location = window.location + '#loaded';
-    //   window.location.reload();
-    // }
+    if (!window.location.hash) {
+      window.location = window.location + '#loaded';
+      window.location.reload();
+    }
     try {
       //Get network provider and web3 instance
       const web3 = await getWeb3();
-  
+
       const accounts = await web3.eth.getAccounts();
-  
+
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = await LandRegistry.networks[networkId];
       const instance = await new web3.eth.Contract(
@@ -134,10 +134,10 @@ export default function App() {
         deployedNetwork && deployedNetwork.address,
       );
       const adminAddress = await instance.methods.getAdminAddress().call();
-      if(adminAddress == accounts[0]) {
-        setAdmin(true); 
-        console.log("admin"); 
-      }else{
+      if (adminAddress == accounts[0]) {
+        setAdmin(true);
+        console.log("admin");
+      } else {
         setAdmin(false);
       }
     } catch (error) {
@@ -161,7 +161,7 @@ export default function App() {
             exact
             path={route.route}
             element={
-                route.component
+              route.component
             }
             key={route.key}
           />
@@ -195,7 +195,7 @@ export default function App() {
   );
 
   const isLoggedIn = sessionStorage.getItem("login");
-  
+
   return (
     <>
       {direction === "rtl" ? (
@@ -204,14 +204,24 @@ export default function App() {
             <CssBaseline />
             {layout === "dashboard" && (
               <>
-                <Sidenav
-                  color={sidenavColor}
-                  brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-                  brandName="Material Dashboard 2"
-                  routes={admin?adminRoutes:routes}
-                  onMouseEnter={handleOnMouseEnter}
-                  onMouseLeave={handleOnMouseLeave}
-                />
+                {admin ?
+                  <Sidenav
+                    color={sidenavColor}
+                    brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+                    brandName="Material Dashboard 2"
+                    routes={adminRoutes}
+                    onMouseEnter={handleOnMouseEnter}
+                    onMouseLeave={handleOnMouseLeave}
+                  /> :
+                  <Sidenav
+                    color={sidenavColor}
+                    brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+                    brandName="Material Dashboard 2"
+                    routes={routes}
+                    onMouseEnter={handleOnMouseEnter}
+                    onMouseLeave={handleOnMouseLeave}
+                  />
+                }
                 <Configurator />
                 {configsButton}
               </>
@@ -233,14 +243,24 @@ export default function App() {
           <CssBaseline />
           {layout === "dashboard" && (
             <>
-              <Sidenav
-                color={sidenavColor}
-                brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-                brandName="Material Dashboard 2"
-                routes={admin?adminRoutes:routes}
-                onMouseEnter={handleOnMouseEnter}
-                onMouseLeave={handleOnMouseLeave}
-              />
+            {admin ?
+                  <Sidenav
+                    color={sidenavColor}
+                    brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+                    brandName="Material Dashboard 2"
+                    routes={adminRoutes}
+                    onMouseEnter={handleOnMouseEnter}
+                    onMouseLeave={handleOnMouseLeave}
+                  /> :
+                  <Sidenav
+                    color={sidenavColor}
+                    brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+                    brandName="Material Dashboard 2"
+                    routes={routes}
+                    onMouseEnter={handleOnMouseEnter}
+                    onMouseLeave={handleOnMouseLeave}
+                  />
+                }
               <Configurator />
               {configsButton}
             </>
@@ -252,7 +272,7 @@ export default function App() {
               exact
               path="user-profile"
               element={
-                  <UserProfile />     
+                <UserProfile />
               }
               key="user-profile"
             />
