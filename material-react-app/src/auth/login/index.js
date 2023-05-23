@@ -110,6 +110,7 @@ function Login() {
           admin?navigate("/Admin"):navigate("/dashboard");
           
           console.log(accounts[0]);
+          window.location.reload(true);
         } else {
           sessionStorage.setItem("login",false);
           navigate("/auth/login");
