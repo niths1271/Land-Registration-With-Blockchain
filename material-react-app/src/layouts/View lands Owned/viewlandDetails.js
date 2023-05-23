@@ -91,7 +91,7 @@ const AddLand = () => {
       );
       setLand({ ...land,LandInstance: instance, web3: web3, account: accounts[0] });
       const landDetail = await instance.methods.getLandDetails(id).call();
-    //   console.log(landDetail);
+      console.log(landDetail);
       setlandD({owner: landDetail[4], survey: landDetail[2], doc_hash: landDetail[0], pid: landDetail[1], price: landDetail[3] });
       
       const userDetail = await instance.methods.getUserDetails(landDetail[4]).call();
@@ -377,41 +377,13 @@ const AddLand = () => {
                 )}
               </MDBox>
             </MDBox>
+          
             <MDBox
               display="flex"
               flexDirection="column"
               alignItems="flex-start"
               width="100%"
-              ml={2}
-            >
-              <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
-                Owner age
-              </MDTypography>
-              <MDBox mb={1} width="100%">
-                <MDInput
-                  type="name"
-                  fullWidth
-                  name="owner"
-                  value={userD.age}
-                  onChange={changeHandler}
-                  error={errors.hissaError}
-                  disabled
-                />
-                {errors.hissaError && (
-                  <MDTypography variant="caption" color="error" fontWeight="light">
-                    Hissa number must be valid
-                  </MDTypography>
-                )}
-              </MDBox>
-            </MDBox>
-          </MDBox>
-          <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
-            <MDBox
-              display="flex"
-              flexDirection="column"
-              alignItems="flex-start"
-              width="100%"
-              mr={3}
+              mr={0.1}
             >
               <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
                 Email 
@@ -434,33 +406,6 @@ const AddLand = () => {
               </MDBox>
             </MDBox>
             {/* Price */}
-           <MDBox
-              display="flex"
-              flexDirection="column"
-              alignItems="flex-start"
-              width="100%"
-              ml={2}
-            >
-              <MDTypography variant="body2" color="text" ml={1} fontWeight="regular">
-                PAN
-              </MDTypography>
-              <MDBox mb={2} width="100%">
-                <MDInput
-                  type="name"
-                  fullWidth
-                  name="price"
-                  value={userD.pan}
-                  onChange={changeHandler}
-                  error={errors.priceError}
-                  disabled
-                />
-                {errors.priceError && (
-                  <MDTypography variant="caption" color="error" fontWeight="light">
-                    The price can not be null
-                  </MDTypography>
-                )}
-              </MDBox>
-            </MDBox>
           </MDBox>
           <MDBox display="flex" flexDirection="row" mt={5} mb={3}>
             <MDBox
@@ -532,9 +477,19 @@ const AddLand = () => {
               <MDTypography variant="body2" color="text" mr={5} fontWeight="regular" width="100%">
                 View Khata Document
               </MDTypography>
-              <Typography sx={{ cursor: 'pointer' }} variant="body1">
+              <MDBox>
+                <a href={`https://ipfs.io/ipfs/${landD.doc_hash}`} target="_blank"><MDButton
+                  variant="gradient"
+                  color="info"
+                  fullWidth
+                  type="button"
+                >
+                  Land Document
+                </MDButton></a>
+              </MDBox>
+              {/* <Typography sx={{ cursor: 'pointer' }} variant="body1">
               <u><a href={`https://ipfs.io/ipfs/${landD.doc_hash}`} target="_blank">Land Document</a></u>
-              </Typography>
+              </Typography> */}
             </MDBox>
           </MDBox>      
         </MDBox>
